@@ -78,10 +78,22 @@ const faqs = [
 ];
 
 const Home = () => {
-  const { user } = useAuth();
+  const { user, isGuest, guestId } = useAuth();
   const [openFaq, setOpenFaq] = useState<number | null>(null);
-  // Firebase user: displayName or email prefix
-  const displayName = user?.displayName || user?.email?.split("@")[0] || "there";
+  const [upgradeModal, setUpgradeModal] = useState<{ open: boolean; featureName?: string }>({ open: false });
+
+  // Firebase user: displayName or email prefix; guest: show guest ID
+  const displayName = isGuest
+    ? guestId ?? "Guest"
+    : (user?.displayName || user?.email?.split("@")[0] || "there");
+
+  // Helper: click handler for locked features in guest mode
+  const lockedClick = (featureName: string) => (e: React.MouseEvent) => {
+    if (isGuest) {
+      e.preventDefault();
+      setUpgradeModal({ open: true, featureName });
+    }
+  };
 
   // Mock recent activity for frontend demo (replace with API call)
   const mockRecent = [
