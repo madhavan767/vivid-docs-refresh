@@ -278,7 +278,7 @@ const Tools = () => {
               Unlock More with <span className="gradient-text">Viadocs Premium</span>
             </h2>
             <p className="text-muted-foreground text-sm mb-8 max-w-xl mx-auto leading-relaxed">
-              Upgrade to Viadocs Premium for faster performance, unlimited AI usage, and advanced document tools — designed to empower your work and studies.
+              Upgrade to Viadocs Premium for faster performance, unlimited conversions, and priority processing — designed to empower your work and studies.
             </p>
             <Link
               to="/premium"
