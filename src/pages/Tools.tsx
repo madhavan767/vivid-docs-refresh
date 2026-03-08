@@ -34,11 +34,11 @@ const pdfTools = [
 
 const imageTools = [
   { icon: Crop,       label: "Image Resize",        desc: "Resize images to any dimension",              slug: "image-resize",        },
-  { icon: Maximize2,  label: "Image Upscale",        desc: "AI-powered image upscaling up to 4×",         slug: "image-upscale",       },
+  { icon: Maximize2,  label: "Image Upscale",        desc: "Upscale images up to 4× without quality loss", slug: "image-upscale",      },
   { icon: ImageDown,  label: "Image to ICO",         desc: "Convert images to .ico favicon format",       slug: "image-to-ico",        },
   { icon: ScanLine,   label: "Image to SVG",         desc: "Vectorize raster images into SVG",            slug: "image-to-svg",        },
   { icon: Minimize2,  label: "Compress Image",       desc: "Reduce image file size without quality loss", slug: "compress-image",      },
-  { icon: RefreshCw,  label: "Remove Background",    desc: "AI-powered background removal",               slug: "remove-background",   },
+  { icon: RefreshCw,  label: "Remove Background",    desc: "Automatically remove image backgrounds",      slug: "remove-background",   },
   { icon: Layers,     label: "Merge Photo & Sign",   desc: "Overlay a signature onto a photo/doc",        slug: "merge-photo-sign",    },
   { icon: PenTool,    label: "Add Watermark",        desc: "Stamp text or image watermark on photos",     slug: "add-watermark-image", },
 ];
@@ -46,8 +46,8 @@ const imageTools = [
 const features = [
   {
     icon: Sparkles,
-    title: "Create Documents Instantly",
-    desc: "Generate professional projects, assignments, and resumes in seconds using Viadocs' AI document builder — built for students and employees.",
+    title: "Convert Files Instantly",
+    desc: "Convert Word, Excel, PowerPoint, and images into PDFs in seconds — without losing formatting.",
   },
   {
     icon: Zap,
@@ -56,15 +56,15 @@ const features = [
   },
   {
     icon: Shield,
-    title: "AI-Powered Assistance",
-    desc: "Let our AI help summarize, rewrite, or extract key data from documents — boosting your productivity and creativity.",
+    title: "Secure & Private",
+    desc: "Your files are encrypted and processed securely. We never store or share your documents.",
   },
 ];
 
 const whyPoints = [
   { icon: Zap,      title: "Instant Conversions",       desc: "Convert Word, Excel, PowerPoint, and images into PDFs instantly — without losing formatting." },
   { icon: Shield,   title: "Safe and Secure",            desc: "Your files remain private and encrypted. We never store or share your documents." },
-  { icon: Sparkles, title: "AI-Powered Features",        desc: "Let our AI assistant summarize reports, extract data, or auto-format content with precision." },
+  { icon: Sparkles, title: "Fast & Reliable",            desc: "Optimised for speed — process and download your files in seconds." },
   { icon: Globe,    title: "Works on All Devices",       desc: "Access Viadocs tools anywhere — desktop, tablet, or mobile. 100% browser-based." },
   { icon: Users,    title: "Built for Students & Teams", desc: "Specially crafted for academic and corporate use — simplify project reports and documentation." },
   { icon: Gift,     title: "Free Forever Plan",          desc: "Start with all essential tools for free — no sign-up required for most PDF functions." },
@@ -278,7 +278,7 @@ const Tools = () => {
               Unlock More with <span className="gradient-text">Viadocs Premium</span>
             </h2>
             <p className="text-muted-foreground text-sm mb-8 max-w-xl mx-auto leading-relaxed">
-              Upgrade to Viadocs Premium for faster performance, unlimited AI usage, and advanced document tools — designed to empower your work and studies.
+              Upgrade to Viadocs Premium for faster performance, unlimited conversions, and priority processing — designed to empower your work and studies.
             </p>
             <Link
               to="/premium"
@@ -329,7 +329,7 @@ const Tools = () => {
               Why Use <span className="gradient-text">Viadocs PDF Tools?</span>
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto text-sm leading-relaxed">
-              Viadocs offers a seamless experience for document handling — whether you're converting, merging, or compressing files. Our AI-powered tools are designed to help students, professionals, and educators save time, maintain quality, and ensure document safety.
+              Viadocs offers a seamless experience for document handling — whether you're converting, merging, or compressing files. Our tools are designed to help students, professionals, and educators save time, maintain quality, and ensure document safety.
             </p>
           </motion.div>
 
