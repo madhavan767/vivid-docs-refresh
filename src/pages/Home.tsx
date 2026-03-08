@@ -73,18 +73,18 @@ const features = [
 const whyPoints = [
   { icon: Zap,      title: "Instant Conversions",       desc: "Convert documents instantly — no formatting loss." },
   { icon: Shield,   title: "Safe and Secure",            desc: "Files are encrypted, private and never shared." },
-  { icon: Sparkles, title: "AI-Powered Features",        desc: "AI summaries, rewrites, and auto-formatting." },
+  { icon: Sparkles, title: "Fast & Reliable",            desc: "Optimised for speed — handle files in seconds." },
   { icon: Globe,    title: "Works on All Devices",       desc: "100% browser-based. Desktop, tablet, or mobile." },
   { icon: Users,    title: "Built for Students & Teams", desc: "Designed for academic and corporate use." },
   { icon: Gift,     title: "Free Forever Plan",          desc: "Essential tools always free — no sign-up tricks." },
 ];
 
 const faqs = [
-  { q: "Is Viadocs free to use?",              a: "Yes! Viadocs offers a free plan with all essential tools. Premium plans unlock unlimited AI usage and advanced features." },
+  { q: "Is Viadocs free to use?",              a: "Yes! Viadocs offers a free plan with all essential tools. Premium plans unlock unlimited usage and advanced features." },
   { q: "Is my data safe?",                     a: "Absolutely. Files are processed securely on Cloudflare's edge network. We never store files longer than needed." },
   { q: "Does it work on mobile?",              a: "Yes — Viadocs is fully responsive across mobile, tablets and desktop." },
-  { q: "How is this different from ilovepdf?", a: "Viadocs is built specifically for Indian students and professionals, with AI document creation and a unified workspace." },
-  { q: "Can I use it without signing up?",     a: "Most PDF tools are available to use, but signing in lets you track conversion history and use the AI builder." },
+  { q: "How is this different from ilovepdf?", a: "Viadocs is built specifically for Indian students and professionals, with a clean unified workspace for all document and image tools." },
+  { q: "Can I use it without signing up?",     a: "Most tools are available to use freely, but signing in lets you track your conversion history." },
 ];
 
 const mockRecent = [
@@ -116,7 +116,7 @@ const Home = () => {
               <motion.div variants={fadeUp} initial="hidden" animate="visible" custom={0}>
                 <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold tracking-wider uppercase mb-6"
                   style={{ background: "hsl(var(--brand-blue) / 0.1)", color: "hsl(var(--brand-blue))", border: "1px solid hsl(var(--brand-blue) / 0.25)" }}>
-                  <Sparkles className="w-3.5 h-3.5" /> AI-Powered Document Platform
+                  <Sparkles className="w-3.5 h-3.5" /> All-in-One Tools Platform
                 </span>
               </motion.div>
 
@@ -145,8 +145,8 @@ const Home = () => {
                 {[
                   { v: "19", l: "Tools" },
                   { v: "100%", l: "Free Plan" },
-                  { v: "AI", l: "Powered" },
-                  { v: "R2", l: "Storage" },
+                  { v: "Fast", l: "Processing" },
+                  { v: "Safe", l: "& Secure" },
                 ].map((s) => (
                   <div key={s.l} className="text-center">
                     <p className="text-xl font-extrabold gradient-text">{s.v}</p>
