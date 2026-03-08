@@ -99,7 +99,7 @@ const testimonials = [
     name: "Sneha Rajan",
     role: "MBA Student, IIM",
     avatar: "SR",
-    text: "The AI document builder helped me create a full project report in under 10 minutes. Absolutely brilliant.",
+    text: "The tools are incredibly fast and accurate. I compressed and converted my reports in under a minute!",
   },
 ];
 
@@ -176,7 +176,7 @@ const Landing = () => {
               <motion.div variants={fadeUp} initial="hidden" animate="visible" custom={0}>
                 <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold tracking-wider uppercase mb-6"
                   style={{ background: "hsl(var(--brand-blue) / 0.1)", color: "hsl(var(--brand-blue))", border: "1px solid hsl(var(--brand-blue) / 0.25)" }}>
-                  <Sparkles className="w-3.5 h-3.5" /> AI-Powered · Free · Instant
+                  <Sparkles className="w-3.5 h-3.5" /> All-in-One · Free · Instant
                 </span>
               </motion.div>
 
@@ -189,7 +189,7 @@ const Landing = () => {
 
               <motion.p className="text-muted-foreground text-lg leading-relaxed mb-8 max-w-lg"
                 variants={fadeUp} initial="hidden" animate="visible" custom={2}>
-                Convert PDFs, merge files, compress documents and build AI-powered reports — all in one free workspace built for students and professionals.
+                Convert PDFs, merge files, compress documents and resize images — all in one free tools platform built for students and professionals.
               </motion.p>
 
               <motion.div className="flex flex-col sm:flex-row gap-3 mb-10"
