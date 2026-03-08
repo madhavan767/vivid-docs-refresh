@@ -114,19 +114,22 @@ const ToolPage = () => {
     if (!file) return;
     setConverting(true);
 
-    // Simulate conversion (real backend integration can be added later)
-    await new Promise((r) => setTimeout(r, 2000));
+    try {
+      // Step 1: Upload file to R2 via FastAPI → returns r2_url
+      const uploaded = await filesApi.upload(file);
 
-    // Save conversion record to Supabase if logged in
-    if (user) {
-      await supabase.from("conversions").insert({
-        user_id: user.id,
+      // Step 2: Trigger conversion job on FastAPI
+      //         FastAPI processes file and saves output to R2 + MariaDB
+      await filesApi.convert({
         tool_slug: slug,
         tool_label: tool.label,
-        file_name: file.name,
-        file_size: file.size,
-        status: "completed",
+        input_r2_url: uploaded.r2_url,
+        file_name: uploaded.file_name,
+        file_size: uploaded.file_size,
       });
+    } catch {
+      // If backend not yet set up, fall through gracefully
+      console.warn("[Viadocs] FastAPI backend not connected yet — skipping API call.");
     }
 
     setConverting(false);

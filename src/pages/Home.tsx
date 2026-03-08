@@ -82,23 +82,18 @@ const faqs = [
   { q: "How is Viadocs different from other PDF tools?", a: "Viadocs is uniquely built for students and professionals in India. It combines PDF tools, AI-powered document creation, and a user-friendly interface in one platform." },
 ];
 
-type Conversion = { id: string; tool_label: string; file_name: string; created_at: string };
-
 const Home = () => {
   const { user } = useAuth();
   const [recentConversions, setRecentConversions] = useState<Conversion[]>([]);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
-  const displayName = user?.user_metadata?.full_name || user?.email?.split("@")[0] || "there";
+  // Firebase user: displayName (Google/profile name) or email prefix
+  const displayName = user?.displayName || user?.email?.split("@")[0] || "there";
 
   useEffect(() => {
     if (!user) return;
-    supabase
-      .from("conversions")
-      .select("id, tool_label, file_name, created_at")
-      .eq("user_id", user.id)
-      .order("created_at", { ascending: false })
-      .limit(4)
-      .then(({ data }) => { if (data) setRecentConversions(data); });
+    filesApi.list(1, 4)
+      .then((data) => setRecentConversions(data))
+      .catch(() => setRecentConversions([]));
   }, [user]);
 
   return (
