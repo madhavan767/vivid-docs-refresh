@@ -432,25 +432,6 @@ const ToolPage = () => {
           </AnimatePresence>
         </motion.div>
 
-        {/* Not logged in notice */}
-        {!user && (
-          <motion.div
-            className="mt-4 rounded-2xl px-5 py-4 flex items-center gap-3 border border-border"
-            style={{ background: "hsl(var(--brand-blue) / 0.05)" }}
-            variants={fadeUp} initial="hidden" animate="visible" custom={5}
-          >
-            <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"
-              style={{ background: "var(--gradient-brand)" }}>
-              <CheckCircle className="w-4 h-4 text-white" />
-            </div>
-            <p className="text-xs text-muted-foreground flex-1">
-              <span className="font-semibold text-foreground">Sign in</span> to save conversion history and download files later.
-            </p>
-            <Link to="/login" className="btn-gradient px-4 py-1.5 rounded-full text-xs font-bold flex-shrink-0">
-              Sign In
-            </Link>
-          </motion.div>
-        )}
       </section>
 
       {/* ── SEO section ── */}
