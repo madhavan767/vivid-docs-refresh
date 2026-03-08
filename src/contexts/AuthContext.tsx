@@ -13,6 +13,16 @@ import { auth, googleProvider } from "@/config/firebase";
 
 // Guest mode stored in sessionStorage — cleared on tab close
 const GUEST_KEY = "viadocs_guest";
+const GUEST_ID_KEY = "viadocs_guest_id";
+
+const generateGuestId = () => {
+  const chars = "abcdefghijklmnopqrstuvwxyz0123456789";
+  let id = "guest";
+  for (let i = 0; i < 10; i++) {
+    id += chars[Math.floor(Math.random() * chars.length)];
+  }
+  return id;
+};
 
 interface AuthContextType {
   user: User | null;
