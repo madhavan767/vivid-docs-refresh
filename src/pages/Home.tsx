@@ -2,9 +2,9 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import {
   FileText, FileDown, GitMerge, Scissors, Minimize2, Image, Download,
-  Lock, Unlock, Table, Monitor, Plus, Sparkles, Zap, Shield,
+  Lock, Unlock, Table, Monitor, Sparkles, Zap, Shield,
   Users, Globe, Gift, ChevronRight, CheckCircle, Clock, Star,
-  ArrowRight, BookOpen, TrendingUp,
+  ArrowRight, TrendingUp,
   Crop, Maximize2, ImageDown, ScanLine, RefreshCw, Layers, PenTool,
 } from "lucide-react";
 import AppNavbar from "@/components/AppNavbar";
@@ -48,13 +48,6 @@ const quickTools = pdfTools.slice(0, 8);
 
 const features = [
   {
-    icon: Plus,
-    title: "Create Documents",
-    desc: "Generate professional projects, assignments, and resumes instantly with AI.",
-    link: "/create-doc",
-    cta: "Open Editor",
-  },
-  {
     icon: Zap,
     title: "PDF Tools",
     desc: "Merge, split, compress, or convert PDFs — all in one place, completely free.",
@@ -63,10 +56,17 @@ const features = [
   },
   {
     icon: Sparkles,
-    title: "AI-Powered",
-    desc: "Summarize, rewrite, and extract key data from documents with AI assistance.",
-    link: "/create-doc",
-    cta: "Try AI",
+    title: "Image Tools",
+    desc: "Resize, compress, remove backgrounds, and convert images in seconds.",
+    link: "/tools",
+    cta: "Try Tools",
+  },
+  {
+    icon: Shield,
+    title: "Safe & Secure",
+    desc: "Files are processed privately and never stored longer than needed.",
+    link: "/tools",
+    cta: "Get Started",
   },
 ];
 
@@ -128,7 +128,7 @@ const Home = () => {
 
               <motion.p className="text-muted-foreground text-base md:text-lg mb-8 leading-relaxed max-w-lg"
                 variants={fadeUp} initial="hidden" animate="visible" custom={2}>
-                Create professional documents, convert PDFs, and manage your files with AI-powered tools built for you.
+                Convert PDFs, resize images, and manage your files with 19 powerful tools — all free.
               </motion.p>
 
               <motion.div className="flex flex-wrap gap-3 mb-10"
@@ -136,10 +136,6 @@ const Home = () => {
                 <Link to="/tools"
                   className="btn-gradient inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-bold text-sm shadow-soft">
                   Explore Tools <ChevronRight className="w-4 h-4" />
-                </Link>
-                <Link to="/create-doc"
-                  className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-bold text-sm bg-card border border-border text-foreground hover:border-primary hover:text-primary transition-all duration-300 shadow-card">
-                  <Plus className="w-4 h-4" /> Create Document
                 </Link>
               </motion.div>
 
@@ -188,54 +184,23 @@ const Home = () => {
                 </div>
               </div>
 
-              {/* Bottom row */}
-              <div className="grid grid-cols-2 gap-4">
-                {/* Create Doc */}
-                <Link to="/create-doc"
-                  className="card-glass rounded-2xl p-4 shadow-card border border-border flex flex-col gap-3 group hover:border-primary/40 transition-all duration-200">
-                  <div className="w-10 h-10 rounded-xl flex items-center justify-center"
-                    style={{ background: "var(--gradient-brand)" }}>
-                    <BookOpen className="w-5 h-5 text-white" />
-                  </div>
-                  <div>
-                    <p className="font-bold text-sm">Create Doc</p>
-                    <p className="text-[10px] text-muted-foreground mt-0.5">Word-style editor</p>
-                  </div>
-                  <span className="btn-gradient text-[10px] font-bold px-3 py-1 rounded-full inline-flex items-center gap-1 w-fit">
-                    Open <ArrowRight className="w-2.5 h-2.5" />
-                  </span>
-                </Link>
-
-                {/* Recent activity */}
-                <div className="card-glass rounded-2xl p-4 shadow-card border border-border flex flex-col gap-2">
-                  <p className="text-xs font-bold text-muted-foreground uppercase tracking-wider flex items-center gap-1.5">
-                    <Clock className="w-3.5 h-3.5" /> Recent
-                  </p>
-                  {mockRecent.length === 0 ? (
-                    <div className="flex-1 flex flex-col items-center justify-center text-center py-2">
-                      <TrendingUp className="w-7 h-7 text-muted-foreground/30 mb-1" />
-                      <p className="text-[10px] text-muted-foreground">No conversions yet</p>
+              {/* Bottom row — recent activity only */}
+              <div className="card-glass rounded-2xl p-4 shadow-card border border-border flex flex-col gap-2">
+                <p className="text-xs font-bold text-muted-foreground uppercase tracking-wider flex items-center gap-1.5">
+                  <Clock className="w-3.5 h-3.5" /> Recent
+                </p>
+                {mockRecent.map((c) => (
+                  <div key={c.id} className="flex items-center gap-2">
+                    <div className="w-6 h-6 rounded-md flex items-center justify-center flex-shrink-0"
+                      style={{ background: "var(--gradient-brand)" }}>
+                      <CheckCircle className="w-3 h-3 text-white" />
                     </div>
-                  ) : (
-                    <div className="space-y-2">
-                      {mockRecent.map((c) => (
-                        <div key={c.id} className="flex items-center gap-2">
-                          <div className="w-6 h-6 rounded-md flex items-center justify-center flex-shrink-0"
-                            style={{ background: "var(--gradient-brand)" }}>
-                            <CheckCircle className="w-3 h-3 text-white" />
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <p className="text-[10px] font-semibold truncate">{c.file_name}</p>
-                            <p className="text-[9px] text-muted-foreground">{c.tool_label}</p>
-                          </div>
-                        </div>
-                      ))}
-                      <Link to="/home" className="text-[10px] font-bold text-primary flex items-center gap-1 hover:underline mt-1">
-                        View all <ArrowRight className="w-2.5 h-2.5" />
-                      </Link>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-[10px] font-semibold truncate">{c.file_name}</p>
+                      <p className="text-[9px] text-muted-foreground">{c.tool_label}</p>
                     </div>
-                  )}
-                </div>
+                  </div>
+                ))}
               </div>
 
             </motion.div>

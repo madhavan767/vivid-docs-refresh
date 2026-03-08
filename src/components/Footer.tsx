@@ -27,7 +27,6 @@ const Footer = () => (
           <ul className="space-y-3">
             {[
               { label: "Home", to: "/" },
-              { label: "Create Doc", to: "/create-doc" },
               { label: "Tools", to: "/tools" },
             ].map((l) => (
               <li key={l.label}>

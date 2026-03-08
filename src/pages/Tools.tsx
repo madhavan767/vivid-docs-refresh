@@ -128,10 +128,6 @@ const Tools = () => {
                 className="btn-gradient inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full font-bold text-sm shadow-soft">
                 Browse All Tools <ChevronRight className="w-4 h-4" />
               </a>
-              <Link to="/create-doc"
-                className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full font-bold text-sm bg-card border border-border text-foreground hover:border-primary hover:text-primary transition-all duration-300 shadow-card">
-                <Sparkles className="w-4 h-4" /> Create Document
-              </Link>
             </motion.div>
           </div>
         </div>
