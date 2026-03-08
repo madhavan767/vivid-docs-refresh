@@ -244,9 +244,9 @@ const Tools = () => {
                 )}
               </motion.div>
             ))}
-            </motion.div>
-          ))}
-        </div>
+          </div>
+        </motion.div>
+
       </section>
 
       {/* ── Work Smarter ── */}
