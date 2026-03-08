@@ -4,13 +4,12 @@ import {
   FileText, FileDown, GitMerge, Scissors, Minimize2, Image, Download,
   Lock, Unlock, Table, Monitor, Plus, Sparkles, Zap, Shield,
   Users, Globe, Gift, ChevronRight, CheckCircle, Clock, Star,
-  ArrowRight, BookOpen, TrendingUp,
+  ArrowRight, BookOpen, TrendingUp, Settings,
 } from "lucide-react";
 import AppNavbar from "@/components/AppNavbar";
 import Footer from "@/components/Footer";
 import { useAuth } from "@/contexts/AuthContext";
-import { useEffect, useState } from "react";
-import { filesApi, Conversion } from "@/config/api";
+import { useState } from "react";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 28 },
@@ -23,78 +22,72 @@ const fadeUp = {
 const quickTools = [
   { icon: FileText,  label: "PDF to Word",   slug: "pdf-to-word" },
   { icon: FileDown,  label: "Word to PDF",   slug: "word-to-pdf" },
-  { icon: GitMerge,  label: "PDF Merge",     slug: "pdf-merge" },
-  { icon: Scissors,  label: "PDF Split",     slug: "pdf-split" },
-  { icon: Minimize2, label: "PDF Compress",  slug: "pdf-compress" },
-  { icon: Image,     label: "Image to PDF",  slug: "image-to-pdf" },
-  { icon: Download,  label: "PDF to Image",  slug: "pdf-to-image" },
+  { icon: GitMerge,  label: "Merge PDF",     slug: "pdf-merge" },
+  { icon: Scissors,  label: "Split PDF",     slug: "pdf-split" },
+  { icon: Minimize2, label: "Compress",      slug: "pdf-compress" },
+  { icon: Image,     label: "Img to PDF",    slug: "image-to-pdf" },
+  { icon: Download,  label: "PDF to Img",    slug: "pdf-to-image" },
   { icon: Lock,      label: "Protect PDF",   slug: "password-protect" },
   { icon: Unlock,    label: "Unlock PDF",    slug: "unlock-pdf" },
   { icon: Table,     label: "Excel to PDF",  slug: "excel-to-pdf" },
   { icon: Monitor,   label: "PPT to PDF",    slug: "powerpoint-to-pdf" },
 ];
 
-const stats = [
-  { value: "11+",   label: "PDF Tools" },
-  { value: "100%",  label: "Free Plan" },
-  { value: "AI",    label: "Powered" },
-  { value: "0",     label: "File Storage" },
-];
-
 const features = [
   {
     icon: Plus,
-    title: "Create Documents Instantly",
-    desc: "Generate professional projects, assignments, and resumes in seconds using Viadocs' AI document builder — built for students and employees.",
+    title: "Create Documents",
+    desc: "Generate professional projects, assignments, and resumes instantly with AI.",
     link: "/create-doc",
     cta: "Open Editor",
+    accent: "var(--brand-blue)",
   },
   {
     icon: Zap,
-    title: "All-in-One PDF Tools",
-    desc: "Merge, split, compress, or convert PDFs instantly. Manage your files securely — anytime, anywhere.",
+    title: "PDF Tools",
+    desc: "Merge, split, compress, or convert PDFs — all in one place, completely free.",
     link: "/tools",
     cta: "Browse Tools",
+    accent: "var(--brand-teal)",
   },
   {
     icon: Sparkles,
-    title: "AI-Powered Assistance",
-    desc: "Let our AI help summarize, rewrite, or extract key data from documents — boosting your productivity and creativity.",
+    title: "AI-Powered",
+    desc: "Summarize, rewrite, and extract key data from documents with AI assistance.",
     link: "/create-doc",
     cta: "Try AI",
+    accent: "var(--brand-indigo)",
   },
 ];
 
 const whyPoints = [
-  { icon: Zap,      title: "Instant Conversions",       desc: "Convert Word, Excel, PowerPoint, and images into PDFs instantly — without losing formatting." },
-  { icon: Shield,   title: "Safe and Secure",            desc: "Your files remain private and encrypted. We never store or share your documents." },
-  { icon: Sparkles, title: "AI-Powered Features",        desc: "Let our AI assistant summarize reports, extract data, or auto-format content with precision." },
-  { icon: Globe,    title: "Works on All Devices",       desc: "Access Viadocs tools anywhere — desktop, tablet, or mobile. 100% browser-based." },
-  { icon: Users,    title: "Built for Students & Teams", desc: "Specially crafted for academic and corporate use — simplify project reports and documentation." },
-  { icon: Gift,     title: "Free Forever Plan",          desc: "Start with all essential tools for free — no sign-up required for most PDF functions." },
+  { icon: Zap,      title: "Instant Conversions",       desc: "Convert documents instantly — no formatting loss." },
+  { icon: Shield,   title: "Safe and Secure",            desc: "Files are encrypted, private and never shared." },
+  { icon: Sparkles, title: "AI-Powered Features",        desc: "AI summaries, rewrites, and auto-formatting." },
+  { icon: Globe,    title: "Works on All Devices",       desc: "100% browser-based. Desktop, tablet, or mobile." },
+  { icon: Users,    title: "Built for Students & Teams", desc: "Designed for academic and corporate use." },
+  { icon: Gift,     title: "Free Forever Plan",          desc: "Essential tools always free — no sign-up tricks." },
 ];
 
 const faqs = [
-  { q: "Is Viadocs free to use?",                    a: "Yes, Viadocs offers a free plan that lets users create and manage documents without any cost. Premium features offer unlimited AI usage and advanced document tools." },
-  { q: "Who can use Viadocs?",                       a: "Viadocs is designed for engineering students, professionals, teachers, and employees who need efficient tools for document creation, PDF editing, and AI assistance." },
-  { q: "Is my data safe on Viadocs?",               a: "Absolutely. Viadocs handles your uploaded files securely only. We never store your files for longer than necessary." },
-  { q: "Does Viadocs work on mobile?",              a: "Yes, Viadocs is fully responsive, accessible on mobile, tablets, and desktop devices." },
-  { q: "How is Viadocs different from other PDF tools?", a: "Viadocs is uniquely built for students and professionals in India. It combines PDF tools, AI-powered document creation, and a user-friendly interface in one platform." },
+  { q: "Is Viadocs free to use?",                    a: "Yes! Viadocs offers a free plan with all essential tools. Premium plans unlock unlimited AI usage and advanced features." },
+  { q: "Is my data safe?",                           a: "Absolutely. Files are processed securely on Cloudflare's edge network. We never store files longer than needed." },
+  { q: "Does it work on mobile?",                    a: "Yes — Viadocs is fully responsive across mobile, tablets and desktop." },
+  { q: "How is this different from ilovepdf?",       a: "Viadocs is built specifically for Indian students and professionals, with AI document creation and a unified workspace." },
+  { q: "Can I use it without signing up?",           a: "Most PDF tools are available to use, but signing in lets you track conversion history and use the AI builder." },
 ];
 
 const Home = () => {
   const { user } = useAuth();
-  const [recentConversions, setRecentConversions] = useState<Conversion[]>([]);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
-  // Firebase user: displayName (Google/profile name) or email prefix
+  // Firebase user: displayName or email prefix
   const displayName = user?.displayName || user?.email?.split("@")[0] || "there";
 
-  useEffect(() => {
-    if (!user) return;
-    filesApi.list(1, 4)
-      .then((data) => setRecentConversions(data))
-      .catch(() => setRecentConversions([]));
-  }, [user]);
+  // Mock recent activity for frontend demo (replace with API call)
+  const mockRecent = [
+    { id: "1", tool_label: "PDF to Word", file_name: "report.pdf", created_at: new Date().toISOString() },
+    { id: "2", tool_label: "PDF Merge",   file_name: "slides.pdf", created_at: new Date().toISOString() },
+  ];
 
   return (
     <div className="min-h-screen bg-background">
@@ -110,10 +103,10 @@ const Home = () => {
           style={{ background: "hsl(var(--brand-teal))" }} />
 
         <div className="max-w-6xl mx-auto px-6 relative z-10">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div className="grid lg:grid-cols-5 gap-10 items-start">
 
-            {/* ── Left copy ── */}
-            <div>
+            {/* ── Left copy (3/5) ── */}
+            <div className="lg:col-span-3">
               <motion.div variants={fadeUp} initial="hidden" animate="visible" custom={0}>
                 <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold tracking-wider uppercase mb-6"
                   style={{ background: "hsl(var(--brand-blue) / 0.1)", color: "hsl(var(--brand-blue))", border: "1px solid hsl(var(--brand-blue) / 0.25)" }}>
@@ -129,35 +122,40 @@ const Home = () => {
 
               <motion.p className="text-muted-foreground text-base md:text-lg mb-8 leading-relaxed max-w-lg"
                 variants={fadeUp} initial="hidden" animate="visible" custom={2}>
-                Create professional documents, collaborate with your team, and manage projects efficiently using our AI-powered tools.
+                Create professional documents, convert PDFs, and manage your files with AI-powered tools built for you.
               </motion.p>
 
-              <motion.div className="flex flex-col sm:flex-row gap-3 mb-10"
+              <motion.div className="flex flex-wrap gap-3 mb-10"
                 variants={fadeUp} initial="hidden" animate="visible" custom={3}>
                 <Link to="/tools"
-                  className="btn-gradient inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full font-bold text-sm shadow-soft">
+                  className="btn-gradient inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-bold text-sm shadow-soft">
                   Explore Tools <ChevronRight className="w-4 h-4" />
                 </Link>
                 <Link to="/create-doc"
-                  className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full font-bold text-sm bg-card border border-border text-foreground hover:border-primary hover:text-primary transition-all duration-300 shadow-card">
+                  className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-bold text-sm bg-card border border-border text-foreground hover:border-primary hover:text-primary transition-all duration-300 shadow-card">
                   <Plus className="w-4 h-4" /> Create Document
                 </Link>
               </motion.div>
 
               {/* Stats row */}
-              <motion.div className="grid grid-cols-4 gap-4"
+              <motion.div className="grid grid-cols-4 gap-4 max-w-sm"
                 variants={fadeUp} initial="hidden" animate="visible" custom={4}>
-                {stats.map((s) => (
-                  <div key={s.label} className="text-center">
-                    <p className="text-xl font-extrabold gradient-text">{s.value}</p>
-                    <p className="text-[10px] text-muted-foreground font-semibold uppercase tracking-wide">{s.label}</p>
+                {[
+                  { v: "11+", l: "PDF Tools" },
+                  { v: "100%", l: "Free Plan" },
+                  { v: "AI", l: "Powered" },
+                  { v: "R2", l: "Storage" },
+                ].map((s) => (
+                  <div key={s.l} className="text-center">
+                    <p className="text-xl font-extrabold gradient-text">{s.v}</p>
+                    <p className="text-[10px] text-muted-foreground font-semibold uppercase tracking-wide">{s.l}</p>
                   </div>
                 ))}
               </motion.div>
             </div>
 
-            {/* ── Right panel ── */}
-            <motion.div className="flex flex-col gap-4"
+            {/* ── Right panel (2/5) ── */}
+            <motion.div className="lg:col-span-2 flex flex-col gap-4"
               variants={fadeUp} initial="hidden" animate="visible" custom={5}>
 
               {/* Quick Tools card */}
@@ -173,27 +171,28 @@ const Home = () => {
                 <div className="grid grid-cols-4 gap-2">
                   {quickTools.slice(0, 8).map((t) => (
                     <Link key={t.slug} to={`/tools/${t.slug}`}
-                      className="flex flex-col items-center gap-1.5 p-2.5 rounded-xl border border-border hover:border-primary/40 hover:bg-primary/5 transition-all duration-200 text-center group">
+                      className="flex flex-col items-center gap-1.5 p-2 rounded-xl border border-border hover:border-primary/40 hover:bg-primary/5 transition-all duration-200 text-center group">
                       <div className="w-8 h-8 rounded-lg flex items-center justify-center"
                         style={{ background: "var(--gradient-brand)" }}>
                         <t.icon className="w-[15px] h-[15px] text-white" />
                       </div>
-                      <span className="text-[9px] font-semibold leading-tight text-muted-foreground group-hover:text-foreground transition-colors">{t.label}</span>
+                      <span className="text-[9px] font-semibold leading-tight text-muted-foreground group-hover:text-foreground transition-colors line-clamp-2 text-center">{t.label}</span>
                     </Link>
                   ))}
                 </div>
               </div>
 
-              {/* Create Doc + Recent row */}
+              {/* Bottom row */}
               <div className="grid grid-cols-2 gap-4">
+                {/* Create Doc */}
                 <Link to="/create-doc"
-                  className="card-glass rounded-2xl p-5 shadow-card border border-border flex flex-col gap-3 group hover:border-primary/40 transition-all duration-200">
+                  className="card-glass rounded-2xl p-4 shadow-card border border-border flex flex-col gap-3 group hover:border-primary/40 transition-all duration-200">
                   <div className="w-10 h-10 rounded-xl flex items-center justify-center"
                     style={{ background: "var(--gradient-brand)" }}>
                     <BookOpen className="w-5 h-5 text-white" />
                   </div>
                   <div>
-                    <p className="font-bold text-sm">Create a Doc</p>
+                    <p className="font-bold text-sm">Create Doc</p>
                     <p className="text-[10px] text-muted-foreground mt-0.5">Word-style editor</p>
                   </div>
                   <span className="btn-gradient text-[10px] font-bold px-3 py-1 rounded-full inline-flex items-center gap-1 w-fit">
@@ -201,18 +200,19 @@ const Home = () => {
                   </span>
                 </Link>
 
-                <div className="card-glass rounded-2xl p-5 shadow-card border border-border flex flex-col gap-2">
-                  <p className="text-xs font-bold text-muted-foreground uppercase tracking-wider flex items-center gap-2">
+                {/* Recent activity */}
+                <div className="card-glass rounded-2xl p-4 shadow-card border border-border flex flex-col gap-2">
+                  <p className="text-xs font-bold text-muted-foreground uppercase tracking-wider flex items-center gap-1.5">
                     <Clock className="w-3.5 h-3.5" /> Recent
                   </p>
-                  {recentConversions.length === 0 ? (
-                    <div className="flex-1 flex flex-col items-center justify-center text-center py-3">
-                      <TrendingUp className="w-7 h-7 text-muted-foreground/30 mb-2" />
+                  {mockRecent.length === 0 ? (
+                    <div className="flex-1 flex flex-col items-center justify-center text-center py-2">
+                      <TrendingUp className="w-7 h-7 text-muted-foreground/30 mb-1" />
                       <p className="text-[10px] text-muted-foreground">No conversions yet</p>
                     </div>
                   ) : (
                     <div className="space-y-2">
-                      {recentConversions.slice(0, 3).map((c) => (
+                      {mockRecent.map((c) => (
                         <div key={c.id} className="flex items-center gap-2">
                           <div className="w-6 h-6 rounded-md flex items-center justify-center flex-shrink-0"
                             style={{ background: "var(--gradient-brand)" }}>
@@ -248,9 +248,6 @@ const Home = () => {
             <h2 className="text-3xl md:text-4xl font-extrabold mb-4">
               Work Smarter with <span className="gradient-text">Viadocs</span>
             </h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto text-sm leading-relaxed">
-              Whether you're a student preparing reports or an employee managing PDFs, Viadocs brings everything together in one seamless, powerful workspace.
-            </p>
           </motion.div>
 
           <div className="grid md:grid-cols-3 gap-6">
@@ -284,7 +281,7 @@ const Home = () => {
               All <span className="gradient-text">PDF Tools</span>
             </h2>
             <p className="text-muted-foreground text-sm max-w-xl mx-auto">
-              Pick any tool below to instantly upload, convert, and download your file.
+              Pick any tool — upload, convert, download. That simple.
             </p>
           </motion.div>
 
@@ -312,99 +309,90 @@ const Home = () => {
         </div>
       </section>
 
-      {/* ── Premium CTA ── */}
-      <section className="py-20 mx-6 md:mx-16 my-8 rounded-3xl overflow-hidden relative"
-        style={{ background: "linear-gradient(135deg, hsl(var(--brand-indigo) / 0.08), hsl(var(--brand-blue) / 0.08))", border: "1px solid hsl(var(--brand-blue) / 0.15)" }}>
-        <div className="absolute inset-0 pointer-events-none" style={{ background: "var(--gradient-hero-glow)" }} />
-        <div className="max-w-3xl mx-auto px-6 text-center relative z-10">
-          <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }}>
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest mb-5"
-              style={{ background: "hsl(var(--brand-blue) / 0.12)", color: "hsl(var(--brand-blue))" }}>
-              ✦ Premium
-            </span>
-            <h2 className="text-3xl md:text-5xl font-extrabold mb-5">
-              Unlock More with <span className="gradient-text">Viadocs Premium</span>
-            </h2>
-            <p className="text-muted-foreground text-base mb-8 max-w-xl mx-auto leading-relaxed">
-              Upgrade to Viadocs Premium for faster performance, unlimited AI usage, and advanced document tools — designed to empower your work and studies.
-            </p>
-            <Link to="/premium" className="btn-gradient inline-flex items-center gap-2 px-10 py-4 rounded-full font-bold text-base shadow-hover">
-              Go Premium <ChevronRight className="w-4 h-4" />
-            </Link>
-          </motion.div>
-        </div>
-      </section>
-
       {/* ── Why Viadocs ── */}
       <section className="py-24 bg-card">
         <div className="max-w-6xl mx-auto px-6">
-          <motion.div className="text-center mb-14" variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }}>
+          <motion.div className="text-center mb-12" variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }}>
             <h2 className="text-3xl md:text-4xl font-extrabold mb-4">
-              Why Viadocs is Used by{" "}
-              <span className="gradient-text">Engineering Students and Employees</span>
+              Why Choose <span className="gradient-text">Viadocs?</span>
             </h2>
           </motion.div>
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {whyPoints.map((w, i) => (
               <motion.div key={w.title}
-                className="card-glass rounded-2xl p-6 shadow-card"
+                className="flex items-start gap-4 p-5 rounded-2xl border border-border bg-background hover:border-primary/30 transition-all duration-200"
                 variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={i}>
-                <div className="w-11 h-11 rounded-xl flex items-center justify-center mb-4 shadow-soft"
+                <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 shadow-soft"
                   style={{ background: "var(--gradient-brand)" }}>
                   <w.icon className="w-5 h-5 text-white" />
                 </div>
-                <h4 className="font-bold text-sm mb-2">{w.title}</h4>
-                <p className="text-xs text-muted-foreground leading-relaxed">{w.desc}</p>
+                <div>
+                  <h4 className="font-bold text-sm mb-1">{w.title}</h4>
+                  <p className="text-xs text-muted-foreground leading-relaxed">{w.desc}</p>
+                </div>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── Built for ── */}
-      <section className="py-24">
-        <div className="max-w-4xl mx-auto px-6 text-center">
+      {/* ── Premium CTA ── */}
+      <section className="py-20 mx-4 md:mx-12 my-8 rounded-3xl overflow-hidden relative"
+        style={{ background: "linear-gradient(135deg, hsl(var(--brand-indigo) / 0.08), hsl(var(--brand-blue) / 0.08))", border: "1px solid hsl(var(--brand-blue) / 0.15)" }}>
+        <div className="absolute inset-0 pointer-events-none" style={{ background: "var(--gradient-hero-glow)" }} />
+        <div className="max-w-3xl mx-auto px-6 text-center relative z-10">
           <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }}>
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold tracking-wider uppercase mb-6"
-              style={{ background: "hsl(var(--brand-teal) / 0.1)", color: "hsl(var(--brand-teal))", border: "1px solid hsl(var(--brand-teal) / 0.25)" }}>
-              <Users className="w-3.5 h-3.5" /> Our Story
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest mb-5"
+              style={{ background: "hsl(var(--brand-blue) / 0.12)", color: "hsl(var(--brand-blue))" }}>
+              <Star className="w-3 h-3" /> Go Premium
             </span>
-            <h2 className="text-3xl md:text-5xl font-extrabold mb-5">
-              Built for Engineering Students &amp; Employees
+            <h2 className="text-3xl md:text-4xl font-extrabold mb-4">
+              Unlock <span className="gradient-text">Unlimited Power</span>
             </h2>
-            <p className="text-muted-foreground text-base leading-relaxed max-w-2xl mx-auto">
-              I'm a fresher who built{" "}
-              <span className="gradient-text font-bold">Viadocs</span>{" "}
-              for engineering students and professionals — making document creation, editing, and PDF tools smarter and easier to use.
+            <p className="text-muted-foreground text-sm mb-8 max-w-xl mx-auto leading-relaxed">
+              Get unlimited conversions, AI document generation, 100MB file uploads, and priority processing.
             </p>
+            <Link to="/tools"
+              className="btn-gradient inline-flex items-center gap-2 px-8 py-4 rounded-full font-bold text-sm shadow-hover">
+              Upgrade to Pro <ArrowRight className="w-4 h-4" />
+            </Link>
           </motion.div>
         </div>
       </section>
 
       {/* ── FAQ ── */}
-      <section className="py-24 bg-card">
+      <section className="py-24">
         <div className="max-w-3xl mx-auto px-6">
           <motion.div className="text-center mb-12" variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }}>
-            <h2 className="text-3xl md:text-4xl font-extrabold">
+            <h2 className="text-3xl md:text-4xl font-extrabold mb-4">
               Frequently Asked <span className="gradient-text">Questions</span>
             </h2>
           </motion.div>
+
           <div className="space-y-3">
             {faqs.map((faq, i) => (
-              <motion.div key={faq.q}
-                className="card-glass rounded-2xl border border-border shadow-card overflow-hidden"
+              <motion.div key={i}
+                className="card-glass rounded-2xl border border-border overflow-hidden shadow-card"
                 variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={i}>
                 <button
-                  className="w-full flex items-center justify-between px-6 py-4 text-left"
+                  className="w-full flex items-center justify-between px-6 py-4 text-left font-bold text-sm hover:bg-primary/3 transition-colors"
                   onClick={() => setOpenFaq(openFaq === i ? null : i)}
                 >
-                  <span className="font-bold text-sm">{faq.q}</span>
-                  <ChevronRight className={`w-4 h-4 text-muted-foreground flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-90" : ""}`} />
+                  {faq.q}
+                  <span className={`ml-4 flex-shrink-0 w-5 h-5 rounded-full flex items-center justify-center text-xs transition-all duration-200 ${openFaq === i ? "btn-gradient text-white" : "bg-muted text-muted-foreground"}`}>
+                    {openFaq === i ? "−" : "+"}
+                  </span>
                 </button>
                 {openFaq === i && (
-                  <div className="px-6 pb-5">
-                    <p className="text-sm text-muted-foreground leading-relaxed">{faq.a}</p>
-                  </div>
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.25 }}
+                    className="px-6 pb-5 text-sm text-muted-foreground leading-relaxed border-t border-border pt-4"
+                  >
+                    {faq.a}
+                  </motion.div>
                 )}
               </motion.div>
             ))}
