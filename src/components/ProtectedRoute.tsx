@@ -1,8 +1,14 @@
 import { Navigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 
-const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
-  const { user, loading } = useAuth();
+interface ProtectedRouteProps {
+  children: React.ReactNode;
+  /** If true, guest users (no login) are also allowed */
+  guestAllowed?: boolean;
+}
+
+const ProtectedRoute = ({ children, guestAllowed = false }: ProtectedRouteProps) => {
+  const { user, isGuest, loading } = useAuth();
 
   if (loading) {
     return (
@@ -15,8 +21,17 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
     );
   }
 
-  if (!user) return <Navigate to="/login" replace />;
-  return <>{children}</>;
+  // Logged-in user → always allow
+  if (user) return <>{children}</>;
+
+  // Guest mode → only allow if route is guest-permitted
+  if (isGuest && guestAllowed) return <>{children}</>;
+
+  // Guest trying to access a locked route → show login with message
+  if (isGuest && !guestAllowed) return <Navigate to="/login?reason=guest" replace />;
+
+  // Not logged in at all → redirect to login
+  return <Navigate to="/login" replace />;
 };
 
 export default ProtectedRoute;
