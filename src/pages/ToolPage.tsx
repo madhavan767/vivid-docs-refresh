@@ -3,7 +3,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   FileText, FileDown, GitMerge, Scissors, Minimize2, Image, Download,
   Lock, Unlock, Table, Monitor, ArrowLeft, Upload, CheckCircle,
-  File, X, AlertCircle,
+  File, X, AlertCircle, Crop, Maximize2, ImageDown, ScanLine,
+  RefreshCw, Layers, PenTool,
 } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
 import AppNavbar from "@/components/AppNavbar";

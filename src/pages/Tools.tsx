@@ -204,44 +204,25 @@ const Tools = () => {
                 key={tool.slug}
                 variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={i % 8}
               >
-                {tool.comingSoon ? (
-                  <div className="card-glass rounded-2xl p-6 flex flex-col items-center gap-3 shadow-card text-center opacity-70 cursor-not-allowed relative">
-                    <div
-                      className="w-14 h-14 rounded-2xl flex items-center justify-center shadow-soft"
-                      style={{ background: "hsl(var(--muted))" }}
-                    >
-                      <tool.icon className="w-7 h-7 text-muted-foreground" />
-                    </div>
-                    <p className="font-bold text-sm">{tool.label}</p>
-                    <p className="text-xs text-muted-foreground leading-snug">{tool.desc}</p>
-                    <span
-                      className="mt-1 text-[10px] font-bold px-2.5 py-0.5 rounded-full"
-                      style={{ background: "hsl(var(--brand-indigo) / 0.12)", color: "hsl(var(--brand-indigo))" }}
-                    >
-                      Coming Soon
-                    </span>
-                  </div>
-                ) : (
-                  <Link
-                    to={`/tools/${tool.slug}`}
-                    className="card-glass rounded-2xl p-6 flex flex-col items-center gap-3 shadow-card text-center group block"
+                <Link
+                  to={`/tools/${tool.slug}`}
+                  className="card-glass rounded-2xl p-6 flex flex-col items-center gap-3 shadow-card text-center group block"
+                >
+                  <div
+                    className="w-14 h-14 rounded-2xl flex items-center justify-center shadow-soft transition-transform duration-300 group-hover:scale-110"
+                    style={{ background: "var(--gradient-brand)" }}
                   >
-                    <div
-                      className="w-14 h-14 rounded-2xl flex items-center justify-center shadow-soft transition-transform duration-300 group-hover:scale-110"
-                      style={{ background: "var(--gradient-brand)" }}
-                    >
-                      <tool.icon className="w-7 h-7 text-white" />
-                    </div>
-                    <p className="font-bold text-sm">{tool.label}</p>
-                    <p className="text-xs text-muted-foreground leading-snug">{tool.desc}</p>
-                    <span
-                      className="mt-1 text-[10px] font-bold px-2.5 py-0.5 rounded-full"
-                      style={{ background: "hsl(var(--brand-teal) / 0.1)", color: "hsl(var(--brand-teal))" }}
-                    >
-                      Free
-                    </span>
-                  </Link>
-                )}
+                    <tool.icon className="w-7 h-7 text-white" />
+                  </div>
+                  <p className="font-bold text-sm">{tool.label}</p>
+                  <p className="text-xs text-muted-foreground leading-snug">{tool.desc}</p>
+                  <span
+                    className="mt-1 text-[10px] font-bold px-2.5 py-0.5 rounded-full"
+                    style={{ background: "hsl(var(--brand-teal) / 0.1)", color: "hsl(var(--brand-teal))" }}
+                  >
+                    Free
+                  </span>
+                </Link>
               </motion.div>
             ))}
           </div>
