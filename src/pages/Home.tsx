@@ -9,8 +9,6 @@ import {
 } from "lucide-react";
 import AppNavbar from "@/components/AppNavbar";
 import Footer from "@/components/Footer";
-import GuestUpgradeModal from "@/components/GuestUpgradeModal";
-import { useAuth } from "@/contexts/AuthContext";
 import { useState } from "react";
 
 const fadeUp = {
@@ -46,7 +44,6 @@ const imageTools = [
   { icon: PenTool,   label: "Watermark",     slug: "add-watermark-image" },
 ];
 
-// Quick tools shown in the hero panel (first 8 PDF tools)
 const quickTools = pdfTools.slice(0, 8);
 
 const features = [
@@ -56,7 +53,6 @@ const features = [
     desc: "Generate professional projects, assignments, and resumes instantly with AI.",
     link: "/create-doc",
     cta: "Open Editor",
-    accent: "var(--brand-blue)",
   },
   {
     icon: Zap,
@@ -64,7 +60,6 @@ const features = [
     desc: "Merge, split, compress, or convert PDFs — all in one place, completely free.",
     link: "/tools",
     cta: "Browse Tools",
-    accent: "var(--brand-teal)",
   },
   {
     icon: Sparkles,
@@ -72,7 +67,6 @@ const features = [
     desc: "Summarize, rewrite, and extract key data from documents with AI assistance.",
     link: "/create-doc",
     cta: "Try AI",
-    accent: "var(--brand-indigo)",
   },
 ];
 
@@ -86,44 +80,23 @@ const whyPoints = [
 ];
 
 const faqs = [
-  { q: "Is Viadocs free to use?",                    a: "Yes! Viadocs offers a free plan with all essential tools. Premium plans unlock unlimited AI usage and advanced features." },
-  { q: "Is my data safe?",                           a: "Absolutely. Files are processed securely on Cloudflare's edge network. We never store files longer than needed." },
-  { q: "Does it work on mobile?",                    a: "Yes — Viadocs is fully responsive across mobile, tablets and desktop." },
-  { q: "How is this different from ilovepdf?",       a: "Viadocs is built specifically for Indian students and professionals, with AI document creation and a unified workspace." },
-  { q: "Can I use it without signing up?",           a: "Most PDF tools are available to use, but signing in lets you track conversion history and use the AI builder." },
+  { q: "Is Viadocs free to use?",              a: "Yes! Viadocs offers a free plan with all essential tools. Premium plans unlock unlimited AI usage and advanced features." },
+  { q: "Is my data safe?",                     a: "Absolutely. Files are processed securely on Cloudflare's edge network. We never store files longer than needed." },
+  { q: "Does it work on mobile?",              a: "Yes — Viadocs is fully responsive across mobile, tablets and desktop." },
+  { q: "How is this different from ilovepdf?", a: "Viadocs is built specifically for Indian students and professionals, with AI document creation and a unified workspace." },
+  { q: "Can I use it without signing up?",     a: "Most PDF tools are available to use, but signing in lets you track conversion history and use the AI builder." },
+];
+
+const mockRecent = [
+  { id: "1", tool_label: "PDF to Word", file_name: "report.pdf" },
+  { id: "2", tool_label: "PDF Merge",   file_name: "slides.pdf" },
 ];
 
 const Home = () => {
-  const { user, isGuest, guestId } = useAuth();
   const [openFaq, setOpenFaq] = useState<number | null>(null);
-  const [upgradeModal, setUpgradeModal] = useState<{ open: boolean; featureName?: string }>({ open: false });
-
-  // Firebase user: displayName or email prefix; guest: show guest ID
-  const displayName = isGuest
-    ? guestId ?? "Guest"
-    : (user?.displayName || user?.email?.split("@")[0] || "there");
-
-  // Helper: click handler for locked features in guest mode
-  const lockedClick = (featureName: string) => (e: React.MouseEvent) => {
-    if (isGuest) {
-      e.preventDefault();
-      setUpgradeModal({ open: true, featureName });
-    }
-  };
-
-  // Mock recent activity for frontend demo (replace with API call)
-  const mockRecent = [
-    { id: "1", tool_label: "PDF to Word", file_name: "report.pdf", created_at: new Date().toISOString() },
-    { id: "2", tool_label: "PDF Merge",   file_name: "slides.pdf", created_at: new Date().toISOString() },
-  ];
 
   return (
     <div className="min-h-screen bg-background">
-      <GuestUpgradeModal
-        open={upgradeModal.open}
-        onClose={() => setUpgradeModal({ open: false })}
-        featureName={upgradeModal.featureName}
-      />
       <AppNavbar />
 
       {/* ── Hero ── */}
@@ -149,8 +122,8 @@ const Home = () => {
 
               <motion.h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-[1.1] mb-5"
                 variants={fadeUp} initial="hidden" animate="visible" custom={1}>
-                {isGuest ? "Welcome, " : "Welcome back, "}{" "}
-                <span className="gradient-text">{displayName}!</span>
+                Welcome back,{" "}
+                <span className="gradient-text">User!</span>
               </motion.h1>
 
               <motion.p className="text-muted-foreground text-base md:text-lg mb-8 leading-relaxed max-w-lg"
@@ -164,7 +137,7 @@ const Home = () => {
                   className="btn-gradient inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-bold text-sm shadow-soft">
                   Explore Tools <ChevronRight className="w-4 h-4" />
                 </Link>
-                <Link to="/create-doc" onClick={lockedClick("Document Editor")}
+                <Link to="/create-doc"
                   className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-bold text-sm bg-card border border-border text-foreground hover:border-primary hover:text-primary transition-all duration-300 shadow-card">
                   <Plus className="w-4 h-4" /> Create Document
                 </Link>
@@ -218,14 +191,8 @@ const Home = () => {
               {/* Bottom row */}
               <div className="grid grid-cols-2 gap-4">
                 {/* Create Doc */}
-                <Link to="/create-doc" onClick={lockedClick("Document Editor")}
-                  className="card-glass rounded-2xl p-4 shadow-card border border-border flex flex-col gap-3 group hover:border-primary/40 transition-all duration-200 relative overflow-hidden">
-                  {isGuest && (
-                    <span className="absolute top-2 right-2 w-5 h-5 rounded-full flex items-center justify-center"
-                      style={{ background: "hsl(var(--brand-blue) / 0.15)" }}>
-                      <Lock className="w-2.5 h-2.5 text-primary" />
-                    </span>
-                  )}
+                <Link to="/create-doc"
+                  className="card-glass rounded-2xl p-4 shadow-card border border-border flex flex-col gap-3 group hover:border-primary/40 transition-all duration-200">
                   <div className="w-10 h-10 rounded-xl flex items-center justify-center"
                     style={{ background: "var(--gradient-brand)" }}>
                     <BookOpen className="w-5 h-5 text-white" />
@@ -235,7 +202,7 @@ const Home = () => {
                     <p className="text-[10px] text-muted-foreground mt-0.5">Word-style editor</p>
                   </div>
                   <span className="btn-gradient text-[10px] font-bold px-3 py-1 rounded-full inline-flex items-center gap-1 w-fit">
-                    {isGuest ? <><Lock className="w-2.5 h-2.5" /> Unlock</> : <>{`Open `}<ArrowRight className="w-2.5 h-2.5" /></>}
+                    Open <ArrowRight className="w-2.5 h-2.5" />
                   </span>
                 </Link>
 
@@ -263,7 +230,7 @@ const Home = () => {
                           </div>
                         </div>
                       ))}
-                      <Link to="/favorites" onClick={lockedClick("Favorites")} className="text-[10px] font-bold text-primary flex items-center gap-1 hover:underline mt-1">
+                      <Link to="/favorites" className="text-[10px] font-bold text-primary flex items-center gap-1 hover:underline mt-1">
                         View all <ArrowRight className="w-2.5 h-2.5" />
                       </Link>
                     </div>
@@ -302,9 +269,9 @@ const Home = () => {
                   <h3 className="font-bold text-base mb-2">{f.title}</h3>
                   <p className="text-xs text-muted-foreground leading-relaxed">{f.desc}</p>
                 </div>
-                <Link to={f.link} onClick={f.link !== "/tools" ? lockedClick(f.title) : undefined}
+                <Link to={f.link}
                   className="inline-flex items-center gap-1.5 text-xs font-bold text-primary hover:underline">
-                  {isGuest && f.link !== "/tools" ? <><Lock className="w-3 h-3" /> Unlock</> : <>{f.cta} <ArrowRight className="w-3.5 h-3.5" /></>}
+                  {f.cta} <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
               </motion.div>
             ))}

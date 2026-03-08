@@ -6,8 +6,6 @@ import {
 } from "lucide-react";
 import AppNavbar from "@/components/AppNavbar";
 import Footer from "@/components/Footer";
-import { useAuth } from "@/contexts/AuthContext";
-import { useNavigate } from "react-router-dom";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 20 },
@@ -23,14 +21,12 @@ const planFeatures = {
 };
 
 const Profile = () => {
-  const { user, signOut } = useAuth();
-  const navigate = useNavigate();
   const fileRef = useRef<HTMLInputElement>(null);
 
   const [editing, setEditing] = useState(false);
-  const [displayName, setDisplayName] = useState(user?.displayName || user?.email?.split("@")[0] || "");
-  const [tempName, setTempName] = useState(displayName);
-  const [avatarPreview, setAvatarPreview] = useState<string | null>(user?.photoURL || null);
+  const [displayName, setDisplayName] = useState("John Doe");
+  const [tempName, setTempName] = useState("John Doe");
+  const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
 
@@ -41,13 +37,11 @@ const Profile = () => {
     if (!f) return;
     const url = URL.createObjectURL(f);
     setAvatarPreview(url);
-    // TODO: Upload to R2 via filesApi.profileApi.uploadAvatar(f)
   };
 
   const handleSave = async () => {
     setSaving(true);
-    // TODO: await profileApi.update({ full_name: tempName })
-    await new Promise(r => setTimeout(r, 800)); // simulate save
+    await new Promise(r => setTimeout(r, 800));
     setDisplayName(tempName);
     setSaving(false);
     setSaved(true);
@@ -55,12 +49,7 @@ const Profile = () => {
     setTimeout(() => setSaved(false), 2500);
   };
 
-  const handleSignOut = async () => {
-    await signOut();
-    navigate("/");
-  };
-
-  const plan: "Free" | "Pro" = "Free"; // TODO: fetch from API
+  const plan: "Free" | "Pro" = "Free";
 
   return (
     <div className="min-h-screen bg-background">
@@ -130,7 +119,7 @@ const Profile = () => {
                     <Edit3 className="w-3.5 h-3.5" />
                   </button>
                 </div>
-                <p className="text-sm text-muted-foreground">{user?.email}</p>
+                <p className="text-sm text-muted-foreground">user@example.com</p>
                 {saved && (
                   <span className="text-xs text-green-600 font-semibold flex items-center gap-1">
                     <CheckCircle className="w-3 h-3" /> Saved!
@@ -141,10 +130,10 @@ const Profile = () => {
 
             {/* Plan badge */}
             <div className={`w-full py-3 rounded-2xl flex items-center justify-center gap-2 ${
-              (plan as string) === "Pro" ? "text-white" : "border border-border bg-muted/40"
+              plan === "Pro" ? "text-white" : "border border-border bg-muted/40"
             }`}
-              style={(plan as string) === "Pro" ? { background: "var(--gradient-brand)" } : {}}>
-              <Star className={`w-4 h-4 ${(plan as string) === "Pro" ? "text-white" : "text-amber-400"}`} />
+              style={plan === "Pro" ? { background: "var(--gradient-brand)" } : {}}>
+              <Star className={`w-4 h-4 ${plan === "Pro" ? "text-white" : "text-amber-400"}`} />
               <span className="text-sm font-bold">{plan} Plan</span>
             </div>
 
@@ -173,7 +162,7 @@ const Profile = () => {
                   <Mail className="w-4 h-4 text-muted-foreground flex-shrink-0" />
                   <div className="flex-1 min-w-0">
                     <p className="text-xs text-muted-foreground font-semibold">Email Address</p>
-                    <p className="text-sm font-bold truncate mt-0.5">{user?.email}</p>
+                    <p className="text-sm font-bold truncate mt-0.5">user@example.com</p>
                   </div>
                   <span className="text-[10px] font-bold px-2.5 py-1 rounded-full"
                     style={{ background: "hsl(var(--brand-teal) / 0.12)", color: "hsl(var(--brand-teal))" }}>
@@ -185,9 +174,7 @@ const Profile = () => {
                   <Shield className="w-4 h-4 text-muted-foreground flex-shrink-0" />
                   <div className="flex-1">
                     <p className="text-xs text-muted-foreground font-semibold">Sign-in Method</p>
-                    <p className="text-sm font-bold mt-0.5">
-                      {user?.providerData?.[0]?.providerId === "google.com" ? "Google Account" : "Email & Password"}
-                    </p>
+                    <p className="text-sm font-bold mt-0.5">Email & Password</p>
                   </div>
                 </div>
 
@@ -211,7 +198,7 @@ const Profile = () => {
                 <Zap className="w-4 h-4" /> Plan Features
               </h2>
               <div className="grid grid-cols-2 gap-2">
-                {planFeatures[plan as keyof typeof planFeatures].map(f => (
+                {planFeatures[plan].map(f => (
                   <div key={f} className="flex items-center gap-2 p-3 rounded-xl bg-background/60 border border-border">
                     <CheckCircle className="w-3.5 h-3.5 text-primary flex-shrink-0" />
                     <span className="text-xs font-semibold">{f}</span>
@@ -238,7 +225,6 @@ const Profile = () => {
                 </div>
 
                 <button
-                  onClick={handleSignOut}
                   className="w-full flex items-center gap-3 p-4 rounded-2xl border border-red-200 bg-red-50/50 text-red-500 hover:bg-red-50 transition-colors text-sm font-semibold"
                 >
                   <LogOut className="w-4 h-4" /> Sign Out
