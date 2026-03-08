@@ -260,36 +260,6 @@ const Tools = () => {
         </div>
       </section>
 
-      {/* ── Premium CTA ── */}
-      <section
-        className="py-20 mx-6 md:mx-16 my-16 rounded-3xl overflow-hidden relative"
-        style={{ background: "linear-gradient(135deg, hsl(var(--brand-indigo) / 0.08), hsl(var(--brand-blue) / 0.08))", border: "1px solid hsl(var(--brand-blue) / 0.15)" }}
-      >
-        <div className="absolute inset-0 pointer-events-none" style={{ background: "var(--gradient-hero-glow)" }} />
-        <div className="max-w-2xl mx-auto px-6 text-center relative z-10">
-          <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }}>
-            <span
-              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest mb-5"
-              style={{ background: "hsl(var(--brand-blue) / 0.12)", color: "hsl(var(--brand-blue))" }}
-            >
-              ✦ Premium
-            </span>
-            <h2 className="text-2xl md:text-4xl font-extrabold mb-4">
-              Unlock More with <span className="gradient-text">Viadocs Premium</span>
-            </h2>
-            <p className="text-muted-foreground text-sm mb-8 max-w-xl mx-auto leading-relaxed">
-              Upgrade to Viadocs Premium for faster performance, unlimited conversions, and priority processing — designed to empower your work and studies.
-            </p>
-            <Link
-              to="/premium"
-              className="btn-gradient inline-flex items-center gap-2 px-10 py-3.5 rounded-full font-bold text-sm shadow-hover"
-            >
-              Go Premium <ChevronRight className="w-4 h-4" />
-            </Link>
-          </motion.div>
-        </div>
-      </section>
-
       {/* ── Built for ── */}
       <section className="py-20 text-center">
         <div className="max-w-3xl mx-auto px-6">

@@ -103,36 +103,7 @@ const testimonials = [
   },
 ];
 
-const plans = [
-  {
-    name: "Free",
-    price: "₹0",
-    period: "forever",
-    desc: "Everything you need to get started.",
-    features: ["11 PDF tools", "5 conversions/day", "10MB max file size", "Browser editor"],
-    cta: "Get Started",
-    gradient: false,
-  },
-  {
-    name: "Pro",
-    price: "₹199",
-    period: "per month",
-    desc: "Unlimited power for professionals.",
-    features: ["Unlimited conversions", "100MB max file size", "All 19 tools", "Conversion history", "Priority processing"],
-    cta: "Start Free Trial",
-    gradient: true,
-    badge: "Most Popular",
-  },
-  {
-    name: "Team",
-    price: "₹599",
-    period: "per month",
-    desc: "For growing teams and enterprises.",
-    features: ["Everything in Pro", "5 team members", "Shared workspace", "Admin dashboard", "API access"],
-    cta: "Contact Sales",
-    gradient: false,
-  },
-];
+const plans = [];
 
 const Landing = () => {
   return (
