@@ -49,7 +49,7 @@ const Profile = () => {
     setTimeout(() => setSaved(false), 2500);
   };
 
-  const plan: "Free" | "Pro" = "Free";
+  const plan = "Free" as "Free" | "Pro";
 
   return (
     <div className="min-h-screen bg-background">
