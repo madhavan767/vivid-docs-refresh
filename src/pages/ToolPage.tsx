@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, lazy, Suspense } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowLeft, Upload, CheckCircle, File, X, AlertCircle,
@@ -7,6 +7,31 @@ import { Link, useParams } from "react-router-dom";
 import AppNavbar from "@/components/AppNavbar";
 import Footer from "@/components/Footer";
 import { getToolBySlug, toolCategories, getCategoryColorVars } from "@/data/toolsData";
+
+// ── Lazy-loaded calculator/browser tool UIs ──────────────────────────────────
+const BmiCalculator        = lazy(() => import("@/components/tools/BmiCalculator"));
+const AgeCalculator        = lazy(() => import("@/components/tools/AgeCalculator"));
+const PercentageCalculator = lazy(() => import("@/components/tools/PercentageCalculator"));
+const EmiCalculator        = lazy(() => import("@/components/tools/EmiCalculator"));
+const TipCalculator        = lazy(() => import("@/components/tools/TipCalculator"));
+const UnitConverter        = lazy(() => import("@/components/tools/UnitConverter"));
+const TimezoneConverter    = lazy(() => import("@/components/tools/TimezoneConverter"));
+const CountdownTimer       = lazy(() => import("@/components/tools/CountdownTimer"));
+const RandomPicker         = lazy(() => import("@/components/tools/RandomPicker"));
+const CurrencyConverter    = lazy(() => import("@/components/tools/CurrencyConverter"));
+
+const BROWSER_TOOL_MAP: Record<string, React.LazyExoticComponent<() => JSX.Element>> = {
+  "bmi-calculator":    BmiCalculator,
+  "age-calculator":    AgeCalculator,
+  "percentage-calc":   PercentageCalculator,
+  "emi-calculator":    EmiCalculator,
+  "tip-calculator":    TipCalculator,
+  "unit-converter":    UnitConverter,
+  "timezone-converter":TimezoneConverter,
+  "countdown-timer":   CountdownTimer,
+  "random-picker":     RandomPicker,
+  "currency-converter":CurrencyConverter,
+};
 
 const fadeUp = {
   hidden: { opacity: 0, y: 20 },
