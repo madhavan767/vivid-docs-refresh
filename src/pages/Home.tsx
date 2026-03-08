@@ -10,7 +10,7 @@ import AppNavbar from "@/components/AppNavbar";
 import Footer from "@/components/Footer";
 import { useAuth } from "@/contexts/AuthContext";
 import { useEffect, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { filesApi, Conversion } from "@/config/api";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 28 },

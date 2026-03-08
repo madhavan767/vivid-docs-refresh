@@ -7,7 +7,7 @@ import {
 import { Link, useParams, useNavigate } from "react-router-dom";
 import AppNavbar from "@/components/AppNavbar";
 import Footer from "@/components/Footer";
-import { supabase } from "@/integrations/supabase/client";
+import { filesApi } from "@/config/api";
 import { useAuth } from "@/contexts/AuthContext";
 
 const fadeUp = {
