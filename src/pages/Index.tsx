@@ -156,10 +156,10 @@ const Index = () => {
               Get Started — Login
             </Link>
             <Link
-              to="/create-doc"
+              to="/tools"
               className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full font-bold text-sm bg-card border border-border text-foreground hover:border-primary hover:text-primary transition-all duration-300 shadow-card"
             >
-              Create Account
+              Browse Tools
             </Link>
           </motion.div>
         </div>
@@ -173,10 +173,10 @@ const Index = () => {
             variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }}
           >
             <h2 className="text-3xl md:text-5xl font-extrabold mb-4">
-              Simplify Your <span className="gradient-text">Document Work</span>
+              All Your <span className="gradient-text">File Tools</span> in One Place
             </h2>
             <p className="text-muted-foreground max-w-xl mx-auto text-base leading-relaxed">
-              Create, edit, and collaborate on documents with smart, AI-powered tools that understand your needs.
+              Convert, compress, merge, and transform PDFs and images — fast, free, and browser-based.
             </p>
           </motion.div>
 
@@ -187,24 +187,24 @@ const Index = () => {
               variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={1}
             >
               <div className="grid grid-cols-2 gap-4 mb-6">
-                <button className="flex flex-col items-center gap-2 p-5 rounded-xl border border-border hover:border-primary/40 transition-all duration-300 bg-background/50 hover:bg-primary/5">
-                  <Plus className="w-7 h-7 text-primary" />
-                  <span className="text-sm font-semibold">Create a Doc</span>
-                </button>
-                <button className="flex flex-col items-center gap-2 p-5 rounded-xl border border-border hover:border-accent/40 transition-all duration-300 bg-background/50 hover:bg-accent/5">
-                  <Upload className="w-7 h-7 text-accent" />
-                  <span className="text-sm font-semibold">Clone</span>
-                </button>
+                <Link to="/tools" className="flex flex-col items-center gap-2 p-5 rounded-xl border border-border hover:border-primary/40 transition-all duration-300 bg-background/50 hover:bg-primary/5">
+                  <Zap className="w-7 h-7 text-primary" />
+                  <span className="text-sm font-semibold">PDF Tools</span>
+                </Link>
+                <Link to="/tools" className="flex flex-col items-center gap-2 p-5 rounded-xl border border-border hover:border-accent/40 transition-all duration-300 bg-background/50 hover:bg-accent/5">
+                  <Sparkles className="w-7 h-7 text-accent" />
+                  <span className="text-sm font-semibold">Image Tools</span>
+                </Link>
               </div>
               <div className="flex items-center gap-4 p-5 rounded-xl border border-border bg-background/50">
                 <div className="flex-1">
-                  <p className="text-sm font-bold mb-1">Use Viadocs to create your project doc</p>
+                  <p className="text-sm font-bold mb-1">19 tools — all free, all in one place</p>
                 </div>
                 <Link
-                  to="/create-doc"
+                  to="/tools"
                   className="btn-gradient text-xs font-bold px-4 py-2 rounded-full whitespace-nowrap flex items-center gap-1"
                 >
-                  <Sparkles className="w-3 h-3" /> Make my Project Recommendation Doc
+                  <Sparkles className="w-3 h-3" /> Browse Tools
                 </Link>
               </div>
             </motion.div>
@@ -216,17 +216,14 @@ const Index = () => {
             >
               <h3 className="text-2xl md:text-3xl font-extrabold mb-4 leading-snug">
                 Your Smart<br />
-                <span className="gradient-text">Document Workspace</span>
+                <span className="gradient-text">File Workspace</span>
               </h3>
               <p className="text-muted-foreground mb-6 leading-relaxed">
-                From academic reports to professional documentation — Viadocs gives you AI-powered tools to work smarter.
+                From merging PDFs to removing image backgrounds — Viadocs gives you the tools to work smarter.
               </p>
               <div className="flex flex-col sm:flex-row gap-3 justify-center md:justify-start">
                 <Link to="/tools" className="btn-gradient inline-flex items-center gap-2 px-7 py-3 rounded-full font-bold text-sm shadow-soft">
                   Try Tools
-                </Link>
-                <Link to="/create-doc" className="inline-flex items-center gap-2 px-7 py-3 rounded-full font-bold text-sm bg-background border border-border text-foreground hover:border-primary hover:text-primary transition-all duration-300">
-                  Learn More
                 </Link>
               </div>
             </motion.div>
