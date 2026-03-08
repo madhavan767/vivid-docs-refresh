@@ -141,7 +141,7 @@ const Profile = () => {
 
             {/* Plan badge */}
             <div className={`w-full py-3 rounded-2xl flex items-center justify-center gap-2 ${
-              plan === "Pro" ? "text-white" : "border border-border bg-muted/40"
+              (plan as string) === "Pro" ? "text-white" : "border border-border bg-muted/40"
             }`}
               style={(plan as string) === "Pro" ? { background: "var(--gradient-brand)" } : {}}>
               <Star className={`w-4 h-4 ${(plan as string) === "Pro" ? "text-white" : "text-amber-400"}`} />
