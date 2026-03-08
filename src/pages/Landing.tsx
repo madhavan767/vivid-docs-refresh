@@ -4,6 +4,7 @@ import {
   Sparkles, FileText, FileDown, GitMerge, Scissors, Minimize2, Image,
   Download, Lock, Unlock, Table, Monitor, Zap, Shield, Globe, Users,
   ArrowRight, CheckCircle, Star, ChevronRight,
+  Crop, Maximize2, ImageDown, ScanLine, RefreshCw, Layers, PenTool,
 } from "lucide-react";
 import logo from "@/assets/viadocs-logo.png";
 import Navbar from "@/components/Navbar";
@@ -17,7 +18,7 @@ const fadeUp = {
   }),
 };
 
-const tools = [
+const pdfTools = [
   { icon: FileText,  label: "PDF to Word",        slug: "pdf-to-word" },
   { icon: FileDown,  label: "Word to PDF",         slug: "word-to-pdf" },
   { icon: GitMerge,  label: "Merge PDF",           slug: "pdf-merge" },
@@ -29,6 +30,17 @@ const tools = [
   { icon: Unlock,    label: "Unlock PDF",          slug: "unlock-pdf" },
   { icon: Table,     label: "Excel to PDF",        slug: "excel-to-pdf" },
   { icon: Monitor,   label: "PowerPoint to PDF",   slug: "powerpoint-to-pdf" },
+];
+
+const imageTools = [
+  { icon: Crop,      label: "Image Resize",        slug: "image-resize" },
+  { icon: Maximize2, label: "Image Upscale",        slug: "image-upscale" },
+  { icon: ImageDown, label: "Image to ICO",         slug: "image-to-ico" },
+  { icon: ScanLine,  label: "Image to SVG",         slug: "image-to-svg" },
+  { icon: Minimize2, label: "Compress Image",       slug: "compress-image" },
+  { icon: RefreshCw, label: "Remove Background",    slug: "remove-background" },
+  { icon: Layers,    label: "Merge Photo & Sign",   slug: "merge-photo-sign" },
+  { icon: PenTool,   label: "Add Watermark",        slug: "add-watermark-image" },
 ];
 
 const features = [
