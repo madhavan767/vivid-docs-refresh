@@ -35,7 +35,7 @@ const App = () => (
             <Route path="/tools/:slug" element={<ProtectedRoute guestAllowed><ToolPage /></ProtectedRoute>} />
             <Route path="/create-doc" element={<ProtectedRoute featureName="Document Editor"><CreateDoc /></ProtectedRoute>} />
             <Route path="/favorites" element={<ProtectedRoute featureName="Favorites"><Favorites /></ProtectedRoute>} />
-            <Route path="/profile" element={<ProtectedRoute featureName="Profile"><Profile /></ProtectedRoute>} />
+            <Route path="/profile" element={<Profile />} />
 
             {/* Catch-all */}
             <Route path="*" element={<NotFound />} />
