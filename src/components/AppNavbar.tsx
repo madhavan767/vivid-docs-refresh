@@ -9,7 +9,7 @@ const navLinks = [
   { label: "Home",       to: "/home",       icon: Home },
   { label: "Tools",      to: "/tools",      icon: Wrench },
   { label: "Create Doc", to: "/create-doc", icon: FilePlus },
-  { label: "Favorites",  to: "/favorites",  icon: Star },
+  
 ];
 
 const AppNavbar = () => {
