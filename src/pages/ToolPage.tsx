@@ -9,8 +9,6 @@ import {
 import { Link, useParams } from "react-router-dom";
 import AppNavbar from "@/components/AppNavbar";
 import Footer from "@/components/Footer";
-import { filesApi } from "@/config/api";
-import { useAuth } from "@/contexts/AuthContext";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 20 },
