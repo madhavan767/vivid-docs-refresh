@@ -18,18 +18,29 @@ const fadeUp = {
   }),
 };
 
-const tools = [
-  { icon: FileText,  label: "PDF to Word",       desc: "Convert PDF into editable Word docs",   slug: "pdf-to-word",       color: "hsl(var(--brand-blue))" },
-  { icon: FileDown,  label: "Word to PDF",        desc: "Export Word files into PDF",             slug: "word-to-pdf",       color: "hsl(var(--brand-teal))" },
-  { icon: GitMerge,  label: "PDF Merge",          desc: "Combine multiple PDFs into one",         slug: "pdf-merge",         color: "hsl(var(--brand-blue))" },
-  { icon: Scissors,  label: "PDF Split",          desc: "Extract specific pages from PDF",        slug: "pdf-split",         color: "hsl(var(--brand-indigo))" },
-  { icon: Minimize2, label: "PDF Compress",       desc: "Reduce the size of PDFs",                slug: "pdf-compress",      color: "hsl(var(--brand-teal))" },
-  { icon: Image,     label: "Image to PDF",       desc: "Convert images into a PDF file",         slug: "image-to-pdf",      color: "hsl(var(--brand-blue))" },
-  { icon: Download,  label: "PDF to Image",       desc: "Save PDF pages as images",               slug: "pdf-to-image",      color: "hsl(var(--brand-indigo))" },
-  { icon: Lock,      label: "Password Protect",   desc: "Add a password to your PDF",             slug: "password-protect",  color: "hsl(var(--brand-blue))" },
-  { icon: Unlock,    label: "Unlock PDF",         desc: "Remove PDF restrictions",                slug: "unlock-pdf",        color: "hsl(var(--brand-teal))" },
-  { icon: Table,     label: "Excel to PDF",       desc: "Convert spreadsheets into PDF",          slug: "excel-to-pdf",      color: "hsl(var(--brand-blue))" },
-  { icon: Monitor,   label: "PowerPoint to PDF",  desc: "Save slides into PDF format",            slug: "powerpoint-to-pdf", color: "hsl(var(--brand-indigo))" },
+const pdfTools = [
+  { icon: FileText,  label: "PDF to Word",       desc: "Convert PDF into editable Word docs",   slug: "pdf-to-word",       },
+  { icon: FileDown,  label: "Word to PDF",        desc: "Export Word files into PDF",             slug: "word-to-pdf",       },
+  { icon: GitMerge,  label: "PDF Merge",          desc: "Combine multiple PDFs into one",         slug: "pdf-merge",         },
+  { icon: Scissors,  label: "PDF Split",          desc: "Extract specific pages from PDF",        slug: "pdf-split",         },
+  { icon: Minimize2, label: "PDF Compress",       desc: "Reduce the size of PDFs",                slug: "pdf-compress",      },
+  { icon: Image,     label: "Image to PDF",       desc: "Convert images into a PDF file",         slug: "image-to-pdf",      },
+  { icon: Download,  label: "PDF to Image",       desc: "Save PDF pages as images",               slug: "pdf-to-image",      },
+  { icon: Lock,      label: "Password Protect",   desc: "Add a password to your PDF",             slug: "password-protect",  },
+  { icon: Unlock,    label: "Unlock PDF",         desc: "Remove PDF restrictions",                slug: "unlock-pdf",        },
+  { icon: Table,     label: "Excel to PDF",       desc: "Convert spreadsheets into PDF",          slug: "excel-to-pdf",      },
+  { icon: Monitor,   label: "PowerPoint to PDF",  desc: "Save slides into PDF format",            slug: "powerpoint-to-pdf", },
+];
+
+const imageTools = [
+  { icon: Crop,       label: "Image Resize",        desc: "Resize images to any dimension",           slug: "image-resize",        comingSoon: false },
+  { icon: Maximize2,  label: "Image Upscale",        desc: "AI-powered image upscaling up to 4×",      slug: "image-upscale",       comingSoon: true  },
+  { icon: ImageDown,  label: "Image to ICO",         desc: "Convert images to .ico favicon format",    slug: "image-to-ico",        comingSoon: false },
+  { icon: ScanLine,   label: "Image to SVG",         desc: "Vectorize raster images into SVG",         slug: "image-to-svg",        comingSoon: true  },
+  { icon: Minimize2,  label: "Compress Image",       desc: "Reduce image file size without quality loss", slug: "compress-image",   comingSoon: false },
+  { icon: RefreshCw,  label: "Remove Background",    desc: "AI-powered background removal",            slug: "remove-background",   comingSoon: true  },
+  { icon: Layers,     label: "Merge Photo & Sign",   desc: "Overlay a signature onto a photo/doc",     slug: "merge-photo-sign",    comingSoon: false },
+  { icon: PenTool,    label: "Add Watermark",        desc: "Stamp text or image watermark on photos",  slug: "add-watermark-image", comingSoon: false },
 ];
 
 const features = [
