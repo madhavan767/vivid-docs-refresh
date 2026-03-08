@@ -164,7 +164,6 @@ const ToolPage = () => {
   const { slug = "pdf-to-word" } = useParams<{ slug: string }>();
   const tool = toolMap[slug] ?? toolMap["pdf-to-word"];
   const Icon = tool.icon;
-  const { user } = useAuth();
 
   const [dragging, setDragging] = useState(false);
   const [file, setFile] = useState<File | null>(null);
@@ -188,7 +187,6 @@ const ToolPage = () => {
     setStep("converting");
     setProgress(0);
 
-    // Animate progress bar
     const ticker = setInterval(() => {
       setProgress((p) => {
         if (p >= 90) { clearInterval(ticker); return 90; }
@@ -196,19 +194,8 @@ const ToolPage = () => {
       });
     }, 200);
 
-    try {
-      const uploaded = await filesApi.upload(file);
-      await filesApi.convert({
-        tool_slug: slug,
-        tool_label: tool.label,
-        input_r2_url: uploaded.r2_url,
-        file_name: uploaded.file_name,
-        file_size: uploaded.file_size,
-      });
-    } catch {
-      // Backend not connected yet — simulate success for frontend demo
-      console.warn("[Viadocs] Backend not connected — simulating conversion.");
-    }
+    // Simulate conversion (no backend)
+    await new Promise(r => setTimeout(r, 2000));
 
     clearInterval(ticker);
     setProgress(100);
