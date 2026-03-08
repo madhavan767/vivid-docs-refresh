@@ -1,25 +1,17 @@
 """
-/tools — file upload + PDF conversion endpoints.
-
-Flow:
-  1. Client uploads file  →  POST /tools/upload
-  2. Backend stores file in R2, returns r2_key + url
-  3. Client triggers convert  →  POST /tools/{slug}/convert
-  4. Backend processes file, stores output in R2, saves record in DB
-  5. Client polls or gets conversion record  →  GET /tools/conversion/{id}
+/tools — file upload + PDF/Image conversion endpoints.
 """
 
 import uuid
-from datetime import datetime
 
-from fastapi import APIRouter, Depends, File, Form, HTTPException, UploadFile, status
+from fastapi import APIRouter, Depends, File, Form, HTTPException, UploadFile
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 
 from auth import get_current_user
 from db import get_db
 from models import Conversion, ConversionOut, UserProfile
-from services import r2_service, pdf_service
+from services import r2_service, pdf_service, image_service
 
 router = APIRouter()
 
@@ -31,7 +23,6 @@ async def upload_file(
     file: UploadFile = File(...),
     current_user: dict = Depends(get_current_user),
 ):
-    """Upload a file to Cloudflare R2. Returns the R2 key and URL."""
     uid = current_user["uid"]
     key, url = await r2_service.upload_file(file, uid, prefix="inputs")
     return {
@@ -42,62 +33,81 @@ async def upload_file(
     }
 
 
-# ── 2. Convert a file ─────────────────────────────────────────────────────────
+# ── 2. Helpers ────────────────────────────────────────────────────────────────
+
+PDF_EXT_MAP = {
+    "pdf-to-word": "docx", "word-to-pdf": "pdf", "excel-to-pdf": "pdf",
+    "powerpoint-to-pdf": "pdf", "pdf-merge": "pdf", "pdf-split": "pdf",
+    "pdf-compress": "pdf", "image-to-pdf": "pdf", "pdf-to-image": "jpg",
+    "password-protect": "pdf", "unlock-pdf": "pdf",
+}
+
+IMAGE_SLUGS = set(image_service.IMAGE_SLUG_MAP.keys())
+MULTI_FILE_IMAGE_SLUGS = {"merge-photo-sign", "add-watermark-image"}
+
+
+async def _ensure_profile(db, uid, user):
+    result = await db.execute(select(UserProfile).where(UserProfile.uid == uid))
+    profile = result.scalar_one_or_none()
+    if not profile:
+        profile = UserProfile(uid=uid, email=user.get("email", ""), full_name=user.get("name"))
+        db.add(profile)
+        await db.flush()
+
+
+async def _save_conversion(db, uid, slug, label, file_name, file_size, input_key, input_url) -> Conversion:
+    conv = Conversion(
+        uid=uid, tool_slug=slug, tool_label=label,
+        file_name=file_name, file_size=file_size,
+        input_r2_key=input_key, input_r2_url=input_url,
+        status="processing",
+    )
+    db.add(conv)
+    await db.flush()
+    return conv
+
+
+# ── 3. Single-file convert ────────────────────────────────────────────────────
 
 @router.post("/{slug}/convert", response_model=ConversionOut)
 async def convert_file(
     slug: str,
     file: UploadFile = File(...),
     tool_label: str = Form(...),
+    # PDF-specific params
     password: str = Form(default=""),
     owner_password: str = Form(default=""),
     pages_per_chunk: int = Form(default=1),
+    # Image-specific params
+    width: int = Form(default=0),
+    height: int = Form(default=0),
+    quality: int = Form(default=75),
+    scale: int = Form(default=2),
+    watermark_text: str = Form(default=""),
+    position: str = Form(default="center"),
     db: AsyncSession = Depends(get_db),
     current_user: dict = Depends(get_current_user),
 ):
     uid = current_user["uid"]
+    await _ensure_profile(db, uid, current_user)
 
-    # Ensure profile exists
-    result = await db.execute(select(UserProfile).where(UserProfile.uid == uid))
-    profile = result.scalar_one_or_none()
-    if not profile:
-        profile = UserProfile(
-            uid=uid,
-            email=current_user.get("email", ""),
-            full_name=current_user.get("name"),
-        )
-        db.add(profile)
-        await db.flush()
-
-    # Upload input to R2
     input_key, input_url = await r2_service.upload_file(file, uid, prefix="inputs")
     await file.seek(0)
     file_data = await file.read()
 
-    # Create conversion record (status=processing)
-    conv = Conversion(
-        uid=uid,
-        tool_slug=slug,
-        tool_label=tool_label,
-        file_name=file.filename or "file",
-        file_size=len(file_data),
-        input_r2_key=input_key,
-        input_r2_url=input_url,
-        status="processing",
+    conv = await _save_conversion(
+        db, uid, slug, tool_label, file.filename or "file",
+        len(file_data), input_key, input_url,
     )
-    db.add(conv)
-    await db.flush()
 
-    # Process
     try:
-        extra = {"password": password, "owner_password": owner_password}
-        output_data: bytes | None = None
+        output_data: bytes
 
+        # ── PDF tools ────────────────────────────────────────────────────────
         if slug == "pdf-merge":
             raise HTTPException(400, "Merge requires multiple files — use /tools/pdf-merge/merge")
         elif slug == "pdf-split":
             chunks = pdf_service.split_pdf(file_data, pages_per_chunk)
-            # For simplicity return first chunk; full implementation returns a zip
             output_data = chunks[0] if chunks else file_data
         elif slug == "pdf-to-image":
             images = pdf_service.pdf_to_images(file_data)
@@ -105,19 +115,40 @@ async def convert_file(
         elif slug == "password-protect":
             output_data = pdf_service.protect_pdf(file_data, owner_password or "owner", password)
         elif slug in pdf_service.SLUG_MAP and pdf_service.SLUG_MAP[slug]:
-            output_data = pdf_service.SLUG_MAP[slug](file_data, extra)
+            output_data = pdf_service.SLUG_MAP[slug](file_data, {"password": password})
+
+        # ── Image tools ───────────────────────────────────────────────────────
+        elif slug == "image-resize":
+            output_data = image_service.resize_image(
+                file_data,
+                width=width or None,
+                height=height or None,
+            )
+        elif slug == "image-upscale":
+            output_data = image_service.upscale_image(file_data, scale=max(1, scale))
+        elif slug == "image-to-ico":
+            output_data = image_service.image_to_ico(file_data)
+        elif slug == "image-to-svg":
+            output_data = image_service.image_to_svg(file_data)
+        elif slug == "compress-image":
+            output_data = image_service.compress_image(file_data, quality=quality)
+        elif slug == "remove-background":
+            output_data = image_service.remove_background(file_data)
+        elif slug == "add-watermark-image":
+            output_data = image_service.add_watermark(
+                file_data,
+                text=watermark_text or "Viadocs",
+                position=position,
+            )
+
         else:
             raise HTTPException(400, f"Unknown tool slug: {slug}")
 
-        # Derive output extension
-        ext_map = {
-            "pdf-to-word": "docx", "word-to-pdf": "pdf", "excel-to-pdf": "pdf",
-            "powerpoint-to-pdf": "pdf", "pdf-merge": "pdf", "pdf-split": "pdf",
-            "pdf-compress": "pdf", "image-to-pdf": "pdf", "pdf-to-image": "jpg",
-            "password-protect": "pdf", "unlock-pdf": "pdf",
-        }
-        out_ext = ext_map.get(slug, "pdf")
-        out_name = file.filename.rsplit(".", 1)[0] + f"_converted.{out_ext}"
+        out_ext = (
+            PDF_EXT_MAP.get(slug)
+            or image_service.IMAGE_EXT_MAP.get(slug, "png")
+        )
+        out_name = (file.filename or "file").rsplit(".", 1)[0] + f"_converted.{out_ext}"
         out_key = f"outputs/{uid}/{uuid.uuid4().hex}.{out_ext}"
         out_url = r2_service.upload_bytes(output_data, out_key)
 
@@ -136,7 +167,45 @@ async def convert_file(
     return conv
 
 
-# ── 3. Multi-file merge ───────────────────────────────────────────────────────
+# ── 4. Merge Photo & Signature (two files) ────────────────────────────────────
+
+@router.post("/merge-photo-sign/convert", response_model=ConversionOut)
+async def merge_photo_sign(
+    base_image: UploadFile = File(...),
+    signature: UploadFile = File(...),
+    position: str = Form(default="bottom-right"),
+    scale: float = Form(default=0.25),
+    db: AsyncSession = Depends(get_db),
+    current_user: dict = Depends(get_current_user),
+):
+    uid = current_user["uid"]
+    await _ensure_profile(db, uid, current_user)
+
+    base_data = await base_image.read()
+    sig_data = await signature.read()
+
+    output_data = image_service.merge_photo_and_signature(
+        base_data, sig_data, position=position, scale=scale
+    )
+
+    out_key = f"outputs/{uid}/{uuid.uuid4().hex}.png"
+    out_url = r2_service.upload_bytes(output_data, out_key)
+
+    input_key, input_url = f"inputs/{uid}/{uuid.uuid4().hex}.png", ""
+
+    conv = Conversion(
+        uid=uid, tool_slug="merge-photo-sign", tool_label="Merge Photo & Sign",
+        file_name=base_image.filename or "photo.png", file_size=len(base_data),
+        input_r2_key=input_key, input_r2_url=input_url,
+        output_r2_key=out_key, output_r2_url=out_url,
+        status="completed",
+    )
+    db.add(conv)
+    await db.flush()
+    return conv
+
+
+# ── 5. PDF Merge (multiple files) ─────────────────────────────────────────────
 
 @router.post("/pdf-merge/merge", response_model=ConversionOut)
 async def merge_pdfs(
@@ -152,15 +221,10 @@ async def merge_pdfs(
     out_url = r2_service.upload_bytes(merged, out_key)
 
     conv = Conversion(
-        uid=uid,
-        tool_slug="pdf-merge",
-        tool_label="Merge PDF",
-        file_name="merged.pdf",
-        file_size=len(merged),
-        input_r2_key="",
-        input_r2_url="",
-        output_r2_key=out_key,
-        output_r2_url=out_url,
+        uid=uid, tool_slug="pdf-merge", tool_label="Merge PDF",
+        file_name="merged.pdf", file_size=len(merged),
+        input_r2_key="", input_r2_url="",
+        output_r2_key=out_key, output_r2_url=out_url,
         status="completed",
     )
     db.add(conv)
@@ -168,7 +232,7 @@ async def merge_pdfs(
     return conv
 
 
-# ── 4. Get a conversion record ────────────────────────────────────────────────
+# ── 6. Get a conversion record ────────────────────────────────────────────────
 
 @router.get("/conversion/{conversion_id}", response_model=ConversionOut)
 async def get_conversion(
