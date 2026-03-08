@@ -143,8 +143,8 @@ const Profile = () => {
             <div className={`w-full py-3 rounded-2xl flex items-center justify-center gap-2 ${
               plan === "Pro" ? "text-white" : "border border-border bg-muted/40"
             }`}
-              style={plan === "Pro" ? { background: "var(--gradient-brand)" } : {}}>
-              <Star className={`w-4 h-4 ${plan === "Pro" ? "text-white" : "text-amber-400"}`} />
+              style={(plan as string) === "Pro" ? { background: "var(--gradient-brand)" } : {}}>
+              <Star className={`w-4 h-4 ${(plan as string) === "Pro" ? "text-white" : "text-amber-400"}`} />
               <span className="text-sm font-bold">{plan} Plan</span>
             </div>
 

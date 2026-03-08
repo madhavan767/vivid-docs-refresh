@@ -35,6 +35,7 @@ const App = () => (
             <Route path="/tools/:slug" element={<ProtectedRoute><ToolPage /></ProtectedRoute>} />
             <Route path="/create-doc" element={<ProtectedRoute><CreateDoc /></ProtectedRoute>} />
             <Route path="/favorites" element={<ProtectedRoute><Favorites /></ProtectedRoute>} />
+            <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
 
             {/* Catch-all */}
             <Route path="*" element={<NotFound />} />
