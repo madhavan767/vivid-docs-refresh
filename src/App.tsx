@@ -13,6 +13,7 @@ import ToolPage from "./pages/ToolPage";
 import CreateDoc from "./pages/CreateDoc";
 import Favorites from "./pages/Favorites";
 import NotFound from "./pages/NotFound";
+import Profile from "./pages/Profile";
 
 const queryClient = new QueryClient();
 
@@ -34,6 +35,7 @@ const App = () => (
             <Route path="/tools/:slug" element={<ProtectedRoute><ToolPage /></ProtectedRoute>} />
             <Route path="/create-doc" element={<ProtectedRoute><CreateDoc /></ProtectedRoute>} />
             <Route path="/favorites" element={<ProtectedRoute><Favorites /></ProtectedRoute>} />
+            <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
 
             {/* Catch-all */}
             <Route path="*" element={<NotFound />} />

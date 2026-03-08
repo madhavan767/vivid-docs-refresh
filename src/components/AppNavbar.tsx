@@ -1,6 +1,6 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { Menu, X, Home, Wrench, FilePlus, Star, LogOut, ChevronDown } from "lucide-react";
+import { Menu, X, Home, Wrench, FilePlus, Star, LogOut, ChevronDown, UserCircle } from "lucide-react";
 import logo from "@/assets/viadocs-logo.png";
 import { useAuth } from "@/contexts/AuthContext";
 
@@ -80,6 +80,10 @@ const AppNavbar = () => {
                 <p className="text-xs text-muted-foreground">Signed in as</p>
                 <p className="text-sm font-semibold truncate">{user?.email}</p>
               </div>
+              <Link to="/profile" onClick={() => setProfileOpen(false)}
+                className="w-full flex items-center gap-2 px-4 py-3 text-sm font-semibold hover:bg-muted/50 transition-colors">
+                <UserCircle className="w-4 h-4 text-muted-foreground" /> My Profile
+              </Link>
               <button
                 onClick={handleSignOut}
                 className="w-full flex items-center gap-2 px-4 py-3 text-sm font-semibold text-red-500 hover:bg-red-50 transition-colors"
