@@ -1,10 +1,8 @@
 import { motion } from "framer-motion";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Clock, FileText, CheckCircle, Search } from "lucide-react";
 import AppNavbar from "@/components/AppNavbar";
 import Footer from "@/components/Footer";
-import { filesApi, Conversion } from "@/config/api";
-import { useAuth } from "@/contexts/AuthContext";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 20 },
@@ -14,45 +12,32 @@ const fadeUp = {
   }),
 };
 
+const mockConversions = [
+  { id: "1", tool_label: "PDF to Word",    file_name: "report_final.pdf",    file_size: 204800,  status: "completed", created_at: new Date().toISOString() },
+  { id: "2", tool_label: "PDF Merge",      file_name: "slides_combined.pdf", file_size: 1048576, status: "completed", created_at: new Date().toISOString() },
+  { id: "3", tool_label: "Image to PDF",   file_name: "scan_page1.png",      file_size: 512000,  status: "completed", created_at: new Date().toISOString() },
+  { id: "4", tool_label: "PDF Compress",   file_name: "manual_v2.pdf",       file_size: 3145728, status: "completed", created_at: new Date().toISOString() },
+];
+
+const formatSize = (bytes: number) => {
+  if (!bytes) return "—";
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+  return `${(bytes / 1024 / 1024).toFixed(2)} MB`;
+};
+
+const formatDate = (iso: string) => {
+  const d = new Date(iso);
+  return d.toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" });
+};
+
 const Favorites = () => {
-  const { user } = useAuth();
-  const [conversions, setConversions] = useState<Conversion[]>([]);
-  const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
 
-  const fetchConversions = async () => {
-    if (!user) return;
-    setLoading(true);
-    try {
-      const data = await filesApi.list();
-      setConversions(data);
-    } catch {
-      setConversions([]);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchConversions();
-  }, [user]);
-
-  const filtered = conversions.filter(
+  const filtered = mockConversions.filter(
     (c) =>
       c.file_name.toLowerCase().includes(search.toLowerCase()) ||
       c.tool_label.toLowerCase().includes(search.toLowerCase())
   );
-
-  const formatSize = (bytes: number) => {
-    if (!bytes) return "—";
-    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
-    return `${(bytes / 1024 / 1024).toFixed(2)} MB`;
-  };
-
-  const formatDate = (iso: string) => {
-    const d = new Date(iso);
-    return d.toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" });
-  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -86,25 +71,14 @@ const Favorites = () => {
         </motion.div>
 
         {/* Content */}
-        {loading ? (
-          <div className="text-center py-20">
-            <div className="w-8 h-8 border-2 border-border border-t-primary rounded-full animate-spin mx-auto" />
-            <p className="text-sm text-muted-foreground mt-4">Loading conversions...</p>
-          </div>
-        ) : filtered.length === 0 ? (
+        {filtered.length === 0 ? (
           <motion.div className="text-center py-20" variants={fadeUp} initial="hidden" animate="visible">
             <div className="w-20 h-20 rounded-3xl flex items-center justify-center mx-auto mb-5 shadow-soft"
               style={{ background: "var(--gradient-brand)" }}>
               <FileText className="w-10 h-10 text-white" />
             </div>
-            <h2 className="text-xl font-bold mb-2">
-              {search ? "No results found" : "No conversions yet"}
-            </h2>
-            <p className="text-sm text-muted-foreground max-w-xs mx-auto">
-              {search
-                ? "Try a different search term."
-                : "Start converting files using the Tools page — your history will appear here."}
-            </p>
+            <h2 className="text-xl font-bold mb-2">No results found</h2>
+            <p className="text-sm text-muted-foreground max-w-xs mx-auto">Try a different search term.</p>
           </motion.div>
         ) : (
           <motion.div className="space-y-3 pb-16" variants={fadeUp} initial="hidden" animate="visible" custom={2}>
@@ -129,28 +103,10 @@ const Favorites = () => {
                       <span className="text-[11px] text-muted-foreground">{formatSize(c.file_size)}</span>
                     )}
                   </div>
-                  {/* R2 download link if available */}
-                  {c.output_r2_url && (
-                    <a
-                      href={c.output_r2_url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-[11px] font-semibold mt-1 inline-flex items-center gap-1 hover:underline"
-                      style={{ color: "hsl(var(--brand-blue))" }}
-                    >
-                      ↓ Download converted file
-                    </a>
-                  )}
                 </div>
                 <div className="text-right flex-shrink-0">
                   <p className="text-[11px] text-muted-foreground">{formatDate(c.created_at)}</p>
-                  <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full mt-1 inline-block ${
-                    c.status === "completed"
-                      ? "text-green-600 bg-green-50"
-                      : c.status === "failed"
-                        ? "text-red-500 bg-red-50"
-                        : "text-yellow-600 bg-yellow-50"
-                  }`}>
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full mt-1 inline-block text-green-600 bg-green-50">
                     {c.status}
                   </span>
                 </div>
