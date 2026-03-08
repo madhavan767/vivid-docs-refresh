@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import AppNavbar from "@/components/AppNavbar";
 import Footer from "@/components/Footer";
+import GuestUpgradeModal from "@/components/GuestUpgradeModal";
 import { useAuth } from "@/contexts/AuthContext";
 import { useState } from "react";
 
@@ -78,10 +79,22 @@ const faqs = [
 ];
 
 const Home = () => {
-  const { user } = useAuth();
+  const { user, isGuest, guestId } = useAuth();
   const [openFaq, setOpenFaq] = useState<number | null>(null);
-  // Firebase user: displayName or email prefix
-  const displayName = user?.displayName || user?.email?.split("@")[0] || "there";
+  const [upgradeModal, setUpgradeModal] = useState<{ open: boolean; featureName?: string }>({ open: false });
+
+  // Firebase user: displayName or email prefix; guest: show guest ID
+  const displayName = isGuest
+    ? guestId ?? "Guest"
+    : (user?.displayName || user?.email?.split("@")[0] || "there");
+
+  // Helper: click handler for locked features in guest mode
+  const lockedClick = (featureName: string) => (e: React.MouseEvent) => {
+    if (isGuest) {
+      e.preventDefault();
+      setUpgradeModal({ open: true, featureName });
+    }
+  };
 
   // Mock recent activity for frontend demo (replace with API call)
   const mockRecent = [
@@ -91,6 +104,11 @@ const Home = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <GuestUpgradeModal
+        open={upgradeModal.open}
+        onClose={() => setUpgradeModal({ open: false })}
+        featureName={upgradeModal.featureName}
+      />
       <AppNavbar />
 
       {/* ── Hero ── */}
@@ -116,7 +134,7 @@ const Home = () => {
 
               <motion.h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-[1.1] mb-5"
                 variants={fadeUp} initial="hidden" animate="visible" custom={1}>
-                Welcome back,{" "}
+                {isGuest ? "Welcome, " : "Welcome back, "}{" "}
                 <span className="gradient-text">{displayName}!</span>
               </motion.h1>
 
@@ -131,7 +149,7 @@ const Home = () => {
                   className="btn-gradient inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-bold text-sm shadow-soft">
                   Explore Tools <ChevronRight className="w-4 h-4" />
                 </Link>
-                <Link to="/create-doc"
+                <Link to="/create-doc" onClick={lockedClick("Document Editor")}
                   className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-bold text-sm bg-card border border-border text-foreground hover:border-primary hover:text-primary transition-all duration-300 shadow-card">
                   <Plus className="w-4 h-4" /> Create Document
                 </Link>
@@ -185,8 +203,14 @@ const Home = () => {
               {/* Bottom row */}
               <div className="grid grid-cols-2 gap-4">
                 {/* Create Doc */}
-                <Link to="/create-doc"
-                  className="card-glass rounded-2xl p-4 shadow-card border border-border flex flex-col gap-3 group hover:border-primary/40 transition-all duration-200">
+                <Link to="/create-doc" onClick={lockedClick("Document Editor")}
+                  className="card-glass rounded-2xl p-4 shadow-card border border-border flex flex-col gap-3 group hover:border-primary/40 transition-all duration-200 relative overflow-hidden">
+                  {isGuest && (
+                    <span className="absolute top-2 right-2 w-5 h-5 rounded-full flex items-center justify-center"
+                      style={{ background: "hsl(var(--brand-blue) / 0.15)" }}>
+                      <Lock className="w-2.5 h-2.5 text-primary" />
+                    </span>
+                  )}
                   <div className="w-10 h-10 rounded-xl flex items-center justify-center"
                     style={{ background: "var(--gradient-brand)" }}>
                     <BookOpen className="w-5 h-5 text-white" />
@@ -196,7 +220,7 @@ const Home = () => {
                     <p className="text-[10px] text-muted-foreground mt-0.5">Word-style editor</p>
                   </div>
                   <span className="btn-gradient text-[10px] font-bold px-3 py-1 rounded-full inline-flex items-center gap-1 w-fit">
-                    Open <ArrowRight className="w-2.5 h-2.5" />
+                    {isGuest ? <><Lock className="w-2.5 h-2.5" /> Unlock</> : <>{`Open `}<ArrowRight className="w-2.5 h-2.5" /></>}
                   </span>
                 </Link>
 
@@ -224,7 +248,7 @@ const Home = () => {
                           </div>
                         </div>
                       ))}
-                      <Link to="/favorites" className="text-[10px] font-bold text-primary flex items-center gap-1 hover:underline mt-1">
+                      <Link to="/favorites" onClick={lockedClick("Favorites")} className="text-[10px] font-bold text-primary flex items-center gap-1 hover:underline mt-1">
                         View all <ArrowRight className="w-2.5 h-2.5" />
                       </Link>
                     </div>
@@ -263,9 +287,9 @@ const Home = () => {
                   <h3 className="font-bold text-base mb-2">{f.title}</h3>
                   <p className="text-xs text-muted-foreground leading-relaxed">{f.desc}</p>
                 </div>
-                <Link to={f.link}
+                <Link to={f.link} onClick={f.link !== "/tools" ? lockedClick(f.title) : undefined}
                   className="inline-flex items-center gap-1.5 text-xs font-bold text-primary hover:underline">
-                  {f.cta} <ArrowRight className="w-3.5 h-3.5" />
+                  {isGuest && f.link !== "/tools" ? <><Lock className="w-3 h-3" /> Unlock</> : <>{f.cta} <ArrowRight className="w-3.5 h-3.5" /></>}
                 </Link>
               </motion.div>
             ))}
