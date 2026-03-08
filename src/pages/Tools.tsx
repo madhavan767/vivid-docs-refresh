@@ -33,14 +33,14 @@ const pdfTools = [
 ];
 
 const imageTools = [
-  { icon: Crop,       label: "Image Resize",        desc: "Resize images to any dimension",           slug: "image-resize",        comingSoon: false },
-  { icon: Maximize2,  label: "Image Upscale",        desc: "AI-powered image upscaling up to 4×",      slug: "image-upscale",       comingSoon: true  },
-  { icon: ImageDown,  label: "Image to ICO",         desc: "Convert images to .ico favicon format",    slug: "image-to-ico",        comingSoon: false },
-  { icon: ScanLine,   label: "Image to SVG",         desc: "Vectorize raster images into SVG",         slug: "image-to-svg",        comingSoon: true  },
-  { icon: Minimize2,  label: "Compress Image",       desc: "Reduce image file size without quality loss", slug: "compress-image",   comingSoon: false },
-  { icon: RefreshCw,  label: "Remove Background",    desc: "AI-powered background removal",            slug: "remove-background",   comingSoon: true  },
-  { icon: Layers,     label: "Merge Photo & Sign",   desc: "Overlay a signature onto a photo/doc",     slug: "merge-photo-sign",    comingSoon: false },
-  { icon: PenTool,    label: "Add Watermark",        desc: "Stamp text or image watermark on photos",  slug: "add-watermark-image", comingSoon: false },
+  { icon: Crop,       label: "Image Resize",        desc: "Resize images to any dimension",              slug: "image-resize",        },
+  { icon: Maximize2,  label: "Image Upscale",        desc: "AI-powered image upscaling up to 4×",         slug: "image-upscale",       },
+  { icon: ImageDown,  label: "Image to ICO",         desc: "Convert images to .ico favicon format",       slug: "image-to-ico",        },
+  { icon: ScanLine,   label: "Image to SVG",         desc: "Vectorize raster images into SVG",            slug: "image-to-svg",        },
+  { icon: Minimize2,  label: "Compress Image",       desc: "Reduce image file size without quality loss", slug: "compress-image",      },
+  { icon: RefreshCw,  label: "Remove Background",    desc: "AI-powered background removal",               slug: "remove-background",   },
+  { icon: Layers,     label: "Merge Photo & Sign",   desc: "Overlay a signature onto a photo/doc",        slug: "merge-photo-sign",    },
+  { icon: PenTool,    label: "Add Watermark",        desc: "Stamp text or image watermark on photos",     slug: "add-watermark-image", },
 ];
 
 const features = [
@@ -204,44 +204,25 @@ const Tools = () => {
                 key={tool.slug}
                 variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={i % 8}
               >
-                {tool.comingSoon ? (
-                  <div className="card-glass rounded-2xl p-6 flex flex-col items-center gap-3 shadow-card text-center opacity-70 cursor-not-allowed relative">
-                    <div
-                      className="w-14 h-14 rounded-2xl flex items-center justify-center shadow-soft"
-                      style={{ background: "hsl(var(--muted))" }}
-                    >
-                      <tool.icon className="w-7 h-7 text-muted-foreground" />
-                    </div>
-                    <p className="font-bold text-sm">{tool.label}</p>
-                    <p className="text-xs text-muted-foreground leading-snug">{tool.desc}</p>
-                    <span
-                      className="mt-1 text-[10px] font-bold px-2.5 py-0.5 rounded-full"
-                      style={{ background: "hsl(var(--brand-indigo) / 0.12)", color: "hsl(var(--brand-indigo))" }}
-                    >
-                      Coming Soon
-                    </span>
-                  </div>
-                ) : (
-                  <Link
-                    to={`/tools/${tool.slug}`}
-                    className="card-glass rounded-2xl p-6 flex flex-col items-center gap-3 shadow-card text-center group block"
+                <Link
+                  to={`/tools/${tool.slug}`}
+                  className="card-glass rounded-2xl p-6 flex flex-col items-center gap-3 shadow-card text-center group block"
+                >
+                  <div
+                    className="w-14 h-14 rounded-2xl flex items-center justify-center shadow-soft transition-transform duration-300 group-hover:scale-110"
+                    style={{ background: "var(--gradient-brand)" }}
                   >
-                    <div
-                      className="w-14 h-14 rounded-2xl flex items-center justify-center shadow-soft transition-transform duration-300 group-hover:scale-110"
-                      style={{ background: "var(--gradient-brand)" }}
-                    >
-                      <tool.icon className="w-7 h-7 text-white" />
-                    </div>
-                    <p className="font-bold text-sm">{tool.label}</p>
-                    <p className="text-xs text-muted-foreground leading-snug">{tool.desc}</p>
-                    <span
-                      className="mt-1 text-[10px] font-bold px-2.5 py-0.5 rounded-full"
-                      style={{ background: "hsl(var(--brand-teal) / 0.1)", color: "hsl(var(--brand-teal))" }}
-                    >
-                      Free
-                    </span>
-                  </Link>
-                )}
+                    <tool.icon className="w-7 h-7 text-white" />
+                  </div>
+                  <p className="font-bold text-sm">{tool.label}</p>
+                  <p className="text-xs text-muted-foreground leading-snug">{tool.desc}</p>
+                  <span
+                    className="mt-1 text-[10px] font-bold px-2.5 py-0.5 rounded-full"
+                    style={{ background: "hsl(var(--brand-teal) / 0.1)", color: "hsl(var(--brand-teal))" }}
+                  >
+                    Free
+                  </span>
+                </Link>
               </motion.div>
             ))}
           </div>

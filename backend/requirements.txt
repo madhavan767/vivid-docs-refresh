@@ -21,6 +21,9 @@ Pillow==10.3.0
 # Office → PDF (calls LibreOffice CLI)
 # LibreOffice must be installed on the server: apt install libreoffice
 
+# Image tools — background removal
+rembg==2.0.57
+
 # Cloudflare R2 (S3-compatible)
 boto3==1.34.112
 
