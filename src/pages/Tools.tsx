@@ -33,14 +33,14 @@ const pdfTools = [
 ];
 
 const imageTools = [
-  { icon: Crop,       label: "Image Resize",        desc: "Resize images to any dimension",           slug: "image-resize",        comingSoon: false },
-  { icon: Maximize2,  label: "Image Upscale",        desc: "AI-powered image upscaling up to 4×",      slug: "image-upscale",       comingSoon: true  },
-  { icon: ImageDown,  label: "Image to ICO",         desc: "Convert images to .ico favicon format",    slug: "image-to-ico",        comingSoon: false },
-  { icon: ScanLine,   label: "Image to SVG",         desc: "Vectorize raster images into SVG",         slug: "image-to-svg",        comingSoon: true  },
-  { icon: Minimize2,  label: "Compress Image",       desc: "Reduce image file size without quality loss", slug: "compress-image",   comingSoon: false },
-  { icon: RefreshCw,  label: "Remove Background",    desc: "AI-powered background removal",            slug: "remove-background",   comingSoon: true  },
-  { icon: Layers,     label: "Merge Photo & Sign",   desc: "Overlay a signature onto a photo/doc",     slug: "merge-photo-sign",    comingSoon: false },
-  { icon: PenTool,    label: "Add Watermark",        desc: "Stamp text or image watermark on photos",  slug: "add-watermark-image", comingSoon: false },
+  { icon: Crop,       label: "Image Resize",        desc: "Resize images to any dimension",              slug: "image-resize",        },
+  { icon: Maximize2,  label: "Image Upscale",        desc: "AI-powered image upscaling up to 4×",         slug: "image-upscale",       },
+  { icon: ImageDown,  label: "Image to ICO",         desc: "Convert images to .ico favicon format",       slug: "image-to-ico",        },
+  { icon: ScanLine,   label: "Image to SVG",         desc: "Vectorize raster images into SVG",            slug: "image-to-svg",        },
+  { icon: Minimize2,  label: "Compress Image",       desc: "Reduce image file size without quality loss", slug: "compress-image",      },
+  { icon: RefreshCw,  label: "Remove Background",    desc: "AI-powered background removal",               slug: "remove-background",   },
+  { icon: Layers,     label: "Merge Photo & Sign",   desc: "Overlay a signature onto a photo/doc",        slug: "merge-photo-sign",    },
+  { icon: PenTool,    label: "Add Watermark",        desc: "Stamp text or image watermark on photos",     slug: "add-watermark-image", },
 ];
 
 const features = [
