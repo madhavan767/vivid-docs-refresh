@@ -9,8 +9,6 @@ import {
 import { Link, useParams } from "react-router-dom";
 import AppNavbar from "@/components/AppNavbar";
 import Footer from "@/components/Footer";
-import { filesApi } from "@/config/api";
-import { useAuth } from "@/contexts/AuthContext";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 20 },
@@ -166,7 +164,6 @@ const ToolPage = () => {
   const { slug = "pdf-to-word" } = useParams<{ slug: string }>();
   const tool = toolMap[slug] ?? toolMap["pdf-to-word"];
   const Icon = tool.icon;
-  const { user } = useAuth();
 
   const [dragging, setDragging] = useState(false);
   const [file, setFile] = useState<File | null>(null);
@@ -190,7 +187,6 @@ const ToolPage = () => {
     setStep("converting");
     setProgress(0);
 
-    // Animate progress bar
     const ticker = setInterval(() => {
       setProgress((p) => {
         if (p >= 90) { clearInterval(ticker); return 90; }
@@ -198,19 +194,8 @@ const ToolPage = () => {
       });
     }, 200);
 
-    try {
-      const uploaded = await filesApi.upload(file);
-      await filesApi.convert({
-        tool_slug: slug,
-        tool_label: tool.label,
-        input_r2_url: uploaded.r2_url,
-        file_name: uploaded.file_name,
-        file_size: uploaded.file_size,
-      });
-    } catch {
-      // Backend not connected yet — simulate success for frontend demo
-      console.warn("[Viadocs] Backend not connected — simulating conversion.");
-    }
+    // Simulate conversion (no backend)
+    await new Promise(r => setTimeout(r, 2000));
 
     clearInterval(ticker);
     setProgress(100);
@@ -447,25 +432,6 @@ const ToolPage = () => {
           </AnimatePresence>
         </motion.div>
 
-        {/* Not logged in notice */}
-        {!user && (
-          <motion.div
-            className="mt-4 rounded-2xl px-5 py-4 flex items-center gap-3 border border-border"
-            style={{ background: "hsl(var(--brand-blue) / 0.05)" }}
-            variants={fadeUp} initial="hidden" animate="visible" custom={5}
-          >
-            <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"
-              style={{ background: "var(--gradient-brand)" }}>
-              <CheckCircle className="w-4 h-4 text-white" />
-            </div>
-            <p className="text-xs text-muted-foreground flex-1">
-              <span className="font-semibold text-foreground">Sign in</span> to save conversion history and download files later.
-            </p>
-            <Link to="/login" className="btn-gradient px-4 py-1.5 rounded-full text-xs font-bold flex-shrink-0">
-              Sign In
-            </Link>
-          </motion.div>
-        )}
       </section>
 
       {/* ── SEO section ── */}
