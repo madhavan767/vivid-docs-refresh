@@ -4,7 +4,7 @@ import {
   FileText, FileDown, GitMerge, Scissors, Minimize2, Image, Download,
   Lock, Unlock, Table, Monitor, ArrowLeft, Zap, Shield, Sparkles, Globe, Users, Gift
 } from "lucide-react";
-import Navbar from "@/components/Navbar";
+import AppNavbar from "@/components/AppNavbar";
 import Footer from "@/components/Footer";
 
 const fadeUp = {
@@ -60,11 +60,11 @@ const whyPoints = [
 const Tools = () => {
   return (
     <div className="min-h-screen bg-background">
-      <Navbar />
+      <AppNavbar />
 
       <div className="pt-24 pb-4 max-w-7xl mx-auto px-6">
         <Link
-          to="/"
+          to="/home"
           className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold bg-foreground text-background hover:opacity-90 transition-all duration-200 mt-4"
         >
           <ArrowLeft className="w-4 h-4" /> Back
