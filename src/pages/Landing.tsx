@@ -118,7 +118,6 @@ const Landing = () => {
           <div className="hidden md:flex items-center gap-6">
             <a href="#features" className="text-sm font-semibold text-muted-foreground hover:text-foreground transition-colors">Features</a>
             <a href="#tools" className="text-sm font-semibold text-muted-foreground hover:text-foreground transition-colors">Tools</a>
-            <a href="#pricing" className="text-sm font-semibold text-muted-foreground hover:text-foreground transition-colors">Pricing</a>
           </div>
           <div className="flex items-center gap-3">
             <Link to="/login" className="text-sm font-semibold text-muted-foreground hover:text-foreground transition-colors hidden md:block">
@@ -448,7 +447,7 @@ const Landing = () => {
               className="btn-gradient inline-flex items-center gap-2 px-10 py-4 rounded-full font-bold text-base shadow-hover">
               Get Started — It's Free <ChevronRight className="w-5 h-5" />
             </Link>
-            <p className="text-xs text-muted-foreground mt-4">No credit card required · Free forever plan</p>
+            <p className="text-xs text-muted-foreground mt-4">100% free · No sign-up required for most tools</p>
           </motion.div>
         </div>
       </section>
