@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import {
   FileText, FileDown, GitMerge, Scissors, Minimize2, Image, Download,
-  Lock, Unlock, Table, Monitor, Plus, Upload, Sparkles, Zap, Shield,
+  Lock, Unlock, Table, Monitor, Sparkles, Zap, Shield,
   Users, Globe, Gift, ChevronRight, CheckCircle
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
