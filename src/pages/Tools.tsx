@@ -3,7 +3,8 @@ import { Link } from "react-router-dom";
 import {
   FileText, FileDown, GitMerge, Scissors, Minimize2, Image, Download,
   Lock, Unlock, Table, Monitor, Zap, Shield, Sparkles, Globe, Users,
-  Gift, ChevronRight, ArrowLeft,
+  Gift, ChevronRight, ArrowLeft, ImageDown, Maximize2, Layers, Crop,
+  RefreshCw, PenTool, ScanLine,
 } from "lucide-react";
 import AppNavbar from "@/components/AppNavbar";
 import Footer from "@/components/Footer";
@@ -17,18 +18,29 @@ const fadeUp = {
   }),
 };
 
-const tools = [
-  { icon: FileText,  label: "PDF to Word",       desc: "Convert PDF into editable Word docs",   slug: "pdf-to-word",       color: "hsl(var(--brand-blue))" },
-  { icon: FileDown,  label: "Word to PDF",        desc: "Export Word files into PDF",             slug: "word-to-pdf",       color: "hsl(var(--brand-teal))" },
-  { icon: GitMerge,  label: "PDF Merge",          desc: "Combine multiple PDFs into one",         slug: "pdf-merge",         color: "hsl(var(--brand-blue))" },
-  { icon: Scissors,  label: "PDF Split",          desc: "Extract specific pages from PDF",        slug: "pdf-split",         color: "hsl(var(--brand-indigo))" },
-  { icon: Minimize2, label: "PDF Compress",       desc: "Reduce the size of PDFs",                slug: "pdf-compress",      color: "hsl(var(--brand-teal))" },
-  { icon: Image,     label: "Image to PDF",       desc: "Convert images into a PDF file",         slug: "image-to-pdf",      color: "hsl(var(--brand-blue))" },
-  { icon: Download,  label: "PDF to Image",       desc: "Save PDF pages as images",               slug: "pdf-to-image",      color: "hsl(var(--brand-indigo))" },
-  { icon: Lock,      label: "Password Protect",   desc: "Add a password to your PDF",             slug: "password-protect",  color: "hsl(var(--brand-blue))" },
-  { icon: Unlock,    label: "Unlock PDF",         desc: "Remove PDF restrictions",                slug: "unlock-pdf",        color: "hsl(var(--brand-teal))" },
-  { icon: Table,     label: "Excel to PDF",       desc: "Convert spreadsheets into PDF",          slug: "excel-to-pdf",      color: "hsl(var(--brand-blue))" },
-  { icon: Monitor,   label: "PowerPoint to PDF",  desc: "Save slides into PDF format",            slug: "powerpoint-to-pdf", color: "hsl(var(--brand-indigo))" },
+const pdfTools = [
+  { icon: FileText,  label: "PDF to Word",       desc: "Convert PDF into editable Word docs",   slug: "pdf-to-word",       },
+  { icon: FileDown,  label: "Word to PDF",        desc: "Export Word files into PDF",             slug: "word-to-pdf",       },
+  { icon: GitMerge,  label: "PDF Merge",          desc: "Combine multiple PDFs into one",         slug: "pdf-merge",         },
+  { icon: Scissors,  label: "PDF Split",          desc: "Extract specific pages from PDF",        slug: "pdf-split",         },
+  { icon: Minimize2, label: "PDF Compress",       desc: "Reduce the size of PDFs",                slug: "pdf-compress",      },
+  { icon: Image,     label: "Image to PDF",       desc: "Convert images into a PDF file",         slug: "image-to-pdf",      },
+  { icon: Download,  label: "PDF to Image",       desc: "Save PDF pages as images",               slug: "pdf-to-image",      },
+  { icon: Lock,      label: "Password Protect",   desc: "Add a password to your PDF",             slug: "password-protect",  },
+  { icon: Unlock,    label: "Unlock PDF",         desc: "Remove PDF restrictions",                slug: "unlock-pdf",        },
+  { icon: Table,     label: "Excel to PDF",       desc: "Convert spreadsheets into PDF",          slug: "excel-to-pdf",      },
+  { icon: Monitor,   label: "PowerPoint to PDF",  desc: "Save slides into PDF format",            slug: "powerpoint-to-pdf", },
+];
+
+const imageTools = [
+  { icon: Crop,       label: "Image Resize",        desc: "Resize images to any dimension",           slug: "image-resize",        comingSoon: false },
+  { icon: Maximize2,  label: "Image Upscale",        desc: "AI-powered image upscaling up to 4×",      slug: "image-upscale",       comingSoon: true  },
+  { icon: ImageDown,  label: "Image to ICO",         desc: "Convert images to .ico favicon format",    slug: "image-to-ico",        comingSoon: false },
+  { icon: ScanLine,   label: "Image to SVG",         desc: "Vectorize raster images into SVG",         slug: "image-to-svg",        comingSoon: true  },
+  { icon: Minimize2,  label: "Compress Image",       desc: "Reduce image file size without quality loss", slug: "compress-image",   comingSoon: false },
+  { icon: RefreshCw,  label: "Remove Background",    desc: "AI-powered background removal",            slug: "remove-background",   comingSoon: true  },
+  { icon: Layers,     label: "Merge Photo & Sign",   desc: "Overlay a signature onto a photo/doc",     slug: "merge-photo-sign",    comingSoon: false },
+  { icon: PenTool,    label: "Add Watermark",        desc: "Stamp text or image watermark on photos",  slug: "add-watermark-image", comingSoon: false },
 ];
 
 const features = [
@@ -89,7 +101,7 @@ const Tools = () => {
                 className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold tracking-wider uppercase mb-5"
                 style={{ background: "hsl(var(--brand-blue) / 0.1)", color: "hsl(var(--brand-blue))", border: "1px solid hsl(var(--brand-blue) / 0.25)" }}
               >
-                <Zap className="w-3.5 h-3.5" /> 11 Powerful PDF Tools
+                <Zap className="w-3.5 h-3.5" /> 19 Powerful Tools
               </span>
             </motion.div>
 
@@ -127,43 +139,114 @@ const Tools = () => {
 
       {/* ── Tools Grid ── */}
       <section id="tools-grid" className="pb-24 max-w-6xl mx-auto px-6">
+
+        {/* PDF Tools */}
         <motion.div
-          className="text-center mb-10"
+          className="mb-6"
           variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }}
         >
-          <h2 className="text-2xl md:text-3xl font-extrabold">
-            Pick a <span className="gradient-text">Tool</span> to Get Started
-          </h2>
+          <div className="flex items-center gap-3 mb-6">
+            <span
+              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider"
+              style={{ background: "hsl(var(--brand-blue) / 0.1)", color: "hsl(var(--brand-blue))", border: "1px solid hsl(var(--brand-blue) / 0.2)" }}
+            >
+              <FileText className="w-3 h-3" /> PDF Tools
+            </span>
+            <div className="flex-1 h-px bg-border" />
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+            {pdfTools.map((tool, i) => (
+              <motion.div
+                key={tool.slug}
+                variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={i % 8}
+              >
+                <Link
+                  to={`/tools/${tool.slug}`}
+                  className="card-glass rounded-2xl p-6 flex flex-col items-center gap-3 shadow-card text-center group block"
+                >
+                  <div
+                    className="w-14 h-14 rounded-2xl flex items-center justify-center shadow-soft transition-transform duration-300 group-hover:scale-110"
+                    style={{ background: "var(--gradient-brand)" }}
+                  >
+                    <tool.icon className="w-7 h-7 text-white" />
+                  </div>
+                  <p className="font-bold text-sm">{tool.label}</p>
+                  <p className="text-xs text-muted-foreground leading-snug">{tool.desc}</p>
+                  <span
+                    className="mt-1 text-[10px] font-bold px-2.5 py-0.5 rounded-full"
+                    style={{ background: "hsl(var(--brand-blue) / 0.1)", color: "hsl(var(--brand-blue))" }}
+                  >
+                    Free
+                  </span>
+                </Link>
+              </motion.div>
+            ))}
+          </div>
         </motion.div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-          {tools.map((tool, i) => (
-            <motion.div
-              key={tool.slug}
-              variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={i % 8}
+        {/* Image Tools */}
+        <motion.div
+          className="mt-14"
+          variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }}
+        >
+          <div className="flex items-center gap-3 mb-6">
+            <span
+              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider"
+              style={{ background: "hsl(var(--brand-teal) / 0.1)", color: "hsl(var(--brand-teal))", border: "1px solid hsl(var(--brand-teal) / 0.2)" }}
             >
-              <Link
-                to={`/tools/${tool.slug}`}
-                className="card-glass rounded-2xl p-6 flex flex-col items-center gap-3 shadow-card text-center group block"
+              <Image className="w-3 h-3" /> Image Tools
+            </span>
+            <div className="flex-1 h-px bg-border" />
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+            {imageTools.map((tool, i) => (
+              <motion.div
+                key={tool.slug}
+                variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={i % 8}
               >
-                <div
-                  className="w-14 h-14 rounded-2xl flex items-center justify-center shadow-soft transition-transform duration-300 group-hover:scale-110"
-                  style={{ background: "var(--gradient-brand)" }}
-                >
-                  <tool.icon className="w-7 h-7 text-white" />
-                </div>
-                <p className="font-bold text-sm">{tool.label}</p>
-                <p className="text-xs text-muted-foreground leading-snug">{tool.desc}</p>
-                <span
-                  className="mt-1 text-[10px] font-bold px-2.5 py-0.5 rounded-full"
-                  style={{ background: "hsl(var(--brand-blue) / 0.1)", color: "hsl(var(--brand-blue))" }}
-                >
-                  Free
-                </span>
-              </Link>
-            </motion.div>
-          ))}
-        </div>
+                {tool.comingSoon ? (
+                  <div className="card-glass rounded-2xl p-6 flex flex-col items-center gap-3 shadow-card text-center opacity-70 cursor-not-allowed relative">
+                    <div
+                      className="w-14 h-14 rounded-2xl flex items-center justify-center shadow-soft"
+                      style={{ background: "hsl(var(--muted))" }}
+                    >
+                      <tool.icon className="w-7 h-7 text-muted-foreground" />
+                    </div>
+                    <p className="font-bold text-sm">{tool.label}</p>
+                    <p className="text-xs text-muted-foreground leading-snug">{tool.desc}</p>
+                    <span
+                      className="mt-1 text-[10px] font-bold px-2.5 py-0.5 rounded-full"
+                      style={{ background: "hsl(var(--brand-indigo) / 0.12)", color: "hsl(var(--brand-indigo))" }}
+                    >
+                      Coming Soon
+                    </span>
+                  </div>
+                ) : (
+                  <Link
+                    to={`/tools/${tool.slug}`}
+                    className="card-glass rounded-2xl p-6 flex flex-col items-center gap-3 shadow-card text-center group block"
+                  >
+                    <div
+                      className="w-14 h-14 rounded-2xl flex items-center justify-center shadow-soft transition-transform duration-300 group-hover:scale-110"
+                      style={{ background: "var(--gradient-brand)" }}
+                    >
+                      <tool.icon className="w-7 h-7 text-white" />
+                    </div>
+                    <p className="font-bold text-sm">{tool.label}</p>
+                    <p className="text-xs text-muted-foreground leading-snug">{tool.desc}</p>
+                    <span
+                      className="mt-1 text-[10px] font-bold px-2.5 py-0.5 rounded-full"
+                      style={{ background: "hsl(var(--brand-teal) / 0.1)", color: "hsl(var(--brand-teal))" }}
+                    >
+                      Free
+                    </span>
+                  </Link>
+                )}
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+
       </section>
 
       {/* ── Work Smarter ── */}
