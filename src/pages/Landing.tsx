@@ -4,11 +4,16 @@ import {
   Sparkles, FileText, FileDown, GitMerge, Scissors, Minimize2, Image,
   Download, Lock, Unlock, Table, Monitor, Zap, Shield, Globe, Users,
   ArrowRight, CheckCircle, Star, ChevronRight,
-  Crop, Maximize2, ImageDown, ScanLine, RefreshCw, Layers, PenTool,
+  Crop, Maximize2, ImageDown, ScanLine, RefreshCw, PenTool,
+  Type, Code2, Key, Calculator, RotateCw, Hash, Code, Binary,
+  Link as LinkIcon, Braces, Terminal, Regex, Percent, DollarSign,
+  Activity, MapPin, Timer, Shuffle, ArrowUpDown, QrCode, Search,
+  BarChart2, Filter, Palette, Camera, Fingerprint, Cpu, AtSign, User,
+  Frame, Eye, Tag, Rss, FileCode, BookOpen, Dice1, Clock,
 } from "lucide-react";
 import logo from "@/assets/viadocs-logo.png";
-import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { toolCategories } from "@/data/toolsData";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 28 },
@@ -18,92 +23,30 @@ const fadeUp = {
   }),
 };
 
-const pdfTools = [
-  { icon: FileText,  label: "PDF to Word",        slug: "pdf-to-word" },
-  { icon: FileDown,  label: "Word to PDF",         slug: "word-to-pdf" },
-  { icon: GitMerge,  label: "Merge PDF",           slug: "pdf-merge" },
-  { icon: Scissors,  label: "Split PDF",           slug: "pdf-split" },
-  { icon: Minimize2, label: "Compress PDF",        slug: "pdf-compress" },
-  { icon: Image,     label: "Image to PDF",        slug: "image-to-pdf" },
-  { icon: Download,  label: "PDF to Image",        slug: "pdf-to-image" },
-  { icon: Lock,      label: "Protect PDF",         slug: "password-protect" },
-  { icon: Unlock,    label: "Unlock PDF",          slug: "unlock-pdf" },
-  { icon: Table,     label: "Excel to PDF",        slug: "excel-to-pdf" },
-  { icon: Monitor,   label: "PowerPoint to PDF",   slug: "powerpoint-to-pdf" },
-];
-
-const imageTools = [
-  { icon: Crop,      label: "Image Resize",        slug: "image-resize" },
-  { icon: Maximize2, label: "Image Upscale",        slug: "image-upscale" },
-  { icon: ImageDown, label: "Image to ICO",         slug: "image-to-ico" },
-  { icon: ScanLine,  label: "Image to SVG",         slug: "image-to-svg" },
-  { icon: Minimize2, label: "Compress Image",       slug: "compress-image" },
-  { icon: RefreshCw, label: "Remove Background",    slug: "remove-background" },
-  { icon: Layers,    label: "Merge Photo & Sign",   slug: "merge-photo-sign" },
-  { icon: PenTool,   label: "Add Watermark",        slug: "add-watermark-image" },
-];
-
-const features = [
-  {
-    icon: Zap,
-    title: "Instant Conversions",
-    desc: "Convert Word, Excel, PowerPoint, and images into PDFs in seconds — without losing formatting.",
-    color: "hsl(var(--brand-blue))",
-  },
-  {
-    icon: Shield,
-    title: "Secure & Private",
-    desc: "Your files are encrypted and processed securely on Cloudflare's global edge network.",
-    color: "hsl(var(--brand-teal))",
-  },
-  {
-    icon: Sparkles,
-    title: "19 Powerful Tools",
-    desc: "From PDF merging to image background removal — everything you need in one place.",
-    color: "hsl(var(--brand-indigo))",
-  },
-  {
-    icon: Globe,
-    title: "Works Everywhere",
-    desc: "100% browser-based. No installation required. Access from any device, anywhere.",
-    color: "hsl(var(--brand-blue))",
-  },
-  {
-    icon: Users,
-    title: "Built for Students & Teams",
-    desc: "Crafted for academic and corporate use. Simplify project reports and documentation.",
-    color: "hsl(var(--brand-teal))",
-  },
-  {
-    icon: Star,
-    title: "Free Forever Plan",
-    desc: "Start with all essential tools for free. Upgrade for unlimited usage and priority processing.",
-    color: "hsl(var(--brand-indigo))",
-  },
-];
-
 const testimonials = [
   {
-    name: "Priya Sharma",
-    role: "Engineering Student, VIT",
-    avatar: "PS",
+    name: "Priya Sharma", role: "Engineering Student, VIT", avatar: "PS",
     text: "Viadocs saves me hours every week. The PDF to Word converter is incredibly accurate — no formatting loss at all!",
   },
   {
-    name: "Arjun Mehta",
-    role: "Product Manager, TCS",
-    avatar: "AM",
+    name: "Arjun Mehta", role: "Product Manager, TCS", avatar: "AM",
     text: "I use Viadocs to convert client proposals and merge reports. Fast, clean, and completely browser-based.",
   },
   {
-    name: "Sneha Rajan",
-    role: "MBA Student, IIM",
-    avatar: "SR",
+    name: "Sneha Rajan", role: "MBA Student, IIM", avatar: "SR",
     text: "The tools are incredibly fast and accurate. I compressed and converted my reports in under a minute!",
   },
 ];
 
-const plans = [];
+const categoryColorMap: Record<string, { bg: string; text: string; border: string; grad: string }> = {
+  pdf:       { bg: "hsl(var(--brand-blue) / 0.1)",   text: "hsl(var(--brand-blue))",   border: "hsl(var(--brand-blue) / 0.25)",   grad: "var(--gradient-brand)" },
+  image:     { bg: "hsl(var(--brand-teal) / 0.1)",   text: "hsl(var(--brand-teal))",   border: "hsl(var(--brand-teal) / 0.25)",   grad: "linear-gradient(135deg, hsl(var(--brand-teal)), hsl(var(--brand-teal) / 0.7))" },
+  text:      { bg: "hsl(220 80% 60% / 0.1)",         text: "hsl(220 80% 60%)",         border: "hsl(220 80% 60% / 0.25)",         grad: "linear-gradient(135deg, hsl(220 80% 60%), hsl(220 80% 45%))" },
+  developer: { bg: "hsl(var(--brand-indigo) / 0.1)", text: "hsl(var(--brand-indigo))", border: "hsl(var(--brand-indigo) / 0.25)", grad: "linear-gradient(135deg, hsl(var(--brand-indigo)), hsl(var(--brand-indigo) / 0.7))" },
+  security:  { bg: "hsl(25 95% 55% / 0.1)",          text: "hsl(25 95% 55%)",          border: "hsl(25 95% 55% / 0.25)",          grad: "linear-gradient(135deg, hsl(25 95% 55%), hsl(20 95% 45%))" },
+  web:       { bg: "hsl(145 65% 42% / 0.1)",         text: "hsl(145 65% 42%)",         border: "hsl(145 65% 42% / 0.25)",         grad: "linear-gradient(135deg, hsl(145 65% 42%), hsl(145 65% 30%))" },
+  utility:   { bg: "hsl(345 80% 55% / 0.1)",         text: "hsl(345 80% 55%)",         border: "hsl(345 80% 55% / 0.25)",         grad: "linear-gradient(135deg, hsl(345 80% 55%), hsl(345 80% 40%))" },
+};
 
 const Landing = () => {
   return (
@@ -116,8 +59,8 @@ const Landing = () => {
             <span className="font-extrabold text-lg tracking-widest gradient-text uppercase">Viadocs</span>
           </Link>
           <div className="hidden md:flex items-center gap-6">
-            <a href="#features" className="text-sm font-semibold text-muted-foreground hover:text-foreground transition-colors">Features</a>
             <a href="#tools" className="text-sm font-semibold text-muted-foreground hover:text-foreground transition-colors">Tools</a>
+            <a href="#features" className="text-sm font-semibold text-muted-foreground hover:text-foreground transition-colors">Features</a>
           </div>
           <div className="flex items-center gap-3">
             <Link to="/login" className="text-sm font-semibold text-muted-foreground hover:text-foreground transition-colors hidden md:block">
@@ -131,7 +74,7 @@ const Landing = () => {
       </nav>
 
       {/* ── Hero ── */}
-      <section className="relative pt-32 pb-24 overflow-hidden">
+      <section className="relative pt-32 pb-20 overflow-hidden">
         <div className="absolute inset-0 pointer-events-none"
           style={{ background: "var(--gradient-hero-glow), var(--gradient-teal-glow)" }} />
         <div className="absolute top-[-10%] right-[-5%] w-[600px] h-[600px] rounded-full opacity-[0.07] blur-3xl"
@@ -139,230 +82,152 @@ const Landing = () => {
         <div className="absolute bottom-0 left-[-5%] w-[400px] h-[400px] rounded-full opacity-[0.05] blur-3xl"
           style={{ background: "hsl(var(--brand-teal))" }} />
 
-        <div className="max-w-7xl mx-auto px-6 relative z-10">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            {/* Left */}
-            <div>
-              <motion.div variants={fadeUp} initial="hidden" animate="visible" custom={0}>
-                <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold tracking-wider uppercase mb-6"
-                  style={{ background: "hsl(var(--brand-blue) / 0.1)", color: "hsl(var(--brand-blue))", border: "1px solid hsl(var(--brand-blue) / 0.25)" }}>
-                  <Sparkles className="w-3.5 h-3.5" /> All-in-One · Free · Instant
-                </span>
-              </motion.div>
+        <div className="max-w-5xl mx-auto px-6 relative z-10 text-center">
+          <motion.div variants={fadeUp} initial="hidden" animate="visible" custom={0}>
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold tracking-wider uppercase mb-6"
+              style={{ background: "hsl(var(--brand-blue) / 0.1)", color: "hsl(var(--brand-blue))", border: "1px solid hsl(var(--brand-blue) / 0.25)" }}>
+              <Sparkles className="w-3.5 h-3.5" /> Free · Open Source · No Sign-up Required
+            </span>
+          </motion.div>
 
-              <motion.h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold leading-[1.05] mb-6"
-                variants={fadeUp} initial="hidden" animate="visible" custom={1}>
-                Document Tools{" "}
-                <span className="gradient-text">Reimagined</span>
-                {" "}for India
-              </motion.h1>
+          <motion.h1 className="text-5xl md:text-7xl font-extrabold leading-[1.05] mb-6"
+            variants={fadeUp} initial="hidden" animate="visible" custom={1}>
+            {/* "100 Tools" highlighted with glow + gradient */}
+            <span className="relative inline-block">
+              <span className="relative z-10 gradient-text" style={{
+                textShadow: "0 0 60px hsl(var(--brand-blue) / 0.4), 0 0 120px hsl(var(--brand-teal) / 0.2)",
+              }}>100 Tools</span>
+              {/* underline accent */}
+              <span className="absolute -bottom-1 left-0 right-0 h-1 rounded-full" style={{ background: "var(--gradient-brand)" }} />
+            </span>
+            {" "}at{" "}
+            <span className="gradient-text">One Place</span>
+          </motion.h1>
 
-              <motion.p className="text-muted-foreground text-lg leading-relaxed mb-8 max-w-lg"
-                variants={fadeUp} initial="hidden" animate="visible" custom={2}>
-                Convert PDFs, merge files, compress documents and resize images — all in one free tools platform built for students and professionals.
-              </motion.p>
+          <motion.p className="text-muted-foreground text-lg md:text-xl leading-relaxed mb-8 max-w-2xl mx-auto"
+            variants={fadeUp} initial="hidden" animate="visible" custom={2}>
+            PDF tools, Image tools, Text tools, Developer tools, Security generators, SEO tools &amp; Utility calculators —
+            all <strong className="text-foreground">free</strong>, all <strong className="text-foreground">browser-based</strong>, no sign-up needed.
+          </motion.p>
 
-              <motion.div className="flex flex-col sm:flex-row gap-3 mb-10"
-                variants={fadeUp} initial="hidden" animate="visible" custom={3}>
-                <Link to="/login?tab=signup"
-                  className="btn-gradient inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full font-bold text-sm shadow-soft">
-                  Start for Free <ArrowRight className="w-4 h-4" />
-                </Link>
-                <a href="#tools"
-                  className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full font-bold text-sm bg-card border border-border text-foreground hover:border-primary hover:text-primary transition-all duration-300 shadow-card">
-                  Explore Tools
-                </a>
-              </motion.div>
+          <motion.div className="flex flex-col sm:flex-row gap-3 justify-center mb-12"
+            variants={fadeUp} initial="hidden" animate="visible" custom={3}>
+            <a href="#tools"
+              className="btn-gradient inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full font-bold text-sm shadow-soft">
+              Explore All 100 Tools <ArrowRight className="w-4 h-4" />
+            </a>
+            <Link to="/tools"
+              className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full font-bold text-sm bg-card border border-border text-foreground hover:border-primary hover:text-primary transition-all duration-300 shadow-card">
+              Browse by Category
+            </Link>
+          </motion.div>
 
-              <motion.div className="flex items-center gap-6"
-                variants={fadeUp} initial="hidden" animate="visible" custom={4}>
-                <div className="flex -space-x-2">
-                  {["AK", "PS", "MR", "SR"].map((i) => (
-                    <div key={i} className="w-8 h-8 rounded-full border-2 border-background flex items-center justify-center text-[10px] font-bold text-white"
-                      style={{ background: "var(--gradient-brand)" }}>
-                      {i}
-                    </div>
-                  ))}
-                </div>
-                <div>
-                  <div className="flex items-center gap-1 mb-0.5">
-                    {[1,2,3,4,5].map(i => <Star key={i} className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />)}
-                  </div>
-                  <p className="text-xs text-muted-foreground font-semibold">Loved by 10,000+ users</p>
-                </div>
-              </motion.div>
-            </div>
-
-            {/* Right: floating tool cards */}
-            <motion.div className="relative h-[480px] hidden lg:block"
-              variants={fadeUp} initial="hidden" animate="visible" custom={5}>
-              {/* Main card */}
-              <div className="absolute top-0 right-0 w-72 card-glass rounded-3xl p-6 shadow-hover border border-border">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 rounded-2xl flex items-center justify-center" style={{ background: "var(--gradient-brand)" }}>
-                    <FileText className="w-5 h-5 text-white" />
-                  </div>
-                  <div>
-                    <p className="font-bold text-sm">PDF to Word</p>
-                    <p className="text-[11px] text-muted-foreground">Converting…</p>
-                  </div>
-                </div>
-                <div className="w-full bg-muted rounded-full h-2 overflow-hidden">
-                  <motion.div className="h-full rounded-full"
-                    style={{ background: "var(--gradient-brand)" }}
-                    initial={{ width: "0%" }}
-                    animate={{ width: "72%" }}
-                    transition={{ duration: 2, delay: 1, ease: "easeInOut" }}
-                  />
-                </div>
-                <p className="text-[11px] text-muted-foreground mt-2">72% — almost done</p>
-              </div>
-
-              {/* Success card */}
-              <motion.div
-                className="absolute top-28 right-4 w-64 card-glass rounded-2xl p-4 shadow-hover border border-border"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 2.5, duration: 0.5 }}
-              >
-                <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-full bg-green-100 flex items-center justify-center">
-                    <CheckCircle className="w-5 h-5 text-green-600" />
-                  </div>
-                  <div>
-                    <p className="font-bold text-sm text-green-700">Conversion Complete!</p>
-                    <p className="text-[11px] text-muted-foreground">report.pdf → report.docx</p>
-                  </div>
-                </div>
-              </motion.div>
-
-              {/* Stats card */}
-              <div className="absolute bottom-12 left-4 w-56 card-glass rounded-2xl p-4 shadow-hover border border-border">
-                <p className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider mb-3">Your Activity</p>
-                <div className="grid grid-cols-2 gap-3">
-                  {[
-                    { v: "47", l: "Files converted" },
-                    { v: "11", l: "Tools used" },
-                  ].map(s => (
-                    <div key={s.l}>
-                      <p className="text-xl font-extrabold gradient-text">{s.v}</p>
-                      <p className="text-[10px] text-muted-foreground">{s.l}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Tool pill chips floating */}
-              {["PDF Merge", "Compress", "Unlock PDF"].map((t, i) => (
-                <motion.div key={t}
-                  className="absolute card-glass rounded-full px-3 py-1.5 text-xs font-semibold border border-border shadow-soft"
-                  style={{ top: `${200 + i * 60}px`, left: `${i * 30}px` }}
-                  animate={{ y: [0, -8, 0] }}
-                  transition={{ duration: 3 + i, repeat: Infinity, delay: i * 0.8 }}
-                >
-                  {t}
-                </motion.div>
-              ))}
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── Trust bar ── */}
-      <section className="py-6 border-y border-border bg-card/50">
-        <div className="max-w-5xl mx-auto px-6">
-          <div className="flex flex-wrap items-center justify-center gap-8 text-center">
+          {/* ── Stats row ── */}
+          <motion.div className="flex flex-wrap items-center justify-center gap-8"
+            variants={fadeUp} initial="hidden" animate="visible" custom={4}>
             {[
+              { v: "100", l: "Free Tools", highlight: true },
+              { v: "7", l: "Categories" },
               { v: "10K+", l: "Users" },
-              { v: "500K+", l: "Files Processed" },
-              { v: "19", l: "Tools" },
-              { v: "99.9%", l: "Uptime" },
-              { v: "100%", l: "Free Plan" },
+              { v: "0", l: "Sign-up required" },
+              { v: "100%", l: "Browser-based" },
             ].map(s => (
               <div key={s.l} className="flex flex-col items-center">
-                <span className="text-2xl font-extrabold gradient-text">{s.v}</span>
+                <span className={`text-2xl font-extrabold ${s.highlight ? "gradient-text" : "gradient-text"}`}>{s.v}</span>
                 <span className="text-xs text-muted-foreground font-semibold">{s.l}</span>
               </div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
-      {/* ── Tools Grid ── */}
-      <section id="tools" className="py-24">
+      {/* ── All 100 Tools by Category ── */}
+      <section id="tools" className="py-20">
         <div className="max-w-7xl mx-auto px-6">
-          <motion.div className="text-center mb-14" variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }}>
+
+          <motion.div className="text-center mb-16" variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }}>
             <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold tracking-wider uppercase mb-5"
-              style={{ background: "hsl(var(--brand-teal) / 0.1)", color: "hsl(var(--brand-teal))", border: "1px solid hsl(var(--brand-teal) / 0.25)" }}>
-              <Zap className="w-3.5 h-3.5" /> 19 Powerful Tools
+              style={{ background: "hsl(var(--brand-blue) / 0.1)", color: "hsl(var(--brand-blue))", border: "1px solid hsl(var(--brand-blue) / 0.25)" }}>
+              <Zap className="w-3.5 h-3.5" /> All 100 Tools — Pick Yours
             </span>
             <h2 className="text-4xl md:text-5xl font-extrabold mb-4">
-              Everything You Need for <span className="gradient-text">PDFs & Images</span>
+              Every Tool You'll{" "}
+              <span className="relative inline-block">
+                <span className="gradient-text">Ever Need</span>
+                <span className="absolute -bottom-1 left-0 right-0 h-0.5 rounded-full" style={{ background: "var(--gradient-brand)" }} />
+              </span>
             </h2>
             <p className="text-muted-foreground max-w-xl mx-auto text-sm leading-relaxed">
-              Convert, merge, compress, protect PDFs — plus resize, upscale, and edit images. All free.
+              From PDF conversions to developer utilities — all 100 tools are completely free and run in your browser.
             </p>
           </motion.div>
 
-          {/* PDF Tools */}
-          <div className="mb-10">
-            <div className="flex items-center gap-3 mb-5">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider"
-                style={{ background: "hsl(var(--brand-blue) / 0.1)", color: "hsl(var(--brand-blue))", border: "1px solid hsl(var(--brand-blue) / 0.2)" }}>
-                <FileText className="w-3 h-3" /> PDF Tools
-              </span>
-              <div className="flex-1 h-px bg-border" />
-            </div>
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-              {pdfTools.map((t, i) => (
-                <motion.div key={t.slug}
-                  variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={i % 8}>
-                  <Link to="/login?tab=signup"
-                    className="card-glass rounded-2xl p-5 flex flex-col items-center gap-3 shadow-card text-center group block">
-                    <div className="w-12 h-12 rounded-2xl flex items-center justify-center shadow-soft transition-transform duration-300 group-hover:scale-110"
-                      style={{ background: "var(--gradient-brand)" }}>
-                      <t.icon className="w-6 h-6 text-white" />
+          <div className="space-y-14">
+            {toolCategories.map((cat, catIdx) => {
+              const colors = categoryColorMap[cat.id] ?? categoryColorMap.pdf;
+              const CatIcon = cat.icon;
+              return (
+                <motion.div key={cat.id}
+                  variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={catIdx * 0.5}>
+
+                  {/* Category header */}
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="w-9 h-9 rounded-xl flex items-center justify-center shadow-soft flex-shrink-0"
+                      style={{ background: colors.grad }}>
+                      <CatIcon className="w-4.5 h-4.5 text-white w-[18px] h-[18px]" />
                     </div>
-                    <p className="font-bold text-sm">{t.label}</p>
-                    <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full"
-                      style={{ background: "hsl(var(--brand-blue) / 0.1)", color: "hsl(var(--brand-blue))" }}>
-                      Free
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider"
+                      style={{ background: colors.bg, color: colors.text, border: `1px solid ${colors.border}` }}>
+                      {cat.label}
                     </span>
-                  </Link>
+                    <span className="text-xs text-muted-foreground font-semibold">
+                      {cat.tools.length} tools
+                    </span>
+                    <div className="flex-1 h-px bg-border" />
+                  </div>
+
+                  {/* Tool cards grid */}
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
+                    {cat.tools.map((tool, i) => {
+                      const ToolIcon = tool.icon;
+                      return (
+                        <motion.div key={tool.slug}
+                          variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={(i % 10) * 0.08}>
+                          <Link to={`/tools/${tool.slug}`}
+                            className="card-glass rounded-2xl p-4 flex flex-col items-center gap-2.5 shadow-card text-center group block hover:border-primary/40 border border-border transition-all duration-200">
+                            <div className="w-10 h-10 rounded-xl flex items-center justify-center shadow-soft transition-transform duration-300 group-hover:scale-110"
+                              style={{ background: colors.grad }}>
+                              <ToolIcon className="w-5 h-5 text-white" />
+                            </div>
+                            <p className="font-semibold text-xs leading-tight">{tool.label}</p>
+                            {tool.isBrowserTool ? (
+                              <span className="text-[9px] font-bold px-2 py-0.5 rounded-full"
+                                style={{ background: colors.bg, color: colors.text }}>
+                                ⚡ Browser
+                              </span>
+                            ) : (
+                              <span className="text-[9px] font-bold px-2 py-0.5 rounded-full bg-muted text-muted-foreground">
+                                Free
+                              </span>
+                            )}
+                          </Link>
+                        </motion.div>
+                      );
+                    })}
+                  </div>
                 </motion.div>
-              ))}
-            </div>
+              );
+            })}
           </div>
 
-          {/* Image Tools */}
-          <div>
-            <div className="flex items-center gap-3 mb-5">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider"
-                style={{ background: "hsl(var(--brand-teal) / 0.1)", color: "hsl(var(--brand-teal))", border: "1px solid hsl(var(--brand-teal) / 0.2)" }}>
-                <Image className="w-3 h-3" /> Image Tools
-              </span>
-              <div className="flex-1 h-px bg-border" />
-            </div>
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-              {imageTools.map((t, i) => (
-                <motion.div key={t.slug}
-                  variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={i % 8}>
-                  <Link to="/login?tab=signup"
-                    className="card-glass rounded-2xl p-5 flex flex-col items-center gap-3 shadow-card text-center group block">
-                    <div className="w-12 h-12 rounded-2xl flex items-center justify-center shadow-soft transition-transform duration-300 group-hover:scale-110"
-                      style={{ background: "var(--gradient-brand)" }}>
-                      <t.icon className="w-6 h-6 text-white" />
-                    </div>
-                    <p className="font-bold text-sm">{t.label}</p>
-                    <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full"
-                      style={{ background: "hsl(var(--brand-teal) / 0.12)", color: "hsl(var(--brand-teal))" }}>
-                      Free
-                    </span>
-                  </Link>
-                </motion.div>
-              ))}
-            </div>
-          </div>
+          {/* View all CTA */}
+          <motion.div className="mt-12 text-center"
+            variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }}>
+            <Link to="/tools"
+              className="btn-gradient inline-flex items-center gap-2 px-8 py-4 rounded-full font-bold text-sm shadow-soft">
+              Open the Full Tools Dashboard <ChevronRight className="w-4 h-4" />
+            </Link>
+          </motion.div>
         </div>
       </section>
 
@@ -374,12 +239,18 @@ const Landing = () => {
               Why <span className="gradient-text">Viadocs?</span>
             </h2>
             <p className="text-muted-foreground max-w-xl mx-auto text-sm leading-relaxed">
-              Built from the ground up for Indian students and professionals who need powerful tools without the complexity.
+              Built from the ground up for students and professionals who need powerful tools without the complexity.
             </p>
           </motion.div>
-
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {features.map((f, i) => (
+            {[
+              { icon: Zap,      title: "Instant Conversions",     desc: "Convert documents and images in seconds — no lag, no queue." },
+              { icon: Shield,   title: "Secure & Private",        desc: "Your files are processed in your browser. Nothing is uploaded to our servers." },
+              { icon: Sparkles, title: "100 Powerful Tools",      desc: "From PDF merging to JSON formatting — everything you need in one platform." },
+              { icon: Globe,    title: "Works Everywhere",        desc: "100% browser-based. No installation. Works on any device, any OS." },
+              { icon: Users,    title: "Built for Everyone",      desc: "Students, developers, designers, marketers — one platform fits all." },
+              { icon: Star,     title: "Forever Free",            desc: "All 100 tools are completely free with no hidden charges or limits." },
+            ].map((f, i) => (
               <motion.div key={f.title}
                 className="card-glass rounded-2xl p-7 shadow-card flex flex-col gap-4"
                 variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={i}>
@@ -405,7 +276,6 @@ const Landing = () => {
               Loved by <span className="gradient-text">Users</span>
             </h2>
           </motion.div>
-
           <div className="grid md:grid-cols-3 gap-6">
             {testimonials.map((t, i) => (
               <motion.div key={t.name}
@@ -438,16 +308,21 @@ const Landing = () => {
         <div className="max-w-3xl mx-auto px-6 text-center relative z-10">
           <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }}>
             <h2 className="text-4xl md:text-5xl font-extrabold mb-5">
-              Ready to work <span className="gradient-text">smarter?</span>
+              Ready to use all{" "}
+              <span className="relative inline-block">
+                <span className="gradient-text" style={{ textShadow: "0 0 40px hsl(var(--brand-blue) / 0.5)" }}>100 tools</span>
+                <span className="absolute -bottom-1 left-0 right-0 h-1 rounded-full" style={{ background: "var(--gradient-brand)" }} />
+              </span>
+              {" "}for free?
             </h2>
             <p className="text-muted-foreground text-base mb-8 max-w-xl mx-auto leading-relaxed">
-              Join thousands of students and professionals who use Viadocs every day to manage documents effortlessly.
+              No account needed for most tools. Just open and use.
             </p>
-            <Link to="/login?tab=signup"
+            <Link to="/tools"
               className="btn-gradient inline-flex items-center gap-2 px-10 py-4 rounded-full font-bold text-base shadow-hover">
-              Get Started — It's Free <ChevronRight className="w-5 h-5" />
+              Start Using Free Tools <ChevronRight className="w-5 h-5" />
             </Link>
-            <p className="text-xs text-muted-foreground mt-4">100% free · No sign-up required for most tools</p>
+            <p className="text-xs text-muted-foreground mt-4">100% free · Open source · No sign-up required</p>
           </motion.div>
         </div>
       </section>
