@@ -48,13 +48,6 @@ const quickTools = pdfTools.slice(0, 8);
 
 const features = [
   {
-    icon: Plus,
-    title: "Create Documents",
-    desc: "Generate professional projects, assignments, and resumes instantly with AI.",
-    link: "/create-doc",
-    cta: "Open Editor",
-  },
-  {
     icon: Zap,
     title: "PDF Tools",
     desc: "Merge, split, compress, or convert PDFs — all in one place, completely free.",
@@ -63,10 +56,17 @@ const features = [
   },
   {
     icon: Sparkles,
-    title: "AI-Powered",
-    desc: "Summarize, rewrite, and extract key data from documents with AI assistance.",
-    link: "/create-doc",
-    cta: "Try AI",
+    title: "Image Tools",
+    desc: "Resize, compress, remove backgrounds, and convert images in seconds.",
+    link: "/tools",
+    cta: "Try Tools",
+  },
+  {
+    icon: Shield,
+    title: "Safe & Secure",
+    desc: "Files are processed privately and never stored longer than needed.",
+    link: "/tools",
+    cta: "Get Started",
   },
 ];
 
