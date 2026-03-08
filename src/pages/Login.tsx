@@ -1,8 +1,7 @@
-import { useState } from "react";
-import { useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Eye, EyeOff, Mail, Lock, User, Sparkles, ArrowLeft } from "lucide-react";
+import { Eye, EyeOff, Mail, Lock, User, Sparkles, ArrowLeft, Wrench } from "lucide-react";
 import logo from "@/assets/viadocs-logo.png";
 import { useAuth } from "@/contexts/AuthContext";
 
@@ -15,7 +14,6 @@ const fadeUp = {
   }),
 };
 
-// Google "G" SVG icon
 const GoogleIcon = () => (
   <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none">
     <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
@@ -26,7 +24,10 @@ const GoogleIcon = () => (
 );
 
 const Login = () => {
-  const [tab, setTab] = useState<"login" | "signup">("login");
+  const [searchParams] = useSearchParams();
+  const [tab, setTab] = useState<"login" | "signup">(
+    searchParams.get("tab") === "signup" ? "signup" : "login"
+  );
   const [showPass, setShowPass] = useState(false);
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
@@ -35,7 +36,10 @@ const Login = () => {
   const [form, setForm] = useState({ name: "", email: "", password: "" });
 
   const navigate = useNavigate();
-  const { user, signInWithEmail, signUpWithEmail, signInWithGoogle } = useAuth();
+  const { user, signInWithEmail, signUpWithEmail, signInWithGoogle, continueAsGuest } = useAuth();
+
+  // If redirected here because guest tried a locked page
+  const guestBlocked = searchParams.get("reason") === "guest";
 
   useEffect(() => {
     if (user) navigate("/home");
@@ -79,6 +83,11 @@ const Login = () => {
     }
   };
 
+  const handleGuest = () => {
+    continueAsGuest();
+    navigate("/tools");
+  };
+
   return (
     <div className="min-h-screen bg-background flex items-center justify-center relative overflow-hidden px-4">
       {/* Background */}
@@ -93,9 +102,10 @@ const Login = () => {
       >
         {/* Card */}
         <div className="card-glass rounded-3xl p-8 shadow-hover border border-border">
+
           {/* Header */}
-          <div className="text-center mb-8">
-            <Link to="/" className="inline-flex items-center gap-2 mb-6">
+          <div className="text-center mb-7">
+            <Link to="/" className="inline-flex items-center gap-2 mb-5">
               <img src={logo} alt="Viadocs" className="w-9 h-9 object-contain" />
               <span className="font-extrabold text-lg tracking-widest gradient-text uppercase">Viadocs</span>
             </Link>
@@ -107,8 +117,21 @@ const Login = () => {
             </p>
           </div>
 
+          {/* Guest-blocked notice */}
+          {guestBlocked && (
+            <div className="mb-5 rounded-xl px-4 py-3 text-xs font-medium flex items-center gap-2 border"
+              style={{
+                background: "hsl(var(--brand-blue) / 0.07)",
+                borderColor: "hsl(var(--brand-blue) / 0.2)",
+                color: "hsl(var(--brand-blue))",
+              }}>
+              <Sparkles className="w-3.5 h-3.5 flex-shrink-0" />
+              This page requires an account. Sign in or sign up to continue.
+            </div>
+          )}
+
           {/* Tabs */}
-          <div className="flex rounded-xl overflow-hidden border border-border mb-7 p-1 bg-background/50">
+          <div className="flex rounded-xl overflow-hidden border border-border mb-6 p-1 bg-background/50">
             {(["login", "signup"] as const).map((t) => (
               <button
                 key={t}
@@ -142,18 +165,14 @@ const Login = () => {
             <div className="flex-1 h-px bg-border" />
           </div>
 
-          {/* Email/Password Form */}
+          {/* Email / Password form */}
           <form onSubmit={handleSubmit} className="space-y-4">
             {tab === "signup" && (
               <div className="relative">
                 <User className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                 <input
-                  name="name"
-                  type="text"
-                  placeholder="Full Name"
-                  value={form.name}
-                  onChange={handleChange}
-                  required
+                  name="name" type="text" placeholder="Full Name"
+                  value={form.name} onChange={handleChange} required
                   className="w-full pl-10 pr-4 py-3 rounded-xl border border-border bg-background/60 text-sm focus:outline-none focus:ring-2 focus:border-transparent transition-all"
                 />
               </div>
@@ -162,12 +181,8 @@ const Login = () => {
             <div className="relative">
               <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
               <input
-                name="email"
-                type="email"
-                placeholder="Email address"
-                value={form.email}
-                onChange={handleChange}
-                required
+                name="email" type="email" placeholder="Email address"
+                value={form.email} onChange={handleChange} required
                 className="w-full pl-10 pr-4 py-3 rounded-xl border border-border bg-background/60 text-sm focus:outline-none focus:ring-2 focus:border-transparent transition-all"
               />
             </div>
@@ -175,20 +190,12 @@ const Login = () => {
             <div className="relative">
               <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
               <input
-                name="password"
-                type={showPass ? "text" : "password"}
-                placeholder="Password"
-                value={form.password}
-                onChange={handleChange}
-                required
-                minLength={6}
+                name="password" type={showPass ? "text" : "password"} placeholder="Password"
+                value={form.password} onChange={handleChange} required minLength={6}
                 className="w-full pl-10 pr-11 py-3 rounded-xl border border-border bg-background/60 text-sm focus:outline-none focus:ring-2 focus:border-transparent transition-all"
               />
-              <button
-                type="button"
-                onClick={() => setShowPass(!showPass)}
-                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
-              >
+              <button type="button" onClick={() => setShowPass(!showPass)}
+                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors">
                 {showPass ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
               </button>
             </div>
@@ -201,8 +208,7 @@ const Login = () => {
             )}
 
             <button
-              type="submit"
-              disabled={loading}
+              type="submit" disabled={loading}
               className="btn-gradient w-full py-3.5 rounded-xl font-bold text-sm shadow-soft disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
               {loading
@@ -213,13 +219,46 @@ const Login = () => {
           </form>
 
           {tab === "login" && (
-            <p className="text-xs text-center text-muted-foreground mt-4">
+            <p className="text-xs text-center text-muted-foreground mt-3">
               Don't have an account?{" "}
               <button onClick={() => setTab("signup")} className="font-semibold gradient-text hover:opacity-80 transition-opacity">
                 Sign up free
               </button>
             </p>
           )}
+
+          {/* Divider */}
+          <div className="flex items-center gap-3 my-5">
+            <div className="flex-1 h-px bg-border" />
+            <span className="text-xs text-muted-foreground font-medium">just browsing?</span>
+            <div className="flex-1 h-px bg-border" />
+          </div>
+
+          {/* ── Guest CTA ── */}
+          <button
+            type="button"
+            onClick={handleGuest}
+            className="w-full flex items-center justify-center gap-2.5 py-3.5 rounded-xl border-2 border-dashed border-border hover:border-primary/40 bg-background/40 hover:bg-primary/4 transition-all duration-200 group"
+          >
+            <div className="w-7 h-7 rounded-lg flex items-center justify-center group-hover:scale-105 transition-transform"
+              style={{ background: "var(--gradient-brand)" }}>
+              <Wrench className="w-3.5 h-3.5 text-white" />
+            </div>
+            <div className="text-left">
+              <p className="text-sm font-bold leading-tight">Continue for Free as Guest</p>
+              <p className="text-[11px] text-muted-foreground leading-tight">Access PDF tools only · No account needed</p>
+            </div>
+          </button>
+
+          {/* Guest limitations note */}
+          <p className="text-[11px] text-center text-muted-foreground mt-3 leading-relaxed">
+            Guest access is limited to PDF tools only.{" "}
+            <button onClick={() => setTab("signup")} className="font-semibold gradient-text hover:opacity-80 transition-opacity">
+              Sign up free
+            </button>{" "}
+            to unlock the full workspace.
+          </p>
+
         </div>
 
         <div className="text-center mt-4">
