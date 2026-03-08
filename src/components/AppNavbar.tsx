@@ -1,6 +1,6 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { Menu, X, Home, Wrench, FilePlus, Star, LogOut, User, ChevronDown } from "lucide-react";
+import { Menu, X, Home, Wrench, FilePlus, Star, LogOut, ChevronDown } from "lucide-react";
 import logo from "@/assets/viadocs-logo.png";
 import { useAuth } from "@/contexts/AuthContext";
 
@@ -23,7 +23,8 @@ const AppNavbar = () => {
     navigate("/");
   };
 
-  const displayName = user?.user_metadata?.full_name || user?.email?.split("@")[0] || "User";
+  // Firebase user uses displayName / email
+  const displayName = user?.displayName || user?.email?.split("@")[0] || "User";
   const initials = displayName.charAt(0).toUpperCase();
 
   return (
@@ -44,9 +45,7 @@ const AppNavbar = () => {
                 key={l.label}
                 to={l.to}
                 className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200 ${
-                  active
-                    ? "text-white shadow-soft"
-                    : "text-foreground/70 hover:text-primary hover:bg-primary/5"
+                  active ? "text-white shadow-soft" : "text-foreground/70 hover:text-primary hover:bg-primary/5"
                 }`}
                 style={active ? { background: "var(--gradient-brand)" } : {}}
               >
@@ -57,22 +56,26 @@ const AppNavbar = () => {
           })}
         </div>
 
-        {/* Profile */}
+        {/* Profile Dropdown */}
         <div className="hidden md:flex items-center gap-3 relative">
           <button
             onClick={() => setProfileOpen(!profileOpen)}
             className="flex items-center gap-2 px-3 py-2 rounded-full border border-border hover:border-primary/40 transition-all duration-200 bg-card/50"
           >
-            <div className="w-7 h-7 rounded-full flex items-center justify-center text-white text-xs font-bold"
-              style={{ background: "var(--gradient-brand)" }}>
-              {initials}
-            </div>
+            {user?.photoURL ? (
+              <img src={user.photoURL} alt={displayName} className="w-7 h-7 rounded-full object-cover" />
+            ) : (
+              <div className="w-7 h-7 rounded-full flex items-center justify-center text-white text-xs font-bold"
+                style={{ background: "var(--gradient-brand)" }}>
+                {initials}
+              </div>
+            )}
             <span className="text-sm font-semibold max-w-[100px] truncate">{displayName}</span>
             <ChevronDown className={`w-3.5 h-3.5 text-muted-foreground transition-transform duration-200 ${profileOpen ? "rotate-180" : ""}`} />
           </button>
 
           {profileOpen && (
-            <div className="absolute top-full right-0 mt-2 w-48 card-glass rounded-2xl border border-border shadow-hover overflow-hidden z-50">
+            <div className="absolute top-full right-0 mt-2 w-52 card-glass rounded-2xl border border-border shadow-hover overflow-hidden z-50">
               <div className="px-4 py-3 border-b border-border">
                 <p className="text-xs text-muted-foreground">Signed in as</p>
                 <p className="text-sm font-semibold truncate">{user?.email}</p>
