@@ -82,7 +82,7 @@ const AppNavbar = () => {
               </div>
               <Link to="/profile" onClick={() => setProfileOpen(false)}
                 className="w-full flex items-center gap-2 px-4 py-3 text-sm font-semibold hover:bg-muted/50 transition-colors">
-                <User className="w-4 h-4 text-muted-foreground" /> My Profile
+                <UserCircle className="w-4 h-4 text-muted-foreground" /> My Profile
               </Link>
               <button
                 onClick={handleSignOut}
