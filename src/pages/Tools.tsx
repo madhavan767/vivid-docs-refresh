@@ -2,7 +2,8 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import {
   FileText, FileDown, GitMerge, Scissors, Minimize2, Image, Download,
-  Lock, Unlock, Table, Monitor, ArrowLeft, Zap, Shield, Sparkles, Globe, Users, Gift
+  Lock, Unlock, Table, Monitor, Zap, Shield, Sparkles, Globe, Users,
+  Gift, ChevronRight, ArrowLeft,
 } from "lucide-react";
 import AppNavbar from "@/components/AppNavbar";
 import Footer from "@/components/Footer";
@@ -12,22 +13,22 @@ const fadeUp = {
   visible: (i = 0) => ({
     opacity: 1,
     y: 0,
-    transition: { duration: 0.5, delay: i * 0.07, ease: [0.22, 1, 0.36, 1] as const },
+    transition: { duration: 0.5, delay: i * 0.06, ease: [0.22, 1, 0.36, 1] as const },
   }),
 };
 
 const tools = [
-  { icon: FileText, label: "PDF to Word", desc: "Convert PDF into editable Word docs", slug: "pdf-to-word" },
-  { icon: FileDown, label: "Word to PDF", desc: "Export Word files into PDF", slug: "word-to-pdf" },
-  { icon: GitMerge, label: "PDF Merge", desc: "Combine multiple PDFs into one", slug: "pdf-merge" },
-  { icon: Scissors, label: "PDF Split", desc: "Extract specific pages from PDF", slug: "pdf-split" },
-  { icon: Minimize2, label: "PDF Compress", desc: "Reduce the size of PDFs", slug: "pdf-compress" },
-  { icon: Image, label: "Image to PDF", desc: "Convert images into a PDF file", slug: "image-to-pdf" },
-  { icon: Download, label: "PDF to Image", desc: "Save PDF pages as images", slug: "pdf-to-image" },
-  { icon: Lock, label: "Password Protect", desc: "Add password to a PDF", slug: "password-protect" },
-  { icon: Unlock, label: "Unlock PDF", desc: "Remove PDF restrictions", slug: "unlock-pdf" },
-  { icon: Table, label: "Excel to PDF", desc: "Convert spreadsheets into PDF", slug: "excel-to-pdf" },
-  { icon: Monitor, label: "PowerPoint to PDF", desc: "Save slides into PDF format", slug: "powerpoint-to-pdf" },
+  { icon: FileText,  label: "PDF to Word",       desc: "Convert PDF into editable Word docs",   slug: "pdf-to-word",       color: "hsl(var(--brand-blue))" },
+  { icon: FileDown,  label: "Word to PDF",        desc: "Export Word files into PDF",             slug: "word-to-pdf",       color: "hsl(var(--brand-teal))" },
+  { icon: GitMerge,  label: "PDF Merge",          desc: "Combine multiple PDFs into one",         slug: "pdf-merge",         color: "hsl(var(--brand-blue))" },
+  { icon: Scissors,  label: "PDF Split",          desc: "Extract specific pages from PDF",        slug: "pdf-split",         color: "hsl(var(--brand-indigo))" },
+  { icon: Minimize2, label: "PDF Compress",       desc: "Reduce the size of PDFs",                slug: "pdf-compress",      color: "hsl(var(--brand-teal))" },
+  { icon: Image,     label: "Image to PDF",       desc: "Convert images into a PDF file",         slug: "image-to-pdf",      color: "hsl(var(--brand-blue))" },
+  { icon: Download,  label: "PDF to Image",       desc: "Save PDF pages as images",               slug: "pdf-to-image",      color: "hsl(var(--brand-indigo))" },
+  { icon: Lock,      label: "Password Protect",   desc: "Add a password to your PDF",             slug: "password-protect",  color: "hsl(var(--brand-blue))" },
+  { icon: Unlock,    label: "Unlock PDF",         desc: "Remove PDF restrictions",                slug: "unlock-pdf",        color: "hsl(var(--brand-teal))" },
+  { icon: Table,     label: "Excel to PDF",       desc: "Convert spreadsheets into PDF",          slug: "excel-to-pdf",      color: "hsl(var(--brand-blue))" },
+  { icon: Monitor,   label: "PowerPoint to PDF",  desc: "Save slides into PDF format",            slug: "powerpoint-to-pdf", color: "hsl(var(--brand-indigo))" },
 ];
 
 const features = [
@@ -49,12 +50,12 @@ const features = [
 ];
 
 const whyPoints = [
-  { icon: Zap, title: "Instant Conversions", desc: "Convert Word, Excel, PowerPoint, and images into PDFs instantly — without losing formatting." },
-  { icon: Shield, title: "Safe and Secure", desc: "Your files remain private and encrypted. We never store or share your documents." },
-  { icon: Sparkles, title: "AI-Powered Features", desc: "Let our AI assistant summarize reports, extract data, or auto-format content with precision." },
-  { icon: Globe, title: "Works on All Devices", desc: "Access Viadocs tools anywhere — desktop, tablet, or mobile. 100% browser-based." },
-  { icon: Users, title: "Built for Students & Teams", desc: "Specially crafted for academic and corporate use — simplify project reports and documentation." },
-  { icon: Gift, title: "Free Forever Plan", desc: "Start with all essential tools for free — no sign-up required for most PDF functions." },
+  { icon: Zap,      title: "Instant Conversions",       desc: "Convert Word, Excel, PowerPoint, and images into PDFs instantly — without losing formatting." },
+  { icon: Shield,   title: "Safe and Secure",            desc: "Your files remain private and encrypted. We never store or share your documents." },
+  { icon: Sparkles, title: "AI-Powered Features",        desc: "Let our AI assistant summarize reports, extract data, or auto-format content with precision." },
+  { icon: Globe,    title: "Works on All Devices",       desc: "Access Viadocs tools anywhere — desktop, tablet, or mobile. 100% browser-based." },
+  { icon: Users,    title: "Built for Students & Teams", desc: "Specially crafted for academic and corporate use — simplify project reports and documentation." },
+  { icon: Gift,     title: "Free Forever Plan",          desc: "Start with all essential tools for free — no sign-up required for most PDF functions." },
 ];
 
 const Tools = () => {
@@ -62,39 +63,80 @@ const Tools = () => {
     <div className="min-h-screen bg-background">
       <AppNavbar />
 
-      <div className="pt-24 pb-4 max-w-7xl mx-auto px-6">
-        <Link
-          to="/home"
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold bg-foreground text-background hover:opacity-90 transition-all duration-200 mt-4"
-        >
-          <ArrowLeft className="w-4 h-4" /> Back
-        </Link>
-      </div>
-
-      {/* Hero */}
-      <section className="py-16 relative overflow-hidden">
+      {/* ── Hero ── */}
+      <section className="relative pt-32 pb-20 overflow-hidden">
         <div className="absolute inset-0 pointer-events-none"
           style={{ background: "var(--gradient-hero-glow), var(--gradient-teal-glow)" }} />
-        <div className="max-w-3xl mx-auto px-6 text-center relative z-10">
-          <motion.h1
-            className="text-3xl md:text-5xl font-extrabold mb-4"
-            variants={fadeUp} initial="hidden" animate="visible"
-          >
-            All Your PDF Tools —{" "}
-            <span className="gradient-text">Smart, Fast &amp; Free!</span>
-          </motion.h1>
-          <motion.p
-            className="text-muted-foreground text-base leading-relaxed"
-            variants={fadeUp} initial="hidden" animate="visible" custom={1}
-          >
-            Merge, split, compress, edit, convert, and secure your PDFs effortlessly. Everything you need to manage documents — beautifully designed and easy to use.
-          </motion.p>
+        <div className="absolute top-16 right-[-6%] w-80 h-80 rounded-full opacity-[0.07] blur-3xl"
+          style={{ background: "hsl(var(--brand-blue))" }} />
+        <div className="absolute bottom-0 left-[-4%] w-64 h-64 rounded-full opacity-[0.05] blur-3xl"
+          style={{ background: "hsl(var(--brand-teal))" }} />
+
+        <div className="max-w-7xl mx-auto px-6 relative z-10">
+          {/* Back button */}
+          <motion.div variants={fadeUp} initial="hidden" animate="visible" custom={0} className="mb-8">
+            <Link
+              to="/home"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold border border-border bg-card/60 hover:border-primary/40 hover:text-primary transition-all duration-200"
+            >
+              <ArrowLeft className="w-4 h-4" /> Back to Home
+            </Link>
+          </motion.div>
+
+          <div className="text-center max-w-3xl mx-auto">
+            <motion.div variants={fadeUp} initial="hidden" animate="visible" custom={1}>
+              <span
+                className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold tracking-wider uppercase mb-5"
+                style={{ background: "hsl(var(--brand-blue) / 0.1)", color: "hsl(var(--brand-blue))", border: "1px solid hsl(var(--brand-blue) / 0.25)" }}
+              >
+                <Zap className="w-3.5 h-3.5" /> 11 Powerful PDF Tools
+              </span>
+            </motion.div>
+
+            <motion.h1
+              className="text-4xl md:text-5xl font-extrabold leading-tight mb-5"
+              variants={fadeUp} initial="hidden" animate="visible" custom={2}
+            >
+              All Your PDF Tools —{" "}
+              <span className="gradient-text">Smart, Fast &amp; Free!</span>
+            </motion.h1>
+
+            <motion.p
+              className="text-muted-foreground text-base leading-relaxed mb-8 max-w-2xl mx-auto"
+              variants={fadeUp} initial="hidden" animate="visible" custom={3}
+            >
+              Merge, split, compress, edit, convert, and secure your PDFs effortlessly. Everything you need to manage documents — beautifully designed and easy to use.
+            </motion.p>
+
+            <motion.div
+              className="flex flex-col sm:flex-row gap-3 justify-center"
+              variants={fadeUp} initial="hidden" animate="visible" custom={4}
+            >
+              <a href="#tools-grid"
+                className="btn-gradient inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full font-bold text-sm shadow-soft">
+                Browse All Tools <ChevronRight className="w-4 h-4" />
+              </a>
+              <Link to="/create-doc"
+                className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full font-bold text-sm bg-card border border-border text-foreground hover:border-primary hover:text-primary transition-all duration-300 shadow-card">
+                <Sparkles className="w-4 h-4" /> Create Document
+              </Link>
+            </motion.div>
+          </div>
         </div>
       </section>
 
-      {/* Tools Grid */}
-      <section className="pb-20 max-w-6xl mx-auto px-6">
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
+      {/* ── Tools Grid ── */}
+      <section id="tools-grid" className="pb-24 max-w-6xl mx-auto px-6">
+        <motion.div
+          className="text-center mb-10"
+          variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }}
+        >
+          <h2 className="text-2xl md:text-3xl font-extrabold">
+            Pick a <span className="gradient-text">Tool</span> to Get Started
+          </h2>
+        </motion.div>
+
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
           {tools.map((tool, i) => (
             <motion.div
               key={tool.slug}
@@ -102,21 +144,29 @@ const Tools = () => {
             >
               <Link
                 to={`/tools/${tool.slug}`}
-                className="card-glass rounded-2xl p-6 flex flex-col items-center gap-3 shadow-card text-center group"
+                className="card-glass rounded-2xl p-6 flex flex-col items-center gap-3 shadow-card text-center group block"
               >
-                <div className="w-14 h-14 rounded-2xl flex items-center justify-center shadow-soft transition-transform duration-300 group-hover:scale-110"
-                  style={{ background: "var(--gradient-brand)" }}>
+                <div
+                  className="w-14 h-14 rounded-2xl flex items-center justify-center shadow-soft transition-transform duration-300 group-hover:scale-110"
+                  style={{ background: "var(--gradient-brand)" }}
+                >
                   <tool.icon className="w-7 h-7 text-white" />
                 </div>
                 <p className="font-bold text-sm">{tool.label}</p>
                 <p className="text-xs text-muted-foreground leading-snug">{tool.desc}</p>
+                <span
+                  className="mt-1 text-[10px] font-bold px-2.5 py-0.5 rounded-full"
+                  style={{ background: "hsl(var(--brand-blue) / 0.1)", color: "hsl(var(--brand-blue))" }}
+                >
+                  Free
+                </span>
               </Link>
             </motion.div>
           ))}
         </div>
       </section>
 
-      {/* Work Smarter */}
+      {/* ── Work Smarter ── */}
       <section className="py-24 bg-card">
         <div className="max-w-6xl mx-auto px-6">
           <motion.div
@@ -135,12 +185,12 @@ const Tools = () => {
             {features.map((f, i) => (
               <motion.div
                 key={f.title}
-                className="card-glass rounded-2xl p-7 shadow-card text-center"
+                className="card-glass rounded-2xl p-7 shadow-card"
                 variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={i}
               >
-                <div className="w-16 h-16 rounded-2xl flex items-center justify-center mb-5 shadow-soft mx-auto"
+                <div className="w-14 h-14 rounded-2xl flex items-center justify-center mb-5 shadow-soft"
                   style={{ background: "var(--gradient-brand)" }}>
-                  <f.icon className="w-8 h-8 text-white" />
+                  <f.icon className="w-7 h-7 text-white" />
                 </div>
                 <h3 className="font-bold text-sm mb-2">{f.title}</h3>
                 <p className="text-xs text-muted-foreground leading-relaxed">{f.desc}</p>
@@ -150,13 +200,20 @@ const Tools = () => {
         </div>
       </section>
 
-      {/* Premium CTA */}
-      <section className="py-20 mx-6 md:mx-16 my-16 rounded-3xl overflow-hidden relative"
-        style={{ background: "linear-gradient(135deg, hsl(255 39% 40% / 0.08), hsl(228 70% 54% / 0.08))", border: "1px solid hsl(228 70% 54% / 0.15)" }}>
-        <div className="max-w-2xl mx-auto px-6 text-center">
-          <motion.div
-            variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }}
-          >
+      {/* ── Premium CTA ── */}
+      <section
+        className="py-20 mx-6 md:mx-16 my-16 rounded-3xl overflow-hidden relative"
+        style={{ background: "linear-gradient(135deg, hsl(var(--brand-indigo) / 0.08), hsl(var(--brand-blue) / 0.08))", border: "1px solid hsl(var(--brand-blue) / 0.15)" }}
+      >
+        <div className="absolute inset-0 pointer-events-none" style={{ background: "var(--gradient-hero-glow)" }} />
+        <div className="max-w-2xl mx-auto px-6 text-center relative z-10">
+          <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }}>
+            <span
+              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest mb-5"
+              style={{ background: "hsl(var(--brand-blue) / 0.12)", color: "hsl(var(--brand-blue))" }}
+            >
+              ✦ Premium
+            </span>
             <h2 className="text-2xl md:text-4xl font-extrabold mb-4">
               Unlock More with <span className="gradient-text">Viadocs Premium</span>
             </h2>
@@ -167,31 +224,41 @@ const Tools = () => {
               to="/premium"
               className="btn-gradient inline-flex items-center gap-2 px-10 py-3.5 rounded-full font-bold text-sm shadow-hover"
             >
-              Go Premium
+              Go Premium <ChevronRight className="w-4 h-4" />
             </Link>
           </motion.div>
         </div>
       </section>
 
-      {/* Built for */}
+      {/* ── Built for ── */}
       <section className="py-20 text-center">
         <div className="max-w-3xl mx-auto px-6">
+          <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }}>
+            <span
+              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold tracking-wider uppercase mb-5"
+              style={{ background: "hsl(var(--brand-teal) / 0.1)", color: "hsl(var(--brand-teal))", border: "1px solid hsl(var(--brand-teal) / 0.25)" }}
+            >
+              <Users className="w-3.5 h-3.5" /> Built For
+            </span>
+          </motion.div>
           <motion.h2
             className="text-3xl md:text-4xl font-extrabold mb-4"
-            variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }}
+            variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={1}
           >
             Built for Engineering Students &amp; Employees
           </motion.h2>
           <motion.p
             className="text-muted-foreground text-sm leading-relaxed"
-            variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={1}
+            variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={2}
           >
-            I'm a fresher who built <span className="gradient-text font-bold">Viadocs</span> for engineering students and professionals — making document creation, editing, and PDF tools smarter and easier to use.
+            I'm a fresher who built{" "}
+            <span className="gradient-text font-bold">Viadocs</span>{" "}
+            for engineering students and professionals — making document creation, editing, and PDF tools smarter and easier to use.
           </motion.p>
         </div>
       </section>
 
-      {/* Why Use Viadocs PDF Tools */}
+      {/* ── Why Viadocs PDF Tools ── */}
       <section className="py-24 bg-card">
         <div className="max-w-6xl mx-auto px-6">
           <motion.div
