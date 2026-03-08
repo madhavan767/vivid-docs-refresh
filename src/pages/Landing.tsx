@@ -324,34 +324,74 @@ const Landing = () => {
           <motion.div className="text-center mb-14" variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }}>
             <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold tracking-wider uppercase mb-5"
               style={{ background: "hsl(var(--brand-teal) / 0.1)", color: "hsl(var(--brand-teal))", border: "1px solid hsl(var(--brand-teal) / 0.25)" }}>
-              <Zap className="w-3.5 h-3.5" /> 11 Powerful Tools
+              <Zap className="w-3.5 h-3.5" /> 19 Powerful Tools
             </span>
             <h2 className="text-4xl md:text-5xl font-extrabold mb-4">
-              Everything You Need for <span className="gradient-text">PDFs</span>
+              Everything You Need for <span className="gradient-text">PDFs & Images</span>
             </h2>
             <p className="text-muted-foreground max-w-xl mx-auto text-sm leading-relaxed">
-              Convert, merge, compress, protect — all your PDF tasks handled in one click, completely free.
+              Convert, merge, compress, protect PDFs — plus resize, upscale, and edit images. All free.
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-            {tools.map((t, i) => (
-              <motion.div key={t.slug}
-                variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={i % 8}>
-                <Link to={`/login?tab=signup`}
-                  className="card-glass rounded-2xl p-5 flex flex-col items-center gap-3 shadow-card text-center group block">
-                  <div className="w-12 h-12 rounded-2xl flex items-center justify-center shadow-soft transition-transform duration-300 group-hover:scale-110"
-                    style={{ background: "var(--gradient-brand)" }}>
-                    <t.icon className="w-6 h-6 text-white" />
-                  </div>
-                  <p className="font-bold text-sm">{t.label}</p>
-                  <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full"
-                    style={{ background: "hsl(var(--brand-teal) / 0.12)", color: "hsl(var(--brand-teal))" }}>
-                    Free
-                  </span>
-                </Link>
-              </motion.div>
-            ))}
+          {/* PDF Tools */}
+          <div className="mb-10">
+            <div className="flex items-center gap-3 mb-5">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider"
+                style={{ background: "hsl(var(--brand-blue) / 0.1)", color: "hsl(var(--brand-blue))", border: "1px solid hsl(var(--brand-blue) / 0.2)" }}>
+                <FileText className="w-3 h-3" /> PDF Tools
+              </span>
+              <div className="flex-1 h-px bg-border" />
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+              {pdfTools.map((t, i) => (
+                <motion.div key={t.slug}
+                  variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={i % 8}>
+                  <Link to="/login?tab=signup"
+                    className="card-glass rounded-2xl p-5 flex flex-col items-center gap-3 shadow-card text-center group block">
+                    <div className="w-12 h-12 rounded-2xl flex items-center justify-center shadow-soft transition-transform duration-300 group-hover:scale-110"
+                      style={{ background: "var(--gradient-brand)" }}>
+                      <t.icon className="w-6 h-6 text-white" />
+                    </div>
+                    <p className="font-bold text-sm">{t.label}</p>
+                    <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full"
+                      style={{ background: "hsl(var(--brand-blue) / 0.1)", color: "hsl(var(--brand-blue))" }}>
+                      Free
+                    </span>
+                  </Link>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+
+          {/* Image Tools */}
+          <div>
+            <div className="flex items-center gap-3 mb-5">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider"
+                style={{ background: "hsl(var(--brand-teal) / 0.1)", color: "hsl(var(--brand-teal))", border: "1px solid hsl(var(--brand-teal) / 0.2)" }}>
+                <Image className="w-3 h-3" /> Image Tools
+              </span>
+              <div className="flex-1 h-px bg-border" />
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+              {imageTools.map((t, i) => (
+                <motion.div key={t.slug}
+                  variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={i % 8}>
+                  <Link to="/login?tab=signup"
+                    className="card-glass rounded-2xl p-5 flex flex-col items-center gap-3 shadow-card text-center group block">
+                    <div className="w-12 h-12 rounded-2xl flex items-center justify-center shadow-soft transition-transform duration-300 group-hover:scale-110"
+                      style={{ background: "var(--gradient-brand)" }}>
+                      <t.icon className="w-6 h-6 text-white" />
+                    </div>
+                    <p className="font-bold text-sm">{t.label}</p>
+                    <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full"
+                      style={{ background: "hsl(var(--brand-teal) / 0.12)", color: "hsl(var(--brand-teal))" }}>
+                      Free
+                    </span>
+                  </Link>
+                </motion.div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
