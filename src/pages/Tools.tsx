@@ -4,7 +4,7 @@ import {
   FileText, FileDown, GitMerge, Scissors, Minimize2, Image, Download,
   Lock, Unlock, Table, Monitor, ArrowLeft, Zap, Shield, Sparkles, Globe, Users, Gift
 } from "lucide-react";
-import Navbar from "@/components/Navbar";
+import AppNavbar from "@/components/AppNavbar";
 import Footer from "@/components/Footer";
 
 const fadeUp = {
