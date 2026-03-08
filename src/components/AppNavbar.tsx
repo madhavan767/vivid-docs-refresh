@@ -1,6 +1,6 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { Menu, X, Home, Wrench, FilePlus, Star, LogOut, ChevronDown, UserCircle } from "lucide-react";
+import { Menu, X, Home, Wrench, FilePlus, Star, LogOut, ChevronDown, UserCircle, Sparkles } from "lucide-react";
 import logo from "@/assets/viadocs-logo.png";
 import { useAuth } from "@/contexts/AuthContext";
 
@@ -9,7 +9,12 @@ const AppNavbar = () => {
   const [profileOpen, setProfileOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-  const { user, signOut } = useAuth();
+  const { user, isGuest, signOut, exitGuest } = useAuth();
+
+  // Guest-only nav: just tools
+  const guestNavLinks = [
+    { label: "Tools", to: "/tools", icon: Wrench },
+  ];
 
   const navLinks = [
     { label: "Home", to: "/home", icon: Home },
