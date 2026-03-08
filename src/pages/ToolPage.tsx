@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, lazy, Suspense } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowLeft, Upload, CheckCircle, File, X, AlertCircle,
@@ -7,6 +7,31 @@ import { Link, useParams } from "react-router-dom";
 import AppNavbar from "@/components/AppNavbar";
 import Footer from "@/components/Footer";
 import { getToolBySlug, toolCategories, getCategoryColorVars } from "@/data/toolsData";
+
+// ── Lazy-loaded calculator/browser tool UIs ──────────────────────────────────
+const BmiCalculator        = lazy(() => import("@/components/tools/BmiCalculator"));
+const AgeCalculator        = lazy(() => import("@/components/tools/AgeCalculator"));
+const PercentageCalculator = lazy(() => import("@/components/tools/PercentageCalculator"));
+const EmiCalculator        = lazy(() => import("@/components/tools/EmiCalculator"));
+const TipCalculator        = lazy(() => import("@/components/tools/TipCalculator"));
+const UnitConverter        = lazy(() => import("@/components/tools/UnitConverter"));
+const TimezoneConverter    = lazy(() => import("@/components/tools/TimezoneConverter"));
+const CountdownTimer       = lazy(() => import("@/components/tools/CountdownTimer"));
+const RandomPicker         = lazy(() => import("@/components/tools/RandomPicker"));
+const CurrencyConverter    = lazy(() => import("@/components/tools/CurrencyConverter"));
+
+const BROWSER_TOOL_MAP: Record<string, React.LazyExoticComponent<() => JSX.Element>> = {
+  "bmi-calculator":    BmiCalculator,
+  "age-calculator":    AgeCalculator,
+  "percentage-calc":   PercentageCalculator,
+  "emi-calculator":    EmiCalculator,
+  "tip-calculator":    TipCalculator,
+  "unit-converter":    UnitConverter,
+  "timezone-converter":TimezoneConverter,
+  "countdown-timer":   CountdownTimer,
+  "random-picker":     RandomPicker,
+  "currency-converter":CurrencyConverter,
+};
 
 const fadeUp = {
   hidden: { opacity: 0, y: 20 },
@@ -62,7 +87,9 @@ const ToolPage = () => {
     setFile(null); setStep("idle"); setProgress(0); setErrorMsg("");
   };
 
-  // Browser-only tools (no file upload) show a text-area / interactive UI placeholder
+  // Browser-only tools — render actual component if available, else "Coming Soon"
+  const BrowserToolComponent = BROWSER_TOOL_MAP[slug] ?? null;
+
   if (tool.isBrowserTool) {
     return (
       <div className="min-h-screen bg-background">
@@ -95,20 +122,30 @@ const ToolPage = () => {
         </section>
 
         <section className="max-w-3xl mx-auto px-6 pb-16">
-          <motion.div className="card-glass rounded-3xl border border-border p-10 text-center shadow-card"
+          <motion.div className="card-glass rounded-3xl border border-border p-8 shadow-card"
             variants={fadeUp} initial="hidden" animate="visible" custom={4}>
-            <div className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-5 shadow-soft"
-              style={gradientStyle}>
-              <Icon className="w-8 h-8 text-white" />
-            </div>
-            <p className="font-bold text-lg mb-2">Full Tool Interface Coming Soon</p>
-            <p className="text-muted-foreground text-sm max-w-sm mx-auto leading-relaxed">
-              The interactive UI for <strong>{tool.label}</strong> is being built. Check back shortly — this tool runs entirely in your browser, no uploads needed.
-            </p>
-            <Link to="/tools"
-              className="inline-flex items-center gap-2 mt-6 px-6 py-3 rounded-full font-bold text-sm border border-border hover:border-primary hover:text-primary transition-all">
-              <ArrowLeft className="w-4 h-4" /> Browse Other Tools
-            </Link>
+            {BrowserToolComponent ? (
+              <Suspense fallback={
+                <div className="flex items-center justify-center py-12 text-muted-foreground text-sm">Loading tool...</div>
+              }>
+                <BrowserToolComponent />
+              </Suspense>
+            ) : (
+              <div className="text-center">
+                <div className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-5 shadow-soft"
+                  style={gradientStyle}>
+                  <Icon className="w-8 h-8 text-white" />
+                </div>
+                <p className="font-bold text-lg mb-2">Full Tool Interface Coming Soon</p>
+                <p className="text-muted-foreground text-sm max-w-sm mx-auto leading-relaxed">
+                  The interactive UI for <strong>{tool.label}</strong> is being built. Check back shortly — this tool runs entirely in your browser, no uploads needed.
+                </p>
+                <Link to="/tools"
+                  className="inline-flex items-center gap-2 mt-6 px-6 py-3 rounded-full font-bold text-sm border border-border hover:border-primary hover:text-primary transition-all">
+                  <ArrowLeft className="w-4 h-4" /> Browse Other Tools
+                </Link>
+              </div>
+            )}
           </motion.div>
         </section>
 
