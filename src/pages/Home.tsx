@@ -134,7 +134,7 @@ const Home = () => {
 
               <motion.h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-[1.1] mb-5"
                 variants={fadeUp} initial="hidden" animate="visible" custom={1}>
-                Welcome back,{" "}
+                {isGuest ? "Welcome, " : "Welcome back, "}{" "}
                 <span className="gradient-text">{displayName}!</span>
               </motion.h1>
 
@@ -287,9 +287,9 @@ const Home = () => {
                   <h3 className="font-bold text-base mb-2">{f.title}</h3>
                   <p className="text-xs text-muted-foreground leading-relaxed">{f.desc}</p>
                 </div>
-                <Link to={f.link}
+                <Link to={f.link} onClick={f.link !== "/tools" ? lockedClick(f.title) : undefined}
                   className="inline-flex items-center gap-1.5 text-xs font-bold text-primary hover:underline">
-                  {f.cta} <ArrowRight className="w-3.5 h-3.5" />
+                  {isGuest && f.link !== "/tools" ? <><Lock className="w-3 h-3" /> Unlock</> : <>{f.cta} <ArrowRight className="w-3.5 h-3.5" /></>}
                 </Link>
               </motion.div>
             ))}
