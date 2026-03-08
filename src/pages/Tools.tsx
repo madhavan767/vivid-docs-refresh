@@ -3,7 +3,8 @@ import { Link } from "react-router-dom";
 import {
   FileText, FileDown, GitMerge, Scissors, Minimize2, Image, Download,
   Lock, Unlock, Table, Monitor, Zap, Shield, Sparkles, Globe, Users,
-  Gift, ChevronRight, ArrowLeft,
+  Gift, ChevronRight, ArrowLeft, ImageDown, Maximize2, Layers, Crop,
+  RefreshCw, PenTool, ScanLine,
 } from "lucide-react";
 import AppNavbar from "@/components/AppNavbar";
 import Footer from "@/components/Footer";
