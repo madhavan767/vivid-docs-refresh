@@ -1,15 +1,14 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import {
-  FileText, FileDown, GitMerge, Scissors, Minimize2, Image, Download,
-  Lock, Unlock, Table, Monitor, Sparkles, Zap, Shield,
-  Users, Globe, Gift, ChevronRight, CheckCircle, Clock, Star,
-  ArrowRight, TrendingUp,
-  Crop, Maximize2, ImageDown, ScanLine, RefreshCw, Layers, PenTool,
+  Zap, Shield, Sparkles, Globe, Users, Gift,
+  ChevronRight, CheckCircle, Clock, Star,
+  ArrowRight,
 } from "lucide-react";
 import AppNavbar from "@/components/AppNavbar";
 import Footer from "@/components/Footer";
 import { useState } from "react";
+import { toolCategories, getCategoryColorVars } from "@/data/toolsData";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 28 },
@@ -19,72 +18,21 @@ const fadeUp = {
   }),
 };
 
-const pdfTools = [
-  { icon: FileText,  label: "PDF to Word",   slug: "pdf-to-word" },
-  { icon: FileDown,  label: "Word to PDF",   slug: "word-to-pdf" },
-  { icon: GitMerge,  label: "Merge PDF",     slug: "pdf-merge" },
-  { icon: Scissors,  label: "Split PDF",     slug: "pdf-split" },
-  { icon: Minimize2, label: "Compress",      slug: "pdf-compress" },
-  { icon: Image,     label: "Img to PDF",    slug: "image-to-pdf" },
-  { icon: Download,  label: "PDF to Img",    slug: "pdf-to-image" },
-  { icon: Lock,      label: "Protect PDF",   slug: "password-protect" },
-  { icon: Unlock,    label: "Unlock PDF",    slug: "unlock-pdf" },
-  { icon: Table,     label: "Excel to PDF",  slug: "excel-to-pdf" },
-  { icon: Monitor,   label: "PPT to PDF",    slug: "powerpoint-to-pdf" },
-];
-
-const imageTools = [
-  { icon: Crop,      label: "Resize",        slug: "image-resize" },
-  { icon: Maximize2, label: "Upscale",       slug: "image-upscale" },
-  { icon: ImageDown, label: "To ICO",        slug: "image-to-ico" },
-  { icon: ScanLine,  label: "To SVG",        slug: "image-to-svg" },
-  { icon: Minimize2, label: "Compress",      slug: "compress-image" },
-  { icon: RefreshCw, label: "Remove BG",     slug: "remove-background" },
-  { icon: Layers,    label: "Merge Sign",    slug: "merge-photo-sign" },
-  { icon: PenTool,   label: "Watermark",     slug: "add-watermark-image" },
-];
-
-const quickTools = pdfTools.slice(0, 8);
-
-const features = [
-  {
-    icon: Zap,
-    title: "PDF Tools",
-    desc: "Merge, split, compress, or convert PDFs — all in one place, completely free.",
-    link: "/tools",
-    cta: "Browse Tools",
-  },
-  {
-    icon: Sparkles,
-    title: "Image Tools",
-    desc: "Resize, compress, remove backgrounds, and convert images in seconds.",
-    link: "/tools",
-    cta: "Try Tools",
-  },
-  {
-    icon: Shield,
-    title: "Safe & Secure",
-    desc: "Files are processed privately and never stored longer than needed.",
-    link: "/tools",
-    cta: "Get Started",
-  },
-];
-
 const whyPoints = [
   { icon: Zap,      title: "Instant Conversions",       desc: "Convert documents instantly — no formatting loss." },
   { icon: Shield,   title: "Safe and Secure",            desc: "Files are encrypted, private and never shared." },
   { icon: Sparkles, title: "Fast & Reliable",            desc: "Optimised for speed — handle files in seconds." },
   { icon: Globe,    title: "Works on All Devices",       desc: "100% browser-based. Desktop, tablet, or mobile." },
   { icon: Users,    title: "Built for Students & Teams", desc: "Designed for academic and corporate use." },
-  { icon: Gift,     title: "Free Forever Plan",          desc: "Essential tools always free — no sign-up tricks." },
+  { icon: Gift,     title: "Free Forever",               desc: "All 100 tools are completely free — no tricks." },
 ];
 
 const faqs = [
-  { q: "Is Viadocs free to use?",              a: "Yes! Viadocs is completely free to use — all 19 tools are available at no cost, forever." },
+  { q: "Is Viadocs free to use?",              a: "Yes! All 100 tools on Viadocs are completely free to use, forever." },
   { q: "Is my data safe?",                     a: "Absolutely. Files are processed securely on Cloudflare's edge network. We never store files longer than needed." },
   { q: "Does it work on mobile?",              a: "Yes — Viadocs is fully responsive across mobile, tablets and desktop." },
-  { q: "How is this different from ilovepdf?", a: "Viadocs is built specifically for Indian students and professionals, with a clean unified workspace for all document and image tools." },
-  { q: "Can I use it without signing up?",     a: "Most tools are available to use freely, but signing in lets you track your conversion history." },
+  { q: "How is this different from ilovepdf?", a: "Viadocs is built specifically for Indian students and professionals, with 100 tools across PDF, Image, Text, Dev, Security, Web & Utility categories — all in one place." },
+  { q: "Can I use it without signing up?",     a: "Yes — most tools are available without signing in. Signing in lets you track your conversion history." },
 ];
 
 const mockRecent = [
@@ -94,6 +42,9 @@ const mockRecent = [
 
 const Home = () => {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+
+  // Quick tools: first 2 from each of first 4 categories = 8 tools
+  const quickTools = toolCategories.slice(0, 4).flatMap(c => c.tools.slice(0, 2));
 
   return (
     <div className="min-h-screen bg-background">
@@ -128,14 +79,14 @@ const Home = () => {
 
               <motion.p className="text-muted-foreground text-base md:text-lg mb-8 leading-relaxed max-w-lg"
                 variants={fadeUp} initial="hidden" animate="visible" custom={2}>
-                Convert PDFs, resize images, and manage your files with 19 powerful tools — all free.
+                100 free tools — PDF, Image, Text, Developer, Security, Web & Utility. Everything in one place.
               </motion.p>
 
               <motion.div className="flex flex-wrap gap-3 mb-10"
                 variants={fadeUp} initial="hidden" animate="visible" custom={3}>
                 <Link to="/tools"
                   className="btn-gradient inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-bold text-sm shadow-soft">
-                  Explore Tools <ChevronRight className="w-4 h-4" />
+                  Explore All 100 Tools <ChevronRight className="w-4 h-4" />
                 </Link>
               </motion.div>
 
@@ -143,9 +94,9 @@ const Home = () => {
               <motion.div className="grid grid-cols-4 gap-4 max-w-sm"
                 variants={fadeUp} initial="hidden" animate="visible" custom={4}>
                 {[
-                  { v: "19", l: "Tools" },
-                  { v: "100%", l: "Free Plan" },
-                  { v: "Fast", l: "Processing" },
+                  { v: "100", l: "Tools" },
+                  { v: "7",   l: "Categories" },
+                  { v: "100%", l: "Free" },
                   { v: "Safe", l: "& Secure" },
                 ].map((s) => (
                   <div key={s.l} className="text-center">
@@ -167,24 +118,28 @@ const Home = () => {
                     <Zap className="w-3.5 h-3.5" /> Quick Tools
                   </p>
                   <Link to="/tools" className="text-xs font-bold text-primary flex items-center gap-1 hover:underline">
-                    See all <ArrowRight className="w-3 h-3" />
+                    See all 100 <ArrowRight className="w-3 h-3" />
                   </Link>
                 </div>
                 <div className="grid grid-cols-4 gap-2">
-                  {quickTools.slice(0, 8).map((t) => (
-                    <Link key={t.slug} to={`/tools/${t.slug}`}
-                      className="flex flex-col items-center gap-1.5 p-2 rounded-xl border border-border hover:border-primary/40 hover:bg-primary/5 transition-all duration-200 text-center group">
-                      <div className="w-8 h-8 rounded-lg flex items-center justify-center"
-                        style={{ background: "var(--gradient-brand)" }}>
-                        <t.icon className="w-[15px] h-[15px] text-white" />
-                      </div>
-                      <span className="text-[9px] font-semibold leading-tight text-muted-foreground group-hover:text-foreground transition-colors line-clamp-2 text-center">{t.label}</span>
-                    </Link>
-                  ))}
+                  {quickTools.map((t) => {
+                    const cat = toolCategories.find(c => c.id === t.category)!;
+                    const colorVar = getCategoryColorVars(cat.color);
+                    return (
+                      <Link key={t.slug} to={`/tools/${t.slug}`}
+                        className="flex flex-col items-center gap-1.5 p-2 rounded-xl border border-border hover:border-primary/40 hover:bg-primary/5 transition-all duration-200 text-center group">
+                        <div className="w-8 h-8 rounded-lg flex items-center justify-center"
+                          style={{ background: `linear-gradient(135deg, hsl(${colorVar} / 0.9), hsl(${colorVar} / 0.65))` }}>
+                          <t.icon className="w-[15px] h-[15px] text-white" />
+                        </div>
+                        <span className="text-[9px] font-semibold leading-tight text-muted-foreground group-hover:text-foreground transition-colors line-clamp-2 text-center">{t.label}</span>
+                      </Link>
+                    );
+                  })}
                 </div>
               </div>
 
-              {/* Bottom row — recent activity only */}
+              {/* Recent */}
               <div className="card-glass rounded-2xl p-4 shadow-card border border-border flex flex-col gap-2">
                 <p className="text-xs font-bold text-muted-foreground uppercase tracking-wider flex items-center gap-1.5">
                   <Clock className="w-3.5 h-3.5" /> Recent
@@ -202,114 +157,62 @@ const Home = () => {
                   </div>
                 ))}
               </div>
-
             </motion.div>
           </div>
         </div>
       </section>
 
-      {/* ── Features ── */}
-      <section className="py-24 bg-card">
-        <div className="max-w-6xl mx-auto px-6">
-          <motion.div className="text-center mb-14" variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }}>
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold tracking-wider uppercase mb-5"
-              style={{ background: "hsl(var(--brand-teal) / 0.1)", color: "hsl(var(--brand-teal))", border: "1px solid hsl(var(--brand-teal) / 0.25)" }}>
-              <Star className="w-3.5 h-3.5" /> What Viadocs Offers
-            </span>
-            <h2 className="text-3xl md:text-4xl font-extrabold mb-4">
-              Work Smarter with <span className="gradient-text">Viadocs</span>
-            </h2>
-          </motion.div>
-
-          <div className="grid md:grid-cols-3 gap-6">
-            {features.map((f, i) => (
-              <motion.div key={f.title}
-                className="card-glass rounded-2xl p-7 shadow-card flex flex-col gap-4"
-                variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={i}>
-                <div className="w-14 h-14 rounded-2xl flex items-center justify-center shadow-soft"
-                  style={{ background: "var(--gradient-brand)" }}>
-                  <f.icon className="w-7 h-7 text-white" />
-                </div>
-                <div className="flex-1">
-                  <h3 className="font-bold text-base mb-2">{f.title}</h3>
-                  <p className="text-xs text-muted-foreground leading-relaxed">{f.desc}</p>
-                </div>
-                <Link to={f.link}
-                  className="inline-flex items-center gap-1.5 text-xs font-bold text-primary hover:underline">
-                  {f.cta} <ArrowRight className="w-3.5 h-3.5" />
-                </Link>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── All Tools Grid ── */}
+      {/* ── All Categories ── */}
       <section className="py-24">
         <div className="max-w-6xl mx-auto px-6">
           <motion.div className="text-center mb-12" variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }}>
             <h2 className="text-3xl md:text-4xl font-extrabold mb-4">
-              All <span className="gradient-text">PDF & Image Tools</span>
+              All <span className="gradient-text">100 Tools</span> — 7 Categories
             </h2>
             <p className="text-muted-foreground text-sm max-w-xl mx-auto">
-              Pick any tool — upload, convert, download. That simple.
+              Pick any tool — upload or interact — and you're done.
             </p>
           </motion.div>
 
-          {/* PDF Tools */}
-          <div className="mb-8">
-            <div className="flex items-center gap-3 mb-4">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider"
-                style={{ background: "hsl(var(--brand-blue) / 0.1)", color: "hsl(var(--brand-blue))", border: "1px solid hsl(var(--brand-blue) / 0.2)" }}>
-                <FileText className="w-3 h-3" /> PDF Tools
-              </span>
-              <div className="flex-1 h-px bg-border" />
-            </div>
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-              {pdfTools.map((t, i) => (
-                <motion.div key={t.slug} variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={i % 8}>
-                  <Link to={`/tools/${t.slug}`}
-                    className="card-glass rounded-2xl p-5 flex flex-col items-center gap-3 shadow-card text-center group block">
-                    <div className="w-12 h-12 rounded-2xl flex items-center justify-center shadow-soft transition-transform duration-300 group-hover:scale-110"
-                      style={{ background: "var(--gradient-brand)" }}>
-                      <t.icon className="w-6 h-6 text-white" />
-                    </div>
-                    <p className="font-bold text-sm">{t.label}</p>
-                  </Link>
-                </motion.div>
-              ))}
-            </div>
-          </div>
+          {toolCategories.map((cat, catIdx) => {
+            const colorVar = getCategoryColorVars(cat.color);
+            const CatIcon = cat.icon;
+            return (
+              <div key={cat.id} className="mb-10">
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider"
+                    style={{ background: `hsl(${colorVar} / 0.1)`, color: `hsl(${colorVar})`, border: `1px solid hsl(${colorVar} / 0.2)` }}>
+                    <CatIcon className="w-3 h-3" /> {cat.label}
+                    <span className="ml-1 px-1.5 py-0.5 rounded-full text-[10px] font-extrabold"
+                      style={{ background: `hsl(${colorVar} / 0.2)` }}>
+                      {cat.tools.length}
+                    </span>
+                  </span>
+                  <div className="flex-1 h-px bg-border" />
+                </div>
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
+                  {cat.tools.map((t, i) => (
+                    <motion.div key={t.slug} variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={i % 10}>
+                      <Link to={`/tools/${t.slug}`}
+                        className="card-glass rounded-2xl p-4 flex flex-col items-center gap-2.5 shadow-card text-center group block border border-border hover:border-primary/30 transition-all duration-200">
+                        <div className="w-11 h-11 rounded-2xl flex items-center justify-center shadow-soft transition-transform duration-300 group-hover:scale-110"
+                          style={{ background: `linear-gradient(135deg, hsl(${colorVar} / 0.9), hsl(${colorVar} / 0.65))` }}>
+                          <t.icon className="w-5 h-5 text-white" />
+                        </div>
+                        <p className="font-bold text-xs leading-tight">{t.label}</p>
+                      </Link>
+                    </motion.div>
+                  ))}
+                </div>
+                {catIdx < toolCategories.length - 1 && <div className="mt-6" />}
+              </div>
+            );
+          })}
 
-          {/* Image Tools */}
-          <div className="mb-8">
-            <div className="flex items-center gap-3 mb-4">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider"
-                style={{ background: "hsl(var(--brand-teal) / 0.1)", color: "hsl(var(--brand-teal))", border: "1px solid hsl(var(--brand-teal) / 0.2)" }}>
-                <Image className="w-3 h-3" /> Image Tools
-              </span>
-              <div className="flex-1 h-px bg-border" />
-            </div>
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-              {imageTools.map((t, i) => (
-                <motion.div key={t.slug} variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={i % 8}>
-                  <Link to={`/tools/${t.slug}`}
-                    className="card-glass rounded-2xl p-5 flex flex-col items-center gap-3 shadow-card text-center group block">
-                    <div className="w-12 h-12 rounded-2xl flex items-center justify-center shadow-soft transition-transform duration-300 group-hover:scale-110"
-                      style={{ background: "var(--gradient-brand)" }}>
-                      <t.icon className="w-6 h-6 text-white" />
-                    </div>
-                    <p className="font-bold text-sm">{t.label}</p>
-                  </Link>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-
-          <div className="text-center">
+          <div className="text-center mt-6">
             <Link to="/tools"
               className="inline-flex items-center gap-2 px-7 py-3 rounded-full font-bold text-sm border border-border bg-card hover:border-primary hover:text-primary transition-all duration-300 shadow-card">
-              View All Tools <ChevronRight className="w-4 h-4" />
+              View Full Tools Directory <ChevronRight className="w-4 h-4" />
             </Link>
           </div>
         </div>
@@ -358,8 +261,7 @@ const Home = () => {
                 variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={i}>
                 <button
                   className="w-full flex items-center justify-between px-6 py-4 text-left font-bold text-sm hover:bg-primary/3 transition-colors"
-                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                >
+                  onClick={() => setOpenFaq(openFaq === i ? null : i)}>
                   {faq.q}
                   <span className={`ml-4 flex-shrink-0 w-5 h-5 rounded-full flex items-center justify-center text-xs transition-all duration-200 ${openFaq === i ? "btn-gradient text-white" : "bg-muted text-muted-foreground"}`}>
                     {openFaq === i ? "−" : "+"}
@@ -371,8 +273,7 @@ const Home = () => {
                     animate={{ height: "auto", opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}
                     transition={{ duration: 0.25 }}
-                    className="px-6 pb-5 text-sm text-muted-foreground leading-relaxed border-t border-border pt-4"
-                  >
+                    className="px-6 pb-5 text-sm text-muted-foreground leading-relaxed border-t border-border pt-4">
                     {faq.a}
                   </motion.div>
                 )}
