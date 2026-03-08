@@ -80,7 +80,7 @@ const whyPoints = [
 ];
 
 const faqs = [
-  { q: "Is Viadocs free to use?",              a: "Yes! Viadocs offers a free plan with all essential tools. Premium plans unlock unlimited usage and advanced features." },
+  { q: "Is Viadocs free to use?",              a: "Yes! Viadocs is completely free to use — all 19 tools are available at no cost, forever." },
   { q: "Is my data safe?",                     a: "Absolutely. Files are processed securely on Cloudflare's edge network. We never store files longer than needed." },
   { q: "Does it work on mobile?",              a: "Yes — Viadocs is fully responsive across mobile, tablets and desktop." },
   { q: "How is this different from ilovepdf?", a: "Viadocs is built specifically for Indian students and professionals, with a clean unified workspace for all document and image tools." },
@@ -339,30 +339,6 @@ const Home = () => {
               </motion.div>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* ── Premium CTA ── */}
-      <section className="py-20 mx-4 md:mx-12 my-8 rounded-3xl overflow-hidden relative"
-        style={{ background: "linear-gradient(135deg, hsl(var(--brand-indigo) / 0.08), hsl(var(--brand-blue) / 0.08))", border: "1px solid hsl(var(--brand-blue) / 0.15)" }}>
-        <div className="absolute inset-0 pointer-events-none" style={{ background: "var(--gradient-hero-glow)" }} />
-        <div className="max-w-3xl mx-auto px-6 text-center relative z-10">
-          <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }}>
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest mb-5"
-              style={{ background: "hsl(var(--brand-blue) / 0.12)", color: "hsl(var(--brand-blue))" }}>
-              <Star className="w-3 h-3" /> Go Premium
-            </span>
-            <h2 className="text-3xl md:text-4xl font-extrabold mb-4">
-              Unlock <span className="gradient-text">Unlimited Power</span>
-            </h2>
-            <p className="text-muted-foreground text-sm mb-8 max-w-xl mx-auto leading-relaxed">
-              Get unlimited conversions, AI document generation, 100MB file uploads, and priority processing.
-            </p>
-            <Link to="/tools"
-              className="btn-gradient inline-flex items-center gap-2 px-8 py-4 rounded-full font-bold text-sm shadow-hover">
-              Upgrade to Pro <ArrowRight className="w-4 h-4" />
-            </Link>
-          </motion.div>
         </div>
       </section>
 

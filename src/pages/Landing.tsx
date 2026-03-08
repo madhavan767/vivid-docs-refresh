@@ -103,36 +103,7 @@ const testimonials = [
   },
 ];
 
-const plans = [
-  {
-    name: "Free",
-    price: "₹0",
-    period: "forever",
-    desc: "Everything you need to get started.",
-    features: ["11 PDF tools", "5 conversions/day", "10MB max file size", "Browser editor"],
-    cta: "Get Started",
-    gradient: false,
-  },
-  {
-    name: "Pro",
-    price: "₹199",
-    period: "per month",
-    desc: "Unlimited power for professionals.",
-    features: ["Unlimited conversions", "100MB max file size", "All 19 tools", "Conversion history", "Priority processing"],
-    cta: "Start Free Trial",
-    gradient: true,
-    badge: "Most Popular",
-  },
-  {
-    name: "Team",
-    price: "₹599",
-    period: "per month",
-    desc: "For growing teams and enterprises.",
-    features: ["Everything in Pro", "5 team members", "Shared workspace", "Admin dashboard", "API access"],
-    cta: "Contact Sales",
-    gradient: false,
-  },
-];
+const plans = [];
 
 const Landing = () => {
   return (
@@ -147,7 +118,6 @@ const Landing = () => {
           <div className="hidden md:flex items-center gap-6">
             <a href="#features" className="text-sm font-semibold text-muted-foreground hover:text-foreground transition-colors">Features</a>
             <a href="#tools" className="text-sm font-semibold text-muted-foreground hover:text-foreground transition-colors">Tools</a>
-            <a href="#pricing" className="text-sm font-semibold text-muted-foreground hover:text-foreground transition-colors">Pricing</a>
           </div>
           <div className="flex items-center gap-3">
             <Link to="/login" className="text-sm font-semibold text-muted-foreground hover:text-foreground transition-colors hidden md:block">
@@ -461,61 +431,6 @@ const Landing = () => {
         </div>
       </section>
 
-      {/* ── Pricing ── */}
-      <section id="pricing" className="py-24 bg-card">
-        <div className="max-w-7xl mx-auto px-6">
-          <motion.div className="text-center mb-14" variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }}>
-            <h2 className="text-4xl md:text-5xl font-extrabold mb-4">
-              Simple <span className="gradient-text">Pricing</span>
-            </h2>
-            <p className="text-muted-foreground text-sm">Start free. Upgrade when you're ready.</p>
-          </motion.div>
-
-          <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-            {plans.map((p, i) => (
-              <motion.div key={p.name}
-                className={`rounded-2xl p-8 flex flex-col gap-5 relative overflow-hidden ${
-                  p.gradient
-                    ? "text-white shadow-hover"
-                    : "card-glass shadow-card border border-border"
-                }`}
-                style={p.gradient ? { background: "var(--gradient-brand)" } : {}}
-                variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={i}>
-                {p.badge && (
-                  <span className="absolute top-4 right-4 text-[10px] font-bold px-2.5 py-1 rounded-full bg-white/20">
-                    {p.badge}
-                  </span>
-                )}
-                <div>
-                  <p className={`font-bold text-sm uppercase tracking-wider mb-1 ${p.gradient ? "text-white/70" : "text-muted-foreground"}`}>{p.name}</p>
-                  <div className="flex items-baseline gap-1">
-                    <span className="text-4xl font-extrabold">{p.price}</span>
-                    <span className={`text-sm ${p.gradient ? "text-white/60" : "text-muted-foreground"}`}>/{p.period}</span>
-                  </div>
-                  <p className={`text-sm mt-1 ${p.gradient ? "text-white/70" : "text-muted-foreground"}`}>{p.desc}</p>
-                </div>
-                <ul className="flex flex-col gap-2.5 flex-1">
-                  {p.features.map(f => (
-                    <li key={f} className="flex items-center gap-2.5 text-sm font-medium">
-                      <CheckCircle className={`w-4 h-4 flex-shrink-0 ${p.gradient ? "text-white/80" : "text-primary"}`} />
-                      {f}
-                    </li>
-                  ))}
-                </ul>
-                <Link to="/login?tab=signup"
-                  className={`w-full py-3 rounded-xl font-bold text-sm text-center transition-all duration-200 ${
-                    p.gradient
-                      ? "bg-white/20 hover:bg-white/30 text-white"
-                      : "btn-gradient text-white shadow-soft"
-                  }`}>
-                  {p.cta}
-                </Link>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* ── Final CTA ── */}
       <section className="py-24 relative overflow-hidden">
         <div className="absolute inset-0 pointer-events-none"
@@ -532,7 +447,7 @@ const Landing = () => {
               className="btn-gradient inline-flex items-center gap-2 px-10 py-4 rounded-full font-bold text-base shadow-hover">
               Get Started — It's Free <ChevronRight className="w-5 h-5" />
             </Link>
-            <p className="text-xs text-muted-foreground mt-4">No credit card required · Free forever plan</p>
+            <p className="text-xs text-muted-foreground mt-4">100% free · No sign-up required for most tools</p>
           </motion.div>
         </div>
       </section>
