@@ -1,15 +1,12 @@
 import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
 import {
-  Menu, X, Home, Wrench, FilePlus, LogOut, ChevronDown, UserCircle,
+  Menu, X, Home, Wrench, LogOut, ChevronDown, UserCircle,
 } from "lucide-react";
-import logo from "@/assets/viadocs-logo.png";
 
 const navLinks = [
-  { label: "Home",       to: "/home",       icon: Home },
-  { label: "Tools",      to: "/tools",      icon: Wrench },
-  { label: "Create Doc", to: "/create-doc", icon: FilePlus },
-  
+  { label: "Home",  to: "/home",  icon: Home },
+  { label: "Tools", to: "/tools", icon: Wrench },
 ];
 
 const AppNavbar = () => {
