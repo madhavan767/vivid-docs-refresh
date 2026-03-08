@@ -3,6 +3,7 @@ import { useState } from "react";
 import {
   Menu, X, Home, Wrench, LogOut, ChevronDown, UserCircle,
 } from "lucide-react";
+import logo from "@/assets/viadocs-logo.png";
 
 const navLinks = [
   { label: "Home",  to: "/home",  icon: Home },
