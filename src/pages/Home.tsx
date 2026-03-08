@@ -4,7 +4,8 @@ import {
   FileText, FileDown, GitMerge, Scissors, Minimize2, Image, Download,
   Lock, Unlock, Table, Monitor, Plus, Sparkles, Zap, Shield,
   Users, Globe, Gift, ChevronRight, CheckCircle, Clock, Star,
-  ArrowRight, BookOpen, TrendingUp, Settings,
+  ArrowRight, BookOpen, TrendingUp,
+  Crop, Maximize2, ImageDown, ScanLine, RefreshCw, Layers, PenTool,
 } from "lucide-react";
 import AppNavbar from "@/components/AppNavbar";
 import Footer from "@/components/Footer";
@@ -20,7 +21,7 @@ const fadeUp = {
   }),
 };
 
-const quickTools = [
+const pdfTools = [
   { icon: FileText,  label: "PDF to Word",   slug: "pdf-to-word" },
   { icon: FileDown,  label: "Word to PDF",   slug: "word-to-pdf" },
   { icon: GitMerge,  label: "Merge PDF",     slug: "pdf-merge" },
@@ -33,6 +34,20 @@ const quickTools = [
   { icon: Table,     label: "Excel to PDF",  slug: "excel-to-pdf" },
   { icon: Monitor,   label: "PPT to PDF",    slug: "powerpoint-to-pdf" },
 ];
+
+const imageTools = [
+  { icon: Crop,      label: "Resize",        slug: "image-resize" },
+  { icon: Maximize2, label: "Upscale",       slug: "image-upscale" },
+  { icon: ImageDown, label: "To ICO",        slug: "image-to-ico" },
+  { icon: ScanLine,  label: "To SVG",        slug: "image-to-svg" },
+  { icon: Minimize2, label: "Compress",      slug: "compress-image" },
+  { icon: RefreshCw, label: "Remove BG",     slug: "remove-background" },
+  { icon: Layers,    label: "Merge Sign",    slug: "merge-photo-sign" },
+  { icon: PenTool,   label: "Watermark",     slug: "add-watermark-image" },
+];
+
+// Quick tools shown in the hero panel (first 8 PDF tools)
+const quickTools = pdfTools.slice(0, 8);
 
 const features = [
   {
