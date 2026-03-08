@@ -1,6 +1,6 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { Menu, X, Home, Wrench, FilePlus, Star, LogOut, ChevronDown } from "lucide-react";
+import { Menu, X, Home, Wrench, FilePlus, Star, LogOut, ChevronDown, UserCircle } from "lucide-react";
 import logo from "@/assets/viadocs-logo.png";
 import { useAuth } from "@/contexts/AuthContext";
 
