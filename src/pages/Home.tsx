@@ -104,6 +104,11 @@ const Home = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <GuestUpgradeModal
+        open={upgradeModal.open}
+        onClose={() => setUpgradeModal({ open: false })}
+        featureName={upgradeModal.featureName}
+      />
       <AppNavbar />
 
       {/* ── Hero ── */}
