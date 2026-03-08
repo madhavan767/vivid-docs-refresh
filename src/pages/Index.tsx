@@ -33,19 +33,19 @@ const tools = [
 
 const features = [
   {
-    icon: Plus,
-    title: "Create Documents Instantly",
-    desc: "Generate professional projects, assignments, and resumes in seconds using Viadocs' AI document builder — built for students and employees.",
-  },
-  {
     icon: Zap,
     title: "All-in-One PDF Tools",
     desc: "Merge, split, compress, or convert PDFs instantly. Manage your files securely — anytime, anywhere.",
   },
   {
     icon: Sparkles,
-    title: "AI-Powered Assistance",
-    desc: "Let our AI help summarize, rewrite, or extract key data from documents — boosting your productivity and creativity.",
+    title: "Image Tools",
+    desc: "Resize, compress, remove backgrounds, and convert images online — no software needed.",
+  },
+  {
+    icon: Shield,
+    title: "Safe & Secure",
+    desc: "Files are processed privately. We never store your documents longer than needed.",
   },
 ];
 
