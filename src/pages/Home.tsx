@@ -2,9 +2,9 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import {
   FileText, FileDown, GitMerge, Scissors, Minimize2, Image, Download,
-  Lock, Unlock, Table, Monitor, Plus, Sparkles, Zap, Shield,
+  Lock, Unlock, Table, Monitor, Sparkles, Zap, Shield,
   Users, Globe, Gift, ChevronRight, CheckCircle, Clock, Star,
-  ArrowRight, BookOpen, TrendingUp,
+  ArrowRight, TrendingUp,
   Crop, Maximize2, ImageDown, ScanLine, RefreshCw, Layers, PenTool,
 } from "lucide-react";
 import AppNavbar from "@/components/AppNavbar";
