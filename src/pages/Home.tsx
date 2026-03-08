@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import AppNavbar from "@/components/AppNavbar";
 import Footer from "@/components/Footer";
+import GuestUpgradeModal from "@/components/GuestUpgradeModal";
 import { useAuth } from "@/contexts/AuthContext";
 import { useState } from "react";
 
