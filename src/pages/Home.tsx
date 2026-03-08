@@ -128,7 +128,7 @@ const Home = () => {
 
               <motion.p className="text-muted-foreground text-base md:text-lg mb-8 leading-relaxed max-w-lg"
                 variants={fadeUp} initial="hidden" animate="visible" custom={2}>
-                Create professional documents, convert PDFs, and manage your files with AI-powered tools built for you.
+                Convert PDFs, resize images, and manage your files with 19 powerful tools — all free.
               </motion.p>
 
               <motion.div className="flex flex-wrap gap-3 mb-10"
@@ -136,10 +136,6 @@ const Home = () => {
                 <Link to="/tools"
                   className="btn-gradient inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-bold text-sm shadow-soft">
                   Explore Tools <ChevronRight className="w-4 h-4" />
-                </Link>
-                <Link to="/create-doc"
-                  className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-bold text-sm bg-card border border-border text-foreground hover:border-primary hover:text-primary transition-all duration-300 shadow-card">
-                  <Plus className="w-4 h-4" /> Create Document
                 </Link>
               </motion.div>
 
