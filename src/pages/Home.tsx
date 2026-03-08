@@ -317,26 +317,61 @@ const Home = () => {
         <div className="max-w-6xl mx-auto px-6">
           <motion.div className="text-center mb-12" variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }}>
             <h2 className="text-3xl md:text-4xl font-extrabold mb-4">
-              All <span className="gradient-text">PDF Tools</span>
+              All <span className="gradient-text">PDF & Image Tools</span>
             </h2>
             <p className="text-muted-foreground text-sm max-w-xl mx-auto">
               Pick any tool — upload, convert, download. That simple.
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mb-8">
-            {quickTools.map((t, i) => (
-              <motion.div key={t.slug} variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={i % 8}>
-                <Link to={`/tools/${t.slug}`}
-                  className="card-glass rounded-2xl p-5 flex flex-col items-center gap-3 shadow-card text-center group block">
-                  <div className="w-12 h-12 rounded-2xl flex items-center justify-center shadow-soft transition-transform duration-300 group-hover:scale-110"
-                    style={{ background: "var(--gradient-brand)" }}>
-                    <t.icon className="w-6 h-6 text-white" />
-                  </div>
-                  <p className="font-bold text-sm">{t.label}</p>
-                </Link>
-              </motion.div>
-            ))}
+          {/* PDF Tools */}
+          <div className="mb-8">
+            <div className="flex items-center gap-3 mb-4">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider"
+                style={{ background: "hsl(var(--brand-blue) / 0.1)", color: "hsl(var(--brand-blue))", border: "1px solid hsl(var(--brand-blue) / 0.2)" }}>
+                <FileText className="w-3 h-3" /> PDF Tools
+              </span>
+              <div className="flex-1 h-px bg-border" />
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+              {pdfTools.map((t, i) => (
+                <motion.div key={t.slug} variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={i % 8}>
+                  <Link to={`/tools/${t.slug}`}
+                    className="card-glass rounded-2xl p-5 flex flex-col items-center gap-3 shadow-card text-center group block">
+                    <div className="w-12 h-12 rounded-2xl flex items-center justify-center shadow-soft transition-transform duration-300 group-hover:scale-110"
+                      style={{ background: "var(--gradient-brand)" }}>
+                      <t.icon className="w-6 h-6 text-white" />
+                    </div>
+                    <p className="font-bold text-sm">{t.label}</p>
+                  </Link>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+
+          {/* Image Tools */}
+          <div className="mb-8">
+            <div className="flex items-center gap-3 mb-4">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider"
+                style={{ background: "hsl(var(--brand-teal) / 0.1)", color: "hsl(var(--brand-teal))", border: "1px solid hsl(var(--brand-teal) / 0.2)" }}>
+                <Image className="w-3 h-3" /> Image Tools
+              </span>
+              <div className="flex-1 h-px bg-border" />
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+              {imageTools.map((t, i) => (
+                <motion.div key={t.slug} variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={i % 8}>
+                  <Link to={`/tools/${t.slug}`}
+                    className="card-glass rounded-2xl p-5 flex flex-col items-center gap-3 shadow-card text-center group block">
+                    <div className="w-12 h-12 rounded-2xl flex items-center justify-center shadow-soft transition-transform duration-300 group-hover:scale-110"
+                      style={{ background: "var(--gradient-brand)" }}>
+                      <t.icon className="w-6 h-6 text-white" />
+                    </div>
+                    <p className="font-bold text-sm">{t.label}</p>
+                  </Link>
+                </motion.div>
+              ))}
+            </div>
           </div>
 
           <div className="text-center">
