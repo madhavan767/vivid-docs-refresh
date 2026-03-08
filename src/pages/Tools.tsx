@@ -101,7 +101,7 @@ const Tools = () => {
                 className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold tracking-wider uppercase mb-5"
                 style={{ background: "hsl(var(--brand-blue) / 0.1)", color: "hsl(var(--brand-blue))", border: "1px solid hsl(var(--brand-blue) / 0.25)" }}
               >
-                <Zap className="w-3.5 h-3.5" /> 11 Powerful PDF Tools
+                <Zap className="w-3.5 h-3.5" /> 19 Powerful Tools
               </span>
             </motion.div>
 
