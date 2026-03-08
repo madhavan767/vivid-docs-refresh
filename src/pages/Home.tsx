@@ -248,7 +248,7 @@ const Home = () => {
                           </div>
                         </div>
                       ))}
-                      <Link to="/favorites" className="text-[10px] font-bold text-primary flex items-center gap-1 hover:underline mt-1">
+                      <Link to="/favorites" onClick={lockedClick("Favorites")} className="text-[10px] font-bold text-primary flex items-center gap-1 hover:underline mt-1">
                         View all <ArrowRight className="w-2.5 h-2.5" />
                       </Link>
                     </div>
