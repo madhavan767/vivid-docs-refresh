@@ -305,7 +305,7 @@ const Landing = () => {
             {[
               { v: "10K+", l: "Users" },
               { v: "500K+", l: "Files Processed" },
-              { v: "11", l: "PDF Tools" },
+              { v: "19", l: "Tools" },
               { v: "99.9%", l: "Uptime" },
               { v: "100%", l: "Free Plan" },
             ].map(s => (

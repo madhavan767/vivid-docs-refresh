@@ -174,7 +174,7 @@ const Home = () => {
               <motion.div className="grid grid-cols-4 gap-4 max-w-sm"
                 variants={fadeUp} initial="hidden" animate="visible" custom={4}>
                 {[
-                  { v: "11+", l: "PDF Tools" },
+                  { v: "19", l: "Tools" },
                   { v: "100%", l: "Free Plan" },
                   { v: "AI", l: "Powered" },
                   { v: "R2", l: "Storage" },
