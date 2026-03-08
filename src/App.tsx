@@ -9,7 +9,6 @@ import Home from "./pages/Home";
 import Tools from "./pages/Tools";
 import ToolPage from "./pages/ToolPage";
 import CreateDoc from "./pages/CreateDoc";
-import Favorites from "./pages/Favorites";
 import NotFound from "./pages/NotFound";
 import Profile from "./pages/Profile";
 
@@ -28,7 +27,7 @@ const App = () => (
           <Route path="/tools" element={<Tools />} />
           <Route path="/tools/:slug" element={<ToolPage />} />
           <Route path="/create-doc" element={<CreateDoc />} />
-          <Route path="/favorites" element={<Favorites />} />
+          
           <Route path="/profile" element={<Profile />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
