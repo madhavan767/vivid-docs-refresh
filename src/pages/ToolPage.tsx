@@ -101,6 +101,63 @@ const toolMap: Record<string, {
     seoDesc: "Convert PowerPoint presentations to PDF online.",
     steps: ["Upload your PPT file", "Slides are exported as PDF", "Download your PDF"],
   },
+  // ── Image Tools ──────────────────────────────────────────────────────────
+  "image-resize": {
+    icon: Crop, label: "Image Resize", inputLabel: "Image", inputFormat: ".jpg,.jpeg,.png,.webp,.gif,.bmp",
+    desc: "Resize images to any dimension while maintaining quality.",
+    seoTitle: "Resize Image Online – Free Image Resizer",
+    seoDesc: "Resize any image to custom dimensions online for free with Viadocs.",
+    steps: ["Upload your image", "Set target dimensions", "Download resized image"],
+  },
+  "image-upscale": {
+    icon: Maximize2, label: "Image Upscale", inputLabel: "Image", inputFormat: ".jpg,.jpeg,.png,.webp",
+    desc: "Upscale images up to 4× using high-quality resampling.",
+    seoTitle: "Upscale Image Online – Enhance Image Resolution",
+    seoDesc: "Upscale and enhance image resolution online with Viadocs.",
+    steps: ["Upload your image", "AI upscales resolution", "Download enhanced image"],
+  },
+  "image-to-ico": {
+    icon: ImageDown, label: "Image to ICO", inputLabel: "Image", inputFormat: ".jpg,.jpeg,.png,.webp,.bmp",
+    desc: "Convert any image into a .ico favicon file with multiple sizes.",
+    seoTitle: "Convert Image to ICO – Free Favicon Converter",
+    seoDesc: "Convert JPG or PNG images to .ico favicon format online.",
+    steps: ["Upload your image", "We generate ICO sizes", "Download .ico file"],
+  },
+  "image-to-svg": {
+    icon: ScanLine, label: "Image to SVG", inputLabel: "Image", inputFormat: ".jpg,.jpeg,.png,.bmp",
+    desc: "Vectorize raster images into scalable SVG format.",
+    seoTitle: "Convert Image to SVG – Free Vectorizer",
+    seoDesc: "Convert PNG or JPG images to scalable SVG vector format online.",
+    steps: ["Upload your image", "We trace & vectorize", "Download SVG file"],
+  },
+  "compress-image": {
+    icon: Minimize2, label: "Compress Image", inputLabel: "Image", inputFormat: ".jpg,.jpeg,.png,.webp",
+    desc: "Reduce image file size without visible quality loss.",
+    seoTitle: "Compress Image Online – Reduce Image Size Free",
+    seoDesc: "Compress and reduce image file size online without losing quality.",
+    steps: ["Upload your image", "We optimise compression", "Download smaller image"],
+  },
+  "remove-background": {
+    icon: RefreshCw, label: "Remove Background", inputLabel: "Image", inputFormat: ".jpg,.jpeg,.png,.webp",
+    desc: "Automatically remove the background from any photo.",
+    seoTitle: "Remove Background from Image – Free AI Tool",
+    seoDesc: "Remove image backgrounds automatically online with Viadocs AI.",
+    steps: ["Upload your image", "AI removes background", "Download transparent PNG"],
+  },
+  "merge-photo-sign": {
+    icon: Layers, label: "Merge Photo & Sign", inputLabel: "Image", inputFormat: ".jpg,.jpeg,.png,.webp",
+    desc: "Overlay a signature or stamp onto a photo or document.",
+    seoTitle: "Merge Photo and Signature – Free Online Tool",
+    seoDesc: "Overlay a signature onto a photo or document image online.",
+    steps: ["Upload base photo", "Upload signature image", "Download merged photo"],
+  },
+  "add-watermark-image": {
+    icon: PenTool, label: "Add Watermark", inputLabel: "Image", inputFormat: ".jpg,.jpeg,.png,.webp",
+    desc: "Stamp a text or image watermark onto your photos.",
+    seoTitle: "Add Watermark to Image – Free Online Watermark Tool",
+    seoDesc: "Add text or image watermarks to photos online with Viadocs.",
+    steps: ["Upload your image", "Set watermark text", "Download watermarked image"],
+  },
 };
 
 type Step = "idle" | "ready" | "converting" | "done" | "error";
