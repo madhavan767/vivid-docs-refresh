@@ -31,8 +31,8 @@ const App = () => (
 
             {/* Protected routes */}
             <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>} />
-            <Route path="/tools" element={<ProtectedRoute><Tools /></ProtectedRoute>} />
-            <Route path="/tools/:slug" element={<ProtectedRoute><ToolPage /></ProtectedRoute>} />
+            <Route path="/tools" element={<ProtectedRoute guestAllowed><Tools /></ProtectedRoute>} />
+            <Route path="/tools/:slug" element={<ProtectedRoute guestAllowed><ToolPage /></ProtectedRoute>} />
             <Route path="/create-doc" element={<ProtectedRoute><CreateDoc /></ProtectedRoute>} />
             <Route path="/favorites" element={<ProtectedRoute><Favorites /></ProtectedRoute>} />
             <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
