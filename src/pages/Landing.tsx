@@ -58,8 +58,8 @@ const features = [
   },
   {
     icon: Sparkles,
-    title: "AI Document Builder",
-    desc: "Generate professional reports, assignments, and resumes with our AI-powered editor.",
+    title: "19 Powerful Tools",
+    desc: "From PDF merging to image background removal — everything you need in one place.",
     color: "hsl(var(--brand-indigo))",
   },
   {
@@ -77,7 +77,7 @@ const features = [
   {
     icon: Star,
     title: "Free Forever Plan",
-    desc: "Start with all essential tools for free. Upgrade for unlimited AI and priority processing.",
+    desc: "Start with all essential tools for free. Upgrade for unlimited usage and priority processing.",
     color: "hsl(var(--brand-indigo))",
   },
 ];
