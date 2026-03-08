@@ -184,54 +184,23 @@ const Home = () => {
                 </div>
               </div>
 
-              {/* Bottom row */}
-              <div className="grid grid-cols-2 gap-4">
-                {/* Create Doc */}
-                <Link to="/create-doc"
-                  className="card-glass rounded-2xl p-4 shadow-card border border-border flex flex-col gap-3 group hover:border-primary/40 transition-all duration-200">
-                  <div className="w-10 h-10 rounded-xl flex items-center justify-center"
-                    style={{ background: "var(--gradient-brand)" }}>
-                    <BookOpen className="w-5 h-5 text-white" />
-                  </div>
-                  <div>
-                    <p className="font-bold text-sm">Create Doc</p>
-                    <p className="text-[10px] text-muted-foreground mt-0.5">Word-style editor</p>
-                  </div>
-                  <span className="btn-gradient text-[10px] font-bold px-3 py-1 rounded-full inline-flex items-center gap-1 w-fit">
-                    Open <ArrowRight className="w-2.5 h-2.5" />
-                  </span>
-                </Link>
-
-                {/* Recent activity */}
-                <div className="card-glass rounded-2xl p-4 shadow-card border border-border flex flex-col gap-2">
-                  <p className="text-xs font-bold text-muted-foreground uppercase tracking-wider flex items-center gap-1.5">
-                    <Clock className="w-3.5 h-3.5" /> Recent
-                  </p>
-                  {mockRecent.length === 0 ? (
-                    <div className="flex-1 flex flex-col items-center justify-center text-center py-2">
-                      <TrendingUp className="w-7 h-7 text-muted-foreground/30 mb-1" />
-                      <p className="text-[10px] text-muted-foreground">No conversions yet</p>
+              {/* Bottom row — recent activity only */}
+              <div className="card-glass rounded-2xl p-4 shadow-card border border-border flex flex-col gap-2">
+                <p className="text-xs font-bold text-muted-foreground uppercase tracking-wider flex items-center gap-1.5">
+                  <Clock className="w-3.5 h-3.5" /> Recent
+                </p>
+                {mockRecent.map((c) => (
+                  <div key={c.id} className="flex items-center gap-2">
+                    <div className="w-6 h-6 rounded-md flex items-center justify-center flex-shrink-0"
+                      style={{ background: "var(--gradient-brand)" }}>
+                      <CheckCircle className="w-3 h-3 text-white" />
                     </div>
-                  ) : (
-                    <div className="space-y-2">
-                      {mockRecent.map((c) => (
-                        <div key={c.id} className="flex items-center gap-2">
-                          <div className="w-6 h-6 rounded-md flex items-center justify-center flex-shrink-0"
-                            style={{ background: "var(--gradient-brand)" }}>
-                            <CheckCircle className="w-3 h-3 text-white" />
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <p className="text-[10px] font-semibold truncate">{c.file_name}</p>
-                            <p className="text-[9px] text-muted-foreground">{c.tool_label}</p>
-                          </div>
-                        </div>
-                      ))}
-                      <Link to="/home" className="text-[10px] font-bold text-primary flex items-center gap-1 hover:underline mt-1">
-                        View all <ArrowRight className="w-2.5 h-2.5" />
-                      </Link>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-[10px] font-semibold truncate">{c.file_name}</p>
+                      <p className="text-[9px] text-muted-foreground">{c.tool_label}</p>
                     </div>
-                  )}
-                </div>
+                  </div>
+                ))}
               </div>
 
             </motion.div>
