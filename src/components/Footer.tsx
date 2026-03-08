@@ -17,7 +17,7 @@ const Footer = () => (
           <p className="text-white/70 text-sm leading-relaxed">
             Built with passion by{" "}
             <span className="text-white font-semibold">Work Wizards Innovations</span>.<br />
-            Empowering creators, professionals, and teams with smarter AI-powered document tools.
+            Empowering creators, professionals, and teams with smarter document tools.
           </p>
         </div>
 
