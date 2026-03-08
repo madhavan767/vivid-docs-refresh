@@ -1,9 +1,9 @@
 import { useState, useRef, useCallback } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Bold, Italic, Underline, List, AlignLeft, AlignCenter, AlignRight,
-  Type, Heading1, Heading2, Link2, Image as ImageIcon, Download,
-  Sparkles, Save, Trash2, FileText
+  Type, Heading1, Heading2, Download, Save, Trash2, FileText,
+  Sparkles, Clock, Rocket, X,
 } from "lucide-react";
 import AppNavbar from "@/components/AppNavbar";
 import Footer from "@/components/Footer";
@@ -35,9 +35,81 @@ const ToolbarBtn = ({
   </button>
 );
 
+// ── Coming Soon Modal ─────────────────────────────────────────────────────────
+const ComingSoonModal = ({ onClose }: { onClose: () => void }) => (
+  <AnimatePresence>
+    <motion.div
+      className="fixed inset-0 z-[80] bg-background/60 backdrop-blur-sm"
+      initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+      onClick={onClose}
+    />
+    <motion.div
+      className="fixed inset-0 z-[90] flex items-center justify-center px-4 pointer-events-none"
+      initial={{ opacity: 0, scale: 0.95, y: 16 }}
+      animate={{ opacity: 1, scale: 1, y: 0 }}
+      exit={{ opacity: 0, scale: 0.95, y: 16 }}
+      transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+    >
+      <div className="card-glass rounded-3xl border border-border shadow-hover w-full max-w-sm pointer-events-auto overflow-hidden">
+        <div className="h-1.5 w-full" style={{ background: "var(--gradient-brand)" }} />
+        <div className="p-7 relative">
+          <button
+            onClick={onClose}
+            className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-xl text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-all"
+          >
+            <X className="w-4 h-4" />
+          </button>
+
+          {/* Animated icon */}
+          <div className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-5 shadow-soft relative overflow-hidden"
+            style={{ background: "var(--gradient-brand)" }}>
+            <motion.div
+              animate={{ rotate: [0, 10, -10, 0], scale: [1, 1.1, 1] }}
+              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+            >
+              <Rocket className="w-7 h-7 text-white" />
+            </motion.div>
+          </div>
+
+          <h2 className="text-xl font-extrabold text-center mb-2">Coming Soon! 🚀</h2>
+          <p className="text-sm text-muted-foreground text-center mb-6 leading-relaxed">
+            The AI-powered Document Editor is under active development. You'll be able to generate full documents, resumes, and assignments from a simple prompt.
+          </p>
+
+          {/* Feature preview list */}
+          <div className="space-y-2.5 mb-6">
+            {[
+              { icon: Sparkles, label: "Generate docs from a prompt" },
+              { icon: FileText,  label: "AI resume & cover letter builder" },
+              { icon: Clock,     label: "Auto-formatting & styles" },
+            ].map(({ icon: Icon, label }) => (
+              <div key={label} className="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-muted/40 border border-border">
+                <Icon className="w-4 h-4 text-primary flex-shrink-0" />
+                <span className="text-xs font-semibold">{label}</span>
+                <span className="ml-auto text-[10px] font-bold px-2 py-0.5 rounded-full border border-dashed border-primary/40 text-primary">
+                  Soon
+                </span>
+              </div>
+            ))}
+          </div>
+
+          <button
+            onClick={onClose}
+            className="btn-gradient w-full py-3 rounded-xl font-bold text-sm shadow-soft"
+          >
+            Got it, I'll wait!
+          </button>
+        </div>
+      </div>
+    </motion.div>
+  </AnimatePresence>
+);
+
+// ── Main Page ─────────────────────────────────────────────────────────────────
 const CreateDoc = () => {
   const [title, setTitle] = useState("Untitled Document");
   const [saved, setSaved] = useState(false);
+  const [showAiModal, setShowAiModal] = useState(false);
   const editorRef = useRef<HTMLDivElement>(null);
 
   const exec = useCallback((command: string, value?: string) => {
@@ -88,6 +160,7 @@ const CreateDoc = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      {showAiModal && <ComingSoonModal onClose={() => setShowAiModal(false)} />}
       <AppNavbar />
 
       <div className="pt-20 max-w-5xl mx-auto px-4 pb-24">
@@ -102,6 +175,20 @@ const CreateDoc = () => {
             <h1 className="text-xl font-extrabold">Document Editor</h1>
           </div>
           <div className="flex items-center gap-2">
+            {/* AI Button — Coming Soon */}
+            <button
+              onClick={() => setShowAiModal(true)}
+              className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold border border-dashed transition-all duration-200 relative group"
+              style={{ borderColor: "hsl(var(--brand-blue) / 0.4)", color: "hsl(var(--brand-blue))" }}
+            >
+              <Sparkles className="w-3.5 h-3.5" />
+              AI Generate
+              <span className="absolute -top-2 -right-2 text-[9px] font-extrabold px-1.5 py-0.5 rounded-full text-white shadow-sm"
+                style={{ background: "var(--gradient-brand)" }}>
+                Soon
+              </span>
+            </button>
+
             <button
               onClick={handleSave}
               className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 ${
@@ -192,10 +279,18 @@ const CreateDoc = () => {
 
           {/* Bottom bar */}
           <div className="px-8 py-4 border-t border-border bg-background/30 flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-primary" />
-              <span className="text-xs text-muted-foreground font-medium">Powered by Viadocs Editor</span>
-            </div>
+            <button
+              onClick={() => setShowAiModal(true)}
+              className="flex items-center gap-2 text-xs font-semibold transition-colors hover:opacity-80"
+              style={{ color: "hsl(var(--brand-blue))" }}
+            >
+              <Sparkles className="w-3.5 h-3.5" />
+              AI Editor — Coming Soon
+              <span className="px-1.5 py-0.5 rounded-full text-[9px] font-extrabold text-white"
+                style={{ background: "var(--gradient-brand)" }}>
+                🚀
+              </span>
+            </button>
             <p className="text-xs text-muted-foreground">Changes auto-tracked</p>
           </div>
         </motion.div>
