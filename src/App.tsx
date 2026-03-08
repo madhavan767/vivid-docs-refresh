@@ -13,6 +13,7 @@ import ToolPage from "./pages/ToolPage";
 import CreateDoc from "./pages/CreateDoc";
 import Favorites from "./pages/Favorites";
 import NotFound from "./pages/NotFound";
+import Profile from "./pages/Profile";
 
 const queryClient = new QueryClient();
 

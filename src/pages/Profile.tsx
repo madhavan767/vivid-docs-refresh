@@ -60,7 +60,7 @@ const Profile = () => {
     navigate("/");
   };
 
-  const plan = "Free"; // TODO: fetch from API
+  const plan: "Free" | "Pro" = "Free"; // TODO: fetch from API
 
   return (
     <div className="min-h-screen bg-background">
