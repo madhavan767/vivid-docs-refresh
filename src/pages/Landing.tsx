@@ -118,7 +118,7 @@ const plans = [
     price: "₹199",
     period: "per month",
     desc: "Unlimited power for professionals.",
-    features: ["Unlimited conversions", "100MB max file size", "AI document builder", "Conversion history", "Priority processing"],
+    features: ["Unlimited conversions", "100MB max file size", "All 19 tools", "Conversion history", "Priority processing"],
     cta: "Start Free Trial",
     gradient: true,
     badge: "Most Popular",
