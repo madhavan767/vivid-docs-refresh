@@ -30,12 +30,12 @@ const App = () => (
             <Route path="/login" element={<Login />} />
 
             {/* Protected routes */}
-            <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>} />
+            <Route path="/home" element={<ProtectedRoute featureName="Dashboard"><Home /></ProtectedRoute>} />
             <Route path="/tools" element={<ProtectedRoute guestAllowed><Tools /></ProtectedRoute>} />
             <Route path="/tools/:slug" element={<ProtectedRoute guestAllowed><ToolPage /></ProtectedRoute>} />
-            <Route path="/create-doc" element={<ProtectedRoute><CreateDoc /></ProtectedRoute>} />
-            <Route path="/favorites" element={<ProtectedRoute><Favorites /></ProtectedRoute>} />
-            <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+            <Route path="/create-doc" element={<ProtectedRoute featureName="Document Editor"><CreateDoc /></ProtectedRoute>} />
+            <Route path="/favorites" element={<ProtectedRoute featureName="Favorites"><Favorites /></ProtectedRoute>} />
+            <Route path="/profile" element={<ProtectedRoute featureName="Profile"><Profile /></ProtectedRoute>} />
 
             {/* Catch-all */}
             <Route path="*" element={<NotFound />} />
