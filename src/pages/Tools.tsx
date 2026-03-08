@@ -139,40 +139,111 @@ const Tools = () => {
 
       {/* ── Tools Grid ── */}
       <section id="tools-grid" className="pb-24 max-w-6xl mx-auto px-6">
+
+        {/* PDF Tools */}
         <motion.div
-          className="text-center mb-10"
+          className="mb-6"
           variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }}
         >
-          <h2 className="text-2xl md:text-3xl font-extrabold">
-            Pick a <span className="gradient-text">Tool</span> to Get Started
-          </h2>
+          <div className="flex items-center gap-3 mb-6">
+            <span
+              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider"
+              style={{ background: "hsl(var(--brand-blue) / 0.1)", color: "hsl(var(--brand-blue))", border: "1px solid hsl(var(--brand-blue) / 0.2)" }}
+            >
+              <FileText className="w-3 h-3" /> PDF Tools
+            </span>
+            <div className="flex-1 h-px bg-border" />
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+            {pdfTools.map((tool, i) => (
+              <motion.div
+                key={tool.slug}
+                variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={i % 8}
+              >
+                <Link
+                  to={`/tools/${tool.slug}`}
+                  className="card-glass rounded-2xl p-6 flex flex-col items-center gap-3 shadow-card text-center group block"
+                >
+                  <div
+                    className="w-14 h-14 rounded-2xl flex items-center justify-center shadow-soft transition-transform duration-300 group-hover:scale-110"
+                    style={{ background: "var(--gradient-brand)" }}
+                  >
+                    <tool.icon className="w-7 h-7 text-white" />
+                  </div>
+                  <p className="font-bold text-sm">{tool.label}</p>
+                  <p className="text-xs text-muted-foreground leading-snug">{tool.desc}</p>
+                  <span
+                    className="mt-1 text-[10px] font-bold px-2.5 py-0.5 rounded-full"
+                    style={{ background: "hsl(var(--brand-blue) / 0.1)", color: "hsl(var(--brand-blue))" }}
+                  >
+                    Free
+                  </span>
+                </Link>
+              </motion.div>
+            ))}
+          </div>
         </motion.div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-          {tools.map((tool, i) => (
-            <motion.div
-              key={tool.slug}
-              variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={i % 8}
+        {/* Image Tools */}
+        <motion.div
+          className="mt-14"
+          variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }}
+        >
+          <div className="flex items-center gap-3 mb-6">
+            <span
+              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider"
+              style={{ background: "hsl(var(--brand-teal) / 0.1)", color: "hsl(var(--brand-teal))", border: "1px solid hsl(var(--brand-teal) / 0.2)" }}
             >
-              <Link
-                to={`/tools/${tool.slug}`}
-                className="card-glass rounded-2xl p-6 flex flex-col items-center gap-3 shadow-card text-center group block"
+              <Image className="w-3 h-3" /> Image Tools
+            </span>
+            <div className="flex-1 h-px bg-border" />
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+            {imageTools.map((tool, i) => (
+              <motion.div
+                key={tool.slug}
+                variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={i % 8}
               >
-                <div
-                  className="w-14 h-14 rounded-2xl flex items-center justify-center shadow-soft transition-transform duration-300 group-hover:scale-110"
-                  style={{ background: "var(--gradient-brand)" }}
-                >
-                  <tool.icon className="w-7 h-7 text-white" />
-                </div>
-                <p className="font-bold text-sm">{tool.label}</p>
-                <p className="text-xs text-muted-foreground leading-snug">{tool.desc}</p>
-                <span
-                  className="mt-1 text-[10px] font-bold px-2.5 py-0.5 rounded-full"
-                  style={{ background: "hsl(var(--brand-blue) / 0.1)", color: "hsl(var(--brand-blue))" }}
-                >
-                  Free
-                </span>
-              </Link>
+                {tool.comingSoon ? (
+                  <div className="card-glass rounded-2xl p-6 flex flex-col items-center gap-3 shadow-card text-center opacity-70 cursor-not-allowed relative">
+                    <div
+                      className="w-14 h-14 rounded-2xl flex items-center justify-center shadow-soft"
+                      style={{ background: "hsl(var(--muted))" }}
+                    >
+                      <tool.icon className="w-7 h-7 text-muted-foreground" />
+                    </div>
+                    <p className="font-bold text-sm">{tool.label}</p>
+                    <p className="text-xs text-muted-foreground leading-snug">{tool.desc}</p>
+                    <span
+                      className="mt-1 text-[10px] font-bold px-2.5 py-0.5 rounded-full"
+                      style={{ background: "hsl(var(--brand-indigo) / 0.12)", color: "hsl(var(--brand-indigo))" }}
+                    >
+                      Coming Soon
+                    </span>
+                  </div>
+                ) : (
+                  <Link
+                    to={`/tools/${tool.slug}`}
+                    className="card-glass rounded-2xl p-6 flex flex-col items-center gap-3 shadow-card text-center group block"
+                  >
+                    <div
+                      className="w-14 h-14 rounded-2xl flex items-center justify-center shadow-soft transition-transform duration-300 group-hover:scale-110"
+                      style={{ background: "var(--gradient-brand)" }}
+                    >
+                      <tool.icon className="w-7 h-7 text-white" />
+                    </div>
+                    <p className="font-bold text-sm">{tool.label}</p>
+                    <p className="text-xs text-muted-foreground leading-snug">{tool.desc}</p>
+                    <span
+                      className="mt-1 text-[10px] font-bold px-2.5 py-0.5 rounded-full"
+                      style={{ background: "hsl(var(--brand-teal) / 0.1)", color: "hsl(var(--brand-teal))" }}
+                    >
+                      Free
+                    </span>
+                  </Link>
+                )}
+              </motion.div>
+            ))}
             </motion.div>
           ))}
         </div>
